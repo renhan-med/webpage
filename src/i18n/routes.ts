@@ -1,5 +1,5 @@
 import { locales, defaultLocale, type Locale } from './config';
-import { slugs, pathFor } from './slugs.mjs';
+import { slugs, pathFor, routeFor } from './slugs.mjs';
 
 export type PageId = keyof typeof slugs;
 export const pageIds = Object.keys(slugs) as PageId[];
@@ -34,7 +34,7 @@ export function alternates(page: PageId): { hreflang: string; path: string }[] {
 export function staticRoutes(): { path: string | undefined; locale: Locale; page: PageId }[] {
   return locales.flatMap((locale) =>
     pageIds.map((page) => ({
-      path: localizedPath(page, locale).replace(/^\/|\/$/g, '') || undefined,
+      path: routeFor(page, locale).replace(/^\/|\/$/g, '') || undefined,
       locale,
       page,
     })),

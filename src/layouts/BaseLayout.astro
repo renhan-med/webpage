@@ -17,7 +17,7 @@ import Footer from '../components/Footer.astro';
 import Header from '../components/Header.astro';
 import LogoSymbol from '../components/LogoSymbol.astro';
 import { company, maps } from '../data/company';
-import { siteUrl } from '../site.mjs';
+import { siteUrl, withBase } from '../site.mjs';
 import { getDictionary } from '../i18n';
 import { ogLocales, locales, type Locale } from '../i18n/config';
 import { alternates, localizedPath, type PageId } from '../i18n/routes';
@@ -37,7 +37,7 @@ const absolute = (path: string) => new URL(path, site).href;
 
 const canonical = page ? absolute(localizedPath(page, locale)) : undefined;
 const hreflangs = page ? alternates(page) : [];
-const ogImage = absolute('/og-default.png');
+const ogImage = absolute(withBase('/og-default.png'));
 const logo = await getImage({ src: logoLockup, format: 'png' });
 
 // Fonts needed for the first screen in this language.
@@ -58,7 +58,7 @@ const { address, registry } = company;
 const business = compact({
   '@context': 'https://schema.org',
   '@type': 'MedicalBusiness',
-  '@id': `${absolute('/')}#business`,
+  '@id': `${absolute(withBase('/'))}#business`,
   name: company.name,
   legalName: company.legalName,
   alternateName: t.site.descriptor,
@@ -157,10 +157,10 @@ const jsonLd = (data: object) => JSON.stringify(data).replace(/</g, '\\u003c');
     <meta property="og:image:height" content="630" />
     <meta name="twitter:card" content="summary_large_image" />
 
-    <link rel="icon" href="/favicon.svg" type="image/svg+xml" />
-    <link rel="icon" href="/favicon-32.png" type="image/png" sizes="32x32" />
-    <link rel="apple-touch-icon" href="/apple-touch-icon.png" />
-    <link rel="sitemap" href="/sitemap-index.xml" />
+    <link rel="icon" href={withBase('/favicon.svg')} type="image/svg+xml" />
+    <link rel="icon" href={withBase('/favicon-32.png')} type="image/png" sizes="32x32" />
+    <link rel="apple-touch-icon" href={withBase('/apple-touch-icon.png')} />
+    <link rel="sitemap" href={withBase('/sitemap-index.xml')} />
     {preloads.map((href) => <link rel="preload" href={href} as="font" type="font/woff2" crossorigin />)}
 
     <script type="application/ld+json" is:inline set:html={jsonLd(business)} />

@@ -8,7 +8,8 @@ export { locales, defaultLocale, pathFor };
 export const pageIds = Object.keys(slugs) as PageId[];
 
 /** The configured site origin: the same source as astro.config.mjs. */
-export { siteUrl as SITE } from '../src/site.mjs';
+// Origin only: route paths from pathFor() already carry the base path.
+export { siteOrigin as SITE } from '../src/site.mjs';
 
 export interface Route {
   page: PageId;

@@ -26,13 +26,16 @@ Astro 7 is newer than model training data: check https://docs.astro.build before
 `.github/workflows/`: `integration.yml` (CI: PR/branches), `deployment.yml` (CD: push to master → tests → build → GitHub Pages),
 `checks.yml` (reusable, parallel jobs: `astro check`, `npm audit --audit-level=high`, `npm test`; used by both).
 Deploy `needs` the checks; never add `if: always()`. Docs-only pushes (`docs/**`, `**/*.md`) skip CI/CD; PRs always run
-(required checks). Site is served from the custom-domain root (`renhan.pl`); no base-path support. `public/CNAME` is
+(required checks). Base path supported: `SITE_URL` may carry a path (CD passes configure-pages `base_url`, e.g.
+`https://renhan-med.github.io/webpage` → links `/webpage/…`; with the custom domain it's the root). `public/CNAME` is
 ignored by the Actions deploy (domain set in Settings → Pages). Node from `.nvmrc`. Validate with actionlint locally.
 Repo: github.com/renhan-med/webpage (public). Stay on TypeScript 6: `@astrojs/check` peers TS ^5||^6, TS 7 breaks
 `npm ci`/`astro check` (Dependabot ignores TS majors). `pr-title.yml` needs `statuses: write` because of `wip: true`.
 
 ## Architecture (where things live)
-- `src/site.mjs` — site origin (`SITE_URL` env, default `https://renhan.pl`); used by config, layout, tests.
+- `src/site.mjs` — `SITE_URL` (default `https://renhan.pl`) → `siteOrigin`, `basePath`, `siteUrl`, `withBase()`.
+  Config uses `site: siteOrigin` + `base: basePath`. Links use `pathFor`/`localizedPath` (base included); `getStaticPaths`
+  uses `routeFor` (no base); files in `public/` need `withBase('/file')`. Never hard-code a root path like `/favicon.svg`.
 - `src/i18n/slugs.mjs` — PageId → localized slug (single source; PL has no prefix, `/en/`, `/uk/`).
   `routes.ts` helpers, `sitemap.mjs` hreflang for the sitemap.
 - `src/i18n/pl.ts` is the dictionary type; `en.ts`/`uk.ts` `satisfy` it. `index.ts` runs PL/UK through

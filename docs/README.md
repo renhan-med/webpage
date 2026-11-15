@@ -51,11 +51,12 @@ lub `test-results` (zrzuty ekranu i ślady), dostępne 3 dni.
 
 | Zmienna | Domyślnie | Znaczenie |
 |---|---|---|
-| `SITE_URL` | `https://renhan.pl` | adres strony w canonical, hreflang, sitemap, robots i OG. W CI: zmienna repozytorium (Settings → Variables → Actions) |
+| `SITE_URL` | `https://renhan.pl` | adres strony (canonical, hreflang, sitemap, robots, OG). Może zawierać ścieżkę, np. `https://renhan-med.github.io/webpage` — wtedy wszystkie linki dostają prefiks `/webpage/` |
 | `PUBLIC_FORM_ENDPOINT` | brak | adres, na który formularz wysyła JSON (POST). Bez niego formularz otwiera program pocztowy |
 
-Strona musi działać pod korzeniem domeny (`https://renhan.pl/`). Linki są względem korzenia (`/oferta/`), więc adres
-`https://<użytkownik>.github.io/<repo>/` nie zadziała.
+CD ustawia `SITE_URL` sam, na adres, pod którym GitHub Pages publikuje stronę: bez domeny
+`https://renhan-med.github.io/webpage/`, po podpięciu domeny `https://renhan.pl/`. Ręcznie można go nadpisać zmienną
+repozytorium `SITE_URL` (Settings → Variables → Actions).
 
 ## Jednorazowa konfiguracja GitHuba i domeny
 

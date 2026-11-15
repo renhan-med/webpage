@@ -30,6 +30,9 @@ jobs:
     needs: test
     runs-on: ubuntu-latest
     timeout-minutes: 10
+    permissions:
+      contents: read
+      pages: read # configure-pages reads the Pages site URL
     steps:
       - uses: actions/checkout@v7
 
@@ -38,16 +41,19 @@ jobs:
           node-version-file: .nvmrc
           cache: npm
 
-      # No actions/configure-pages: its outputs are not used (SITE_URL is fixed, see below) and it
-      # needs `pages` API access this job doesn't have. deploy-pages reports a missing Pages setup.
+      # Where Pages serves the site: https://renhan-med.github.io/webpage now,
+      # https://renhan.pl once the custom domain is set. The build follows it (links get the base path).
+      - name: Read GitHub Pages URL
+        id: pages
+        uses: actions/configure-pages@v6
+
       - run: npm ci --prefer-offline --no-audit
 
-      # The site is served from the custom domain root (see docs/README.md), so
-      # SITE_URL is the production domain. Override with repo variable SITE_URL.
+      # Repo variable SITE_URL overrides the detected URL if ever needed.
       - name: Build
         run: npm run build
         env:
-          SITE_URL: ${{ vars.SITE_URL || 'https://renhan.pl' }}
+          SITE_URL: ${{ vars.SITE_URL || steps.pages.outputs.base_url }}
 
       - uses: actions/upload-pages-artifact@v5
         with:
@@ -64,6 +70,8 @@ jobs:
     environment:
       name: github-pages
       url: ${{ steps.deployment.outputs.page_url }}
+    outputs:
+      page_url: ${{ steps.deployment.outputs.page_url }}
     steps:
       - name: Deploy
         id: deployment
@@ -76,12 +84,20 @@ jobs:
     timeout-minutes: 5
     continue-on-error: true
     steps:
-      - name: Home page and a sub-page respond with 200
+      - name: Home page, a sub-page and the stylesheet respond with 200
         env:
-          BASE: ${{ vars.SITE_URL || 'https://renhan.pl' }}
+          PAGE_URL: ${{ needs.deploy.outputs.page_url }}
         run: |
+          base="${PAGE_URL%/}"
           for path in / /oferta/; do
             curl --fail --silent --show-error --location --retry 5 --retry-delay 10 \
-              --retry-all-errors --output /dev/null "${BASE}${path}"
-            echo "OK ${BASE}${path}"
+              --retry-all-errors --output /dev/null "${base}${path}"
+            echo "OK ${base}${path}"
           done
+          # Catches a wrong base path: the page loads but its CSS would 404.
+          # The href is root-relative (e.g. /webpage/_astro/x.css), so origin + href is its URL.
+          origin=$(echo "$base" | grep -oE '^https?://[^/]+')
+          css=$(curl --fail --silent --location "${base}/" | grep -oE 'href="/[^"]+\.css"' | head -1 | cut -d'"' -f2)
+          test -n "$css"
+          curl --fail --silent --show-error --location --output /dev/null "${origin}${css}"
+          echo "OK stylesheet ${origin}${css}"
