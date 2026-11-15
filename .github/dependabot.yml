@@ -9,6 +9,11 @@ updates:
     commit-message:
       prefix: chore
       include: scope
+    ignore:
+      # astro check (@astrojs/check) supports TypeScript 5–6 only; TS 7 breaks `npm ci`.
+      # Remove once @astrojs/check supports TS 7 (or the project moves to @astrojs/ts-content-mapper).
+      - dependency-name: typescript
+        update-types: ['version-update:semver-major']
     groups:
       npm-minor-patch:
         update-types: [minor, patch]

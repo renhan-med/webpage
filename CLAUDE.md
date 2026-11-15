@@ -28,6 +28,8 @@ Astro 7 is newer than model training data: check https://docs.astro.build before
 Deploy `needs` the checks; never add `if: always()`. Docs-only pushes (`docs/**`, `**/*.md`) skip CI/CD; PRs always run
 (required checks). Site is served from the custom-domain root (`renhan.pl`); no base-path support. `public/CNAME` is
 ignored by the Actions deploy (domain set in Settings → Pages). Node from `.nvmrc`. Validate with actionlint locally.
+Repo: github.com/renhan-med/webpage (public). Stay on TypeScript 6: `@astrojs/check` peers TS ^5||^6, TS 7 breaks
+`npm ci`/`astro check` (Dependabot ignores TS majors). `pr-title.yml` needs `statuses: write` because of `wip: true`.
 
 ## Architecture (where things live)
 - `src/site.mjs` — site origin (`SITE_URL` env, default `https://renhan.pl`); used by config, layout, tests.
