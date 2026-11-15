@@ -1,0 +1,187 @@
+---
+import { Icon } from 'astro-icon/components';
+import { addressLine, company, maps } from '../data/company';
+import type { Locale } from '../i18n/config';
+import type { Dictionary } from '../i18n';
+import Button from './Button.astro';
+import RingIcon from './RingIcon.astro';
+import Wave from './Wave.astro';
+
+/**
+ * Getting here: the address set large, a "Get directions" link (new tab) and a map stage.
+ * The stage is an honest preview (no imitation streets) until the visitor asks for the map;
+ * only then the Google Maps embed loads (privacy and speed: no third-party request on page load).
+ */
+interface Props {
+  locale: Locale;
+  t: Dictionary;
+}
+
+const { locale, t } = Astro.props;
+const labels = t.contact.map;
+const { address } = company;
+---
+
+{
+  address && maps && (
+    <div class="map">
+      <div class="map__info">
+        <address class="map__address">
+          <span class="map__name">{company.name}</span>
+          {address.street}
+          <br />
+          {address.locality}
+          <br />
+          {address.postalCode} {address.postTown}
+          {locale !== 'pl' && (
+            <>
+              <br />
+              {address.countryName[locale]}
+            </>
+          )}
+        </address>
+        <Button href={maps.directions} variant="secondary" target="_blank" rel="noopener" class="map__directions">
+          {labels.directions}
+          <span class="visually-hidden"> ({t.a11y.newTab})</span>
+          <Icon name="ph:arrow-square-out" class="map__external" aria-hidden="true" />
+        </Button>
+      </div>
+
+      <div class="map__stage" data-map={maps.embed} data-map-title={`${labels.frameTitle}: ${addressLine}`}>
+        <div class="map__preview" data-map-preview>
+          <RingIcon name="ph:map-pin-duotone" size="lg" turn={30} class="map__pin" />
+          <p class="map__note">{labels.loadNote}</p>
+          <Button type="button" data-map-load hidden>
+            {labels.load}
+          </Button>
+          <Wave class="map__wave" />
+        </div>
+      </div>
+    </div>
+  )
+}
+
+<style>
+  .map {
+    display: grid;
+    grid-template-columns: minmax(0, 4fr) minmax(0, 7fr);
+    gap: 1.25rem;
+    align-items: stretch;
+  }
+
+  .map__info {
+    display: grid;
+    gap: 2rem;
+    align-content: space-between;
+    justify-items: start;
+    padding: clamp(1.75rem, 1rem + 2.5vw, 2.75rem);
+    border-radius: var(--radius-lg);
+    background: var(--surface-soft);
+  }
+
+  .map__address {
+    color: var(--ink);
+    font-family: var(--font-serif);
+    font-size: clamp(1.625rem, 1.3rem + 1.4vw, 2.375rem);
+    line-height: 1.2;
+    letter-spacing: -0.015em;
+  }
+
+  .map__name {
+    display: block;
+    margin-bottom: 0.75rem;
+    color: var(--gold-text);
+    font-family: var(--font-sans);
+    font-size: var(--text-eyebrow);
+    font-weight: 500;
+    line-height: 1.4;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+  }
+
+  .map__info :global(.map__external) {
+    display: inline-block;
+    width: 1.125rem;
+    height: 1.125rem;
+    margin-left: 0.5rem;
+    vertical-align: -0.15em;
+  }
+
+  .map__stage {
+    position: relative;
+    display: grid;
+    min-height: clamp(20rem, 15rem + 14vw, 28rem);
+    overflow: hidden;
+    border-radius: var(--radius-lg);
+    background: var(--surface-card);
+  }
+
+  .map__preview {
+    position: relative;
+    display: grid;
+    align-content: center;
+    justify-items: center;
+    gap: 1.25rem;
+    padding: 2.5rem var(--gutter) 5rem;
+    text-align: center;
+  }
+
+  .map__preview :global(.map__pin) {
+    border-radius: 50%;
+    background: var(--canvas);
+  }
+
+  .map__note {
+    max-width: 34ch;
+    color: var(--body);
+    font-size: var(--text-small);
+  }
+
+  .map__preview :global(.map__wave) {
+    position: absolute;
+    right: 0;
+    bottom: 0;
+    left: 0;
+    height: clamp(2.5rem, 5vw, 4rem);
+    opacity: 0.85;
+  }
+
+  .map__stage :global(iframe) {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    border: 0;
+  }
+
+  @media (max-width: 55rem) {
+    .map {
+      grid-template-columns: 1fr;
+    }
+  }
+
+  @media (max-width: 36rem) {
+    .map__info :global(.map__directions) {
+      justify-self: stretch;
+    }
+  }
+</style>
+
+<script>
+  // The button needs JavaScript, so it appears only when the script runs; the directions link works without it.
+  document.querySelectorAll<HTMLElement>('[data-map]').forEach((stage) => {
+    const button = stage.querySelector<HTMLButtonElement>('[data-map-load]');
+    if (!button) return;
+    button.hidden = false;
+    button.addEventListener('click', () => {
+      const frame = document.createElement('iframe');
+      frame.src = stage.dataset.map ?? '';
+      frame.title = stage.dataset.mapTitle ?? '';
+      frame.loading = 'lazy';
+      frame.referrerPolicy = 'no-referrer-when-downgrade';
+      frame.allowFullscreen = true;
+      stage.replaceChildren(frame);
+      frame.focus();
+    });
+  });
+</script>

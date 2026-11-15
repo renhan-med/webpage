@@ -1,0 +1,173 @@
+---
+import { Icon } from 'astro-icon/components';
+import ArrowLink from '../components/ArrowLink.astro';
+import ClosingCta from '../components/ClosingCta.astro';
+import PageHeader from '../components/PageHeader.astro';
+import RingIcon from '../components/RingIcon.astro';
+import SectionHeading from '../components/SectionHeading.astro';
+import type { Locale } from '../i18n/config';
+import type { Dictionary } from '../i18n';
+import { contactPath, localizedPath } from '../i18n/routes';
+
+interface Props {
+  locale: Locale;
+  t: Dictionary;
+}
+
+const { locale, t } = Astro.props;
+const funding = t.funding;
+
+// Type of product, the customer's situation, the programme rules (keyed, so copy order cannot mismatch).
+const factors = (
+  [
+    { key: 'product', icon: 'ph:package-duotone' },
+    { key: 'situation', icon: 'ph:user-duotone' },
+    { key: 'rules', icon: 'ph:scroll-duotone' },
+  ] as const
+).map((factor) => ({ ...factor, ...funding.factors.items[factor.key] }));
+---
+
+<PageHeader eyebrow={funding.eyebrow} title={funding.title} lead={funding.lead} pictogram="funding" />
+
+<section class="section factors" aria-labelledby="factors-title">
+  <div class="container">
+    <SectionHeading eyebrow={funding.factors.eyebrow} title={funding.factors.title} id="factors-title" />
+    <ol class="factors__list" role="list">
+      {
+        factors.map((factor, index) => (
+          <li class="factor">
+            <div class="factor__marker">
+              <RingIcon name={factor.icon} size="md" turn={index * 90} />
+              <span class="factor__number" aria-hidden="true">
+                {index + 1}
+              </span>
+            </div>
+            <h3 class="factor__title">{factor.title}</h3>
+            <p>{factor.text}</p>
+          </li>
+        ))
+      }
+    </ol>
+  </div>
+</section>
+
+<section class="section section--soft role" aria-labelledby="role-title">
+  <div class="container role__grid">
+    <div class="role__text">
+      <SectionHeading eyebrow={funding.help.eyebrow} title={funding.help.title} id="role-title" />
+      <p>{funding.help.text}</p>
+      <ArrowLink href={localizedPath('advice', locale)}>{t.home.tiles.items.advice.link}</ArrowLink>
+    </div>
+    <aside class="note" aria-labelledby="note-title">
+      <Icon name="ph:info" class="note__icon" aria-hidden="true" />
+      <h3 id="note-title" class="note__title">{funding.help.noteTitle}</h3>
+      <p>{funding.help.note}</p>
+    </aside>
+  </div>
+</section>
+
+<ClosingCta
+  t={t}
+  variant="band"
+  title={funding.closing.title}
+  text={funding.closing.text}
+  action={{ label: t.cta.askFunding, href: contactPath(locale, 'funding') }}
+/>
+
+<style>
+  /* ---- What funding depends on ---- */
+  .factors__list {
+    display: grid;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: 3rem clamp(2rem, 1rem + 3vw, 4rem);
+    margin-top: clamp(2.5rem, 2rem + 2vw, 3.5rem);
+  }
+
+  .factor {
+    display: grid;
+    gap: 1rem;
+    align-content: start;
+  }
+
+  .factor__marker {
+    display: flex;
+    align-items: center;
+    gap: 1.25rem;
+    margin-bottom: 0.5rem;
+  }
+
+  /* A gold rule runs from the ring to the edge of the column. */
+  .factor__marker::after {
+    flex: 1;
+    height: 1px;
+    background: var(--hairline);
+    content: '';
+    order: 2;
+  }
+
+  .factor__number {
+    order: 3;
+    color: var(--gold-text);
+    font-family: var(--font-serif);
+    font-size: 1.25rem;
+  }
+
+  .factor__title {
+    font-size: var(--text-h3);
+  }
+
+  @media (max-width: 55rem) {
+    .factors__list {
+      grid-template-columns: 1fr;
+    }
+  }
+
+  /* ---- Our role and the note ---- */
+  .role__grid {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
+    gap: 3rem clamp(3rem, 1rem + 6vw, 7rem);
+    align-items: start;
+  }
+
+  .role__text {
+    display: grid;
+    gap: 1.5rem;
+    justify-items: start;
+  }
+
+  .role__text p {
+    max-width: var(--measure);
+  }
+
+  .note {
+    display: grid;
+    gap: 0.875rem;
+    padding: clamp(1.75rem, 1rem + 2.5vw, 2.75rem);
+    border-left: 3px solid var(--gold);
+    border-radius: 0 var(--radius-lg) var(--radius-lg) 0;
+    background: var(--canvas);
+  }
+
+  .note__icon {
+    width: 2rem;
+    height: 2rem;
+    color: var(--primary);
+  }
+
+  .note__title {
+    font-size: var(--text-h3);
+  }
+
+  .note p {
+    color: var(--ink);
+    font-size: var(--text-lead);
+    line-height: 1.5;
+  }
+
+  @media (max-width: 55rem) {
+    .role__grid {
+      grid-template-columns: 1fr;
+    }
+  }
+</style>

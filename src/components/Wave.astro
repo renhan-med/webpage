@@ -1,0 +1,33 @@
+---
+/** The turquoise and gold wave from under the house in the logo, used as a quiet separator. */
+interface Props {
+  class?: string;
+  [attribute: string]: unknown;
+}
+
+const { class: className, ...rest } = Astro.props;
+---
+
+<svg class:list={['wave', className]} viewBox="0 0 1440 120" preserveAspectRatio="none" aria-hidden="true" focusable="false" {...rest}>
+  <path
+    class="wave__gold"
+    d="M120 86C380 34 560 40 780 76s400 44 560 2c-150 62-350 62-560 28S390 60 120 86Z"></path>
+  <path
+    class="wave__teal"
+    d="M0 70C270 12 480 18 720 56s470 48 720-10c-240 86-480 76-720 38S260 28 0 70Z"></path>
+</svg>
+
+<style>
+  .wave {
+    width: 100%;
+    height: clamp(2.5rem, 7vw, 6rem);
+  }
+
+  .wave__teal {
+    fill: var(--teal);
+  }
+
+  .wave__gold {
+    fill: var(--gold);
+  }
+</style>

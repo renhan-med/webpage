@@ -1,0 +1,30 @@
+---
+import type { PictogramName } from '../assets/pictograms';
+
+/**
+ * One of the RenHan pictograms (src/assets/pictograms), inlined so its colours follow the
+ * theme through --pg-ink / --pg-teal / --pg-gold (mapped to the logo colours, which the
+ * dark theme and the navy band re-point). Decorative: always next to a text label.
+ */
+interface Props {
+  name: PictogramName;
+  class?: string;
+}
+
+const svgs = import.meta.glob<string>('../assets/pictograms/*.svg', { query: '?raw', import: 'default', eager: true });
+const { name, class: className } = Astro.props;
+const raw = svgs[`../assets/pictograms/${name}.svg`];
+if (!raw) throw new Error(`Unknown pictogram "${name}"`);
+const classes = ['pictogram', className].filter(Boolean).join(' ');
+const svg = raw.replace('<svg ', `<svg class="${classes}" aria-hidden="true" focusable="false" `);
+---
+
+<Fragment set:html={svg} />
+
+<style is:global>
+  .pictogram {
+    --pg-ink: var(--logo-ink);
+    --pg-teal: var(--logo-teal);
+    --pg-gold: var(--logo-gold);
+  }
+</style>

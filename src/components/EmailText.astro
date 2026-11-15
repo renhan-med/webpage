@@ -1,0 +1,27 @@
+---
+/**
+ * An e-mail address that may break only before the "@" (never mid-word).
+ * The parent link keeps `overflow-wrap: normal`.
+ */
+interface Props {
+  email: string;
+}
+
+const { email } = Astro.props;
+const at = email.indexOf('@');
+---
+
+{
+  at > 0 ? (
+    <span class="email-text">{email.slice(0, at)}<wbr />{email.slice(at)}</span>
+  ) : (
+    <span class="email-text">{email}</span>
+  )
+}
+
+<style>
+  .email-text {
+    overflow-wrap: normal;
+    word-break: normal;
+  }
+</style>

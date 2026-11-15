@@ -1,0 +1,40 @@
+---
+import type { GetStaticPaths, InferGetStaticPropsType } from 'astro';
+import BaseLayout from '../layouts/BaseLayout.astro';
+import { getDictionary } from '../i18n';
+import { staticRoutes, type PageId } from '../i18n/routes';
+import AboutView from '../views/AboutView.astro';
+import AdviceView from '../views/AdviceView.astro';
+import ContactView from '../views/ContactView.astro';
+import FundingView from '../views/FundingView.astro';
+import HomeView from '../views/HomeView.astro';
+import OfferView from '../views/OfferView.astro';
+import RentalView from '../views/RentalView.astro';
+
+/** Every page in every language, from the route map in src/i18n (7 pages × 3 languages). */
+export const getStaticPaths = (() =>
+  staticRoutes().map(({ path, locale, page }) => ({
+    params: { path },
+    props: { locale, page },
+  }))) satisfies GetStaticPaths;
+
+type Props = InferGetStaticPropsType<typeof getStaticPaths>;
+
+const views = {
+  home: HomeView,
+  offer: OfferView,
+  rental: RentalView,
+  advice: AdviceView,
+  funding: FundingView,
+  about: AboutView,
+  contact: ContactView,
+} satisfies Record<PageId, unknown>;
+
+const { locale, page } = Astro.props;
+const t = getDictionary(locale);
+const View = views[page];
+---
+
+<BaseLayout locale={locale} page={page} title={t.meta[page].title} description={t.meta[page].description}>
+  <View locale={locale} t={t} />
+</BaseLayout>

@@ -1,0 +1,122 @@
+---
+import type { PictogramName } from '../assets/pictograms';
+import RingIcon from './RingIcon.astro';
+
+/**
+ * Sub-page header: eyebrow, h1 and lead, with an emblem on the right (a ring icon
+ * inside the house outline from the logo). Anything in the slot sits under the lead.
+ */
+interface Props {
+  eyebrow: string;
+  title: string;
+  lead: string;
+  /** RenHan pictogram for the emblem. */
+  pictogram?: PictogramName;
+  /** Phosphor duotone icon, only where no pictogram fits. */
+  icon?: string;
+}
+
+const { eyebrow, title, lead, pictogram, icon } = Astro.props;
+---
+
+<div class="page-header">
+  <div class="container page-header__inner">
+    <div class="page-header__text">
+      <span class="eyebrow">{eyebrow}</span>
+      <h1>{title}</h1>
+      <p class="lead">{lead}</p>
+      <slot />
+    </div>
+    <div class="page-header__emblem" aria-hidden="true">
+      <svg class="page-header__house" viewBox="0 0 320 300" fill="none" focusable="false">
+        <path class="page-header__walls" d="M52 128v172M268 128v172"></path>
+        <path class="page-header__roof" d="M20 140 160 18l140 122" pathLength="1"></path>
+      </svg>
+      <RingIcon pictogram={pictogram} name={icon} size="xl" turn={20} class="page-header__ring" />
+    </div>
+  </div>
+</div>
+
+<style>
+  .page-header {
+    border-bottom: 1px solid var(--hairline);
+    background: var(--surface-soft);
+  }
+
+  .page-header__inner {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) auto;
+    gap: 3rem;
+    align-items: end;
+    padding-block: clamp(3rem, 2rem + 4vw, 5.5rem) clamp(2.75rem, 2rem + 3vw, 4.5rem);
+  }
+
+  .page-header__text {
+    display: grid;
+    gap: 1.25rem;
+    justify-items: start;
+    max-width: 48rem;
+  }
+
+  h1 {
+    max-width: 20ch;
+  }
+
+  .page-header__emblem {
+    position: relative;
+    display: grid;
+    place-items: center;
+    width: clamp(13rem, 10rem + 6vw, 17rem);
+    aspect-ratio: 320 / 300;
+    margin-bottom: calc(-1 * clamp(2.75rem, 2rem + 3vw, 4.5rem) - 1px);
+  }
+
+  .page-header__house {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    overflow: visible;
+  }
+
+  .page-header__walls {
+    stroke: var(--ink);
+    stroke-width: 2;
+    opacity: 0.2;
+  }
+
+  .page-header__roof {
+    stroke: var(--gold);
+    stroke-width: 6;
+    stroke-linecap: round;
+    stroke-linejoin: round;
+    stroke-dasharray: 1;
+    animation: roof-draw 1100ms var(--ease) 150ms both;
+  }
+
+  .page-header__ring {
+    position: relative;
+    top: 12%;
+    background: var(--canvas);
+    border-radius: 50%;
+  }
+
+  @keyframes roof-draw {
+    from {
+      stroke-dashoffset: 1;
+    }
+    to {
+      stroke-dashoffset: 0;
+    }
+  }
+
+  @media (max-width: 47.99rem) {
+    .page-header__inner {
+      grid-template-columns: 1fr;
+    }
+
+    .page-header__emblem {
+      display: none;
+    }
+  }
+</style>

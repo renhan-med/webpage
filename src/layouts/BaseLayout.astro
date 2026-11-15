@@ -1,0 +1,205 @@
+---
+import '../styles/fonts.css';
+import '../styles/tokens.css';
+import '../styles/base.css';
+import '../styles/utilities.css';
+
+import serifLatin from '@fontsource-variable/source-serif-4/files/source-serif-4-latin-wght-normal.woff2?url';
+import serifLatinExt from '@fontsource-variable/source-serif-4/files/source-serif-4-latin-ext-wght-normal.woff2?url';
+import serifCyrillic from '@fontsource-variable/source-serif-4/files/source-serif-4-cyrillic-wght-normal.woff2?url';
+import sansLatin from '@fontsource-variable/onest/files/onest-latin-wght-normal.woff2?url';
+import sansLatinExt from '@fontsource-variable/onest/files/onest-latin-ext-wght-normal.woff2?url';
+import sansCyrillic from '@fontsource-variable/onest/files/onest-cyrillic-wght-normal.woff2?url';
+
+import { getImage } from 'astro:assets';
+import logoLockup from '../assets/brand/logo-lockup.png';
+import Footer from '../components/Footer.astro';
+import Header from '../components/Header.astro';
+import LogoSymbol from '../components/LogoSymbol.astro';
+import { company, maps } from '../data/company';
+import { siteUrl } from '../site.mjs';
+import { getDictionary } from '../i18n';
+import { ogLocales, locales, type Locale } from '../i18n/config';
+import { alternates, localizedPath, type PageId } from '../i18n/routes';
+
+interface Props {
+  locale: Locale;
+  /** Current page, or null for the 404 page (no canonical, no alternates, noindex). */
+  page: PageId | null;
+  title: string;
+  description: string;
+}
+
+const { locale, page, title, description } = Astro.props;
+const t = getDictionary(locale);
+const site = Astro.site ?? new URL(siteUrl);
+const absolute = (path: string) => new URL(path, site).href;
+
+const canonical = page ? absolute(localizedPath(page, locale)) : undefined;
+const hreflangs = page ? alternates(page) : [];
+const ogImage = absolute('/og-default.png');
+const logo = await getImage({ src: logoLockup, format: 'png' });
+
+// Fonts needed for the first screen in this language.
+const preloads = {
+  pl: [serifLatin, serifLatinExt, sansLatin, sansLatinExt],
+  en: [serifLatin, sansLatin],
+  uk: [serifCyrillic, sansCyrillic, serifLatin],
+}[locale];
+
+/** Drops null, empty strings and empty arrays so JSON-LD only carries real data. */
+function compact<T extends Record<string, unknown>>(object: T): Partial<T> {
+  return Object.fromEntries(
+    Object.entries(object).filter(([, value]) => value != null && value !== '' && !(Array.isArray(value) && value.length === 0)),
+  ) as Partial<T>;
+}
+
+const { address, registry } = company;
+const business = compact({
+  '@context': 'https://schema.org',
+  '@type': 'MedicalBusiness',
+  '@id': `${absolute('/')}#business`,
+  name: company.name,
+  legalName: company.legalName,
+  alternateName: t.site.descriptor,
+  slogan: t.site.motto,
+  description: t.meta.home.description,
+  url: absolute(localizedPath('home', locale)),
+  image: ogImage,
+  logo: absolute(logo.src),
+  telephone: company.phone.href.replace(/^tel:/, ''),
+  email: company.email,
+  taxID: registry.nip,
+  identifier: [
+    { propertyID: 'NIP', value: registry.nip },
+    { propertyID: 'REGON', value: registry.regon },
+    { propertyID: 'KRS', value: registry.krs },
+  ]
+    .filter((entry) => entry.value)
+    .map((entry) => ({ '@type': 'PropertyValue', ...entry })),
+  address: address && {
+    '@type': 'PostalAddress',
+    streetAddress: address.street,
+    addressLocality: address.locality,
+    postalCode: address.postalCode,
+    addressCountry: address.country,
+  },
+  hasMap: maps?.place,
+  openingHoursSpecification: company.hours
+    .filter((entry) => entry.opens && entry.closes)
+    .map((entry) => ({
+      '@type': 'OpeningHoursSpecification',
+      dayOfWeek: entry.schemaDays,
+      opens: entry.opens,
+      closes: entry.closes,
+    })),
+  knowsLanguage: [...locales],
+});
+
+const breadcrumbs =
+  page && page !== 'home'
+    ? {
+        '@context': 'https://schema.org',
+        '@type': 'BreadcrumbList',
+        itemListElement: [
+          { '@type': 'ListItem', position: 1, name: t.nav.home, item: absolute(localizedPath('home', locale)) },
+          { '@type': 'ListItem', position: 2, name: t.nav[page], item: canonical },
+        ],
+      }
+    : null;
+
+const jsonLd = (data: object) => JSON.stringify(data).replace(/</g, '\\u003c');
+---
+
+<!doctype html>
+<html lang={locale}>
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="theme-color" content="#faf8f3" />
+    <script is:inline>
+      // Sets the theme before the first paint: saved choice first, system setting otherwise.
+      (function () {
+        var root = document.documentElement;
+        var theme = null;
+        try {
+          theme = localStorage.getItem('theme');
+        } catch (error) {}
+        if (theme !== 'light' && theme !== 'dark') {
+          theme = window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light';
+        }
+        root.dataset.theme = theme;
+        root.classList.add('js');
+        if (theme === 'dark') {
+          document.querySelector('meta[name="theme-color"]').setAttribute('content', '#08182d');
+        }
+      })();
+    </script>
+
+    <title>{title}</title>
+    <meta name="description" content={description} />
+    {canonical ? <link rel="canonical" href={canonical} /> : <meta name="robots" content="noindex" />}
+    {hreflangs.map(({ hreflang, path }) => <link rel="alternate" hreflang={hreflang} href={absolute(path)} />)}
+
+    <meta property="og:type" content="website" />
+    <meta property="og:site_name" content={`${company.name} — ${t.site.descriptor}`} />
+    <meta property="og:title" content={title} />
+    <meta property="og:description" content={description} />
+    {canonical && <meta property="og:url" content={canonical} />}
+    <meta property="og:locale" content={ogLocales[locale]} />
+    {
+      locales
+        .filter((code) => code !== locale)
+        .map((code) => <meta property="og:locale:alternate" content={ogLocales[code]} />)
+    }
+    <meta property="og:image" content={ogImage} />
+    <meta property="og:image:width" content="1200" />
+    <meta property="og:image:height" content="630" />
+    <meta name="twitter:card" content="summary_large_image" />
+
+    <link rel="icon" href="/favicon.svg" type="image/svg+xml" />
+    <link rel="icon" href="/favicon-32.png" type="image/png" sizes="32x32" />
+    <link rel="apple-touch-icon" href="/apple-touch-icon.png" />
+    <link rel="sitemap" href="/sitemap-index.xml" />
+    {preloads.map((href) => <link rel="preload" href={href} as="font" type="font/woff2" crossorigin />)}
+
+    <script type="application/ld+json" is:inline set:html={jsonLd(business)} />
+    {breadcrumbs && <script type="application/ld+json" is:inline set:html={jsonLd(breadcrumbs)} />}
+  </head>
+  <body>
+    <a class="skip-link" href="#main">{t.a11y.skipToContent}</a>
+    <LogoSymbol />
+    <Header locale={locale} t={t} page={page} />
+    <main id="main" tabindex="-1">
+      <slot />
+    </main>
+    <Footer locale={locale} t={t} page={page} />
+    <script>
+      import '../scripts/site.ts';
+    </script>
+  </body>
+</html>
+
+<style>
+  .skip-link {
+    position: absolute;
+    top: 0.75rem;
+    left: 0.75rem;
+    z-index: 100;
+    padding: 0.875rem 1.25rem;
+    border-radius: var(--radius-sm);
+    background: var(--ink);
+    color: var(--canvas);
+    font-weight: 500;
+    text-decoration: none;
+    transform: translateY(-200%);
+  }
+
+  .skip-link:focus {
+    transform: none;
+  }
+
+  main:focus {
+    outline: none;
+  }
+</style>

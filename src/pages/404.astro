@@ -1,0 +1,96 @@
+---
+import Button from '../components/Button.astro';
+import MarkPlate from '../components/MarkPlate.astro';
+import BaseLayout from '../layouts/BaseLayout.astro';
+import { getDictionary } from '../i18n';
+import { defaultLocale, locales } from '../i18n/config';
+import { localizedPath } from '../i18n/routes';
+
+// One 404 page serves every language: Polish first, with a short line in each other language.
+const locale = defaultLocale;
+const t = getDictionary(locale);
+const others = locales
+  .filter((code) => code !== locale)
+  .map((code) => ({ code, text: getDictionary(code).notFound, href: localizedPath('home', code) }));
+---
+
+<BaseLayout locale={locale} page={null} title={t.meta.notFound.title} description={t.meta.notFound.description}>
+  <section class="section not-found" aria-labelledby="not-found-title">
+    <div class="container not-found__grid">
+      <div class="not-found__text">
+        <span class="eyebrow">{t.notFound.eyebrow}</span>
+        <h1 id="not-found-title">{t.notFound.title}</h1>
+        <p class="lead">{t.notFound.text}</p>
+        <div class="not-found__actions">
+          <Button href={localizedPath('home', locale)} arrow>{t.notFound.home}</Button>
+          <Button href={localizedPath('offer', locale)} variant="secondary">{t.notFound.offer}</Button>
+        </div>
+        <ul class="not-found__others" role="list">
+          {
+            others.map(({ code, text, href }) => (
+              <li lang={code}>
+                <span>{text.title}.</span>{' '}
+                <a class="link" href={href} hreflang={code}>
+                  {text.home}
+                </a>
+              </li>
+            ))
+          }
+        </ul>
+      </div>
+      <MarkPlate alt={t.a11y.logoAlt} class="not-found__house" />
+    </div>
+  </section>
+</BaseLayout>
+
+<style>
+  .not-found__grid {
+    display: grid;
+    grid-template-columns: minmax(0, 1.4fr) minmax(0, 0.6fr);
+    gap: 3rem clamp(3rem, 1rem + 6vw, 7rem);
+    align-items: center;
+  }
+
+  .not-found__text {
+    display: grid;
+    gap: 1.5rem;
+    justify-items: start;
+  }
+
+  h1 {
+    max-width: 16ch;
+  }
+
+  .not-found__actions {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.875rem;
+    margin-top: 0.5rem;
+  }
+
+  .not-found__others {
+    display: grid;
+    gap: 0.5rem;
+    margin-top: 1.5rem;
+    padding-top: 1.5rem;
+    border-top: 1px solid var(--hairline);
+    color: var(--body);
+    font-size: var(--text-small);
+  }
+
+  .not-found__grid :global(.not-found__house) {
+    width: 100%;
+    max-width: 20rem;
+    justify-self: end;
+  }
+
+  @media (max-width: 48rem) {
+    .not-found__grid {
+      grid-template-columns: 1fr;
+    }
+
+    .not-found__grid :global(.not-found__house) {
+      display: none;
+    }
+  }
+</style>

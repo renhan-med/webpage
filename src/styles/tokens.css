@@ -1,0 +1,144 @@
+/*
+ * Design tokens. Colours come from the RenHan MED logo (navy, turquoise, gold) on a warm canvas.
+ * Light is the default; dark is set by `data-theme="dark"` on <html> (see the inline script in BaseLayout).
+ * Every text/background pair below is checked for WCAG AA.
+ */
+
+:root {
+  color-scheme: light;
+
+  /* Surfaces */
+  --canvas: #faf8f3;
+  --surface-soft: #f3efe6;
+  --surface-card: #ece6d9;
+  --surface-band: #0a1f3c;
+  --surface-band-raised: #12305a;
+  --surface-callout: #0a6e82;
+
+  /* Soft tints per offer department (equipment cards) */
+  --tint-mobility: #e1eef0;
+  --tint-rehabilitation: #e5ebf4;
+  --tint-orthopaedics: #f3e9d9;
+  --tint-home: #e8ebe3;
+  --tint-rental: #ece6d9;
+
+  /* Text */
+  --ink: #0a2342;
+  --body: #33415a;
+  --muted: #5b667a;
+
+  /* Lines */
+  --hairline: #e4ddcf;
+  --border-strong: #7f7968;
+
+  /* Interaction and accents */
+  --primary: #0a6e82;
+  --primary-active: #085668;
+  --on-primary: #ffffff;
+  --teal: #0c849c;
+  --gold: #c08430;
+  --gold-text: #8a5a14;
+  --blue: #1f5fa8;
+  --error: #b3261e;
+  --success: #1e6b45;
+  --focus: #0a6e82;
+
+  /* Contrast band and footer: the same in both themes */
+  --on-band: #f6f2e9;
+  --on-band-body: #cdd5e2;
+  --on-band-soft: #a9b4c6;
+  --band-hairline: #24406a;
+  --band-primary: #5cc4d6;
+  --band-primary-active: #8ad7e4;
+  --band-gold: #ddaa5e;
+  --band-gold-text: #e3b56f;
+
+  /* Logo mark (src/assets/brand/logo-mark.svg reads these) */
+  --logo-ink: #002448;
+  --logo-teal: #0c849c;
+  --logo-gold: #c08430;
+
+  /* Type */
+  --font-serif: 'Source Serif 4 Variable', 'Source Serif 4', Georgia, 'Times New Roman', serif;
+  --font-sans: 'Onest Variable', Onest, system-ui, -apple-system, 'Segoe UI', Roboto, sans-serif;
+
+  --text-display: clamp(2.4rem, 1.55rem + 3.6vw, 4.25rem);
+  --text-h1: clamp(2.125rem, 1.5rem + 2.7vw, 3.5rem);
+  --text-h2: clamp(1.9rem, 1.45rem + 1.9vw, 3rem);
+  --text-h3: clamp(1.375rem, 1.25rem + 0.5vw, 1.625rem);
+  --text-statement: clamp(1.75rem, 1.2rem + 2.3vw, 2.75rem);
+  --text-lead: clamp(1.1875rem, 1.1rem + 0.4vw, 1.375rem);
+  --text-body: 1.125rem;
+  --text-small: 1rem;
+  --text-caption: 0.875rem;
+  --text-eyebrow: 0.8125rem;
+
+  /* Space (4px base) */
+  --space-1: 0.25rem;
+  --space-2: 0.5rem;
+  --space-3: 0.75rem;
+  --space-4: 1rem;
+  --space-5: 1.5rem;
+  --space-6: 2rem;
+  --space-7: 3rem;
+  --space-8: 4rem;
+  --space-section: clamp(4rem, 2.6rem + 6vw, 7rem);
+  --gutter: clamp(1rem, 0.2rem + 4vw, 3rem);
+  --container: 75rem;
+  --measure: 62ch;
+
+  /* Shape */
+  --radius-sm: 0.5rem;
+  --radius-md: 0.75rem;
+  --radius-lg: 1rem;
+  --radius-pill: 999px;
+
+  /* Motion */
+  --ease: cubic-bezier(0.2, 0.7, 0.2, 1);
+  --duration: 180ms;
+
+  --header-height: 4.75rem;
+  /* Width from which the header shows the full navigation (Header.astro media queries use the same value). */
+  --menu-breakpoint: 75rem;
+}
+
+:root[data-theme='dark'] {
+  color-scheme: dark;
+
+  --canvas: #08182d;
+  --surface-soft: #0c2038;
+  --surface-card: #112a47;
+  /* The band is lifted clearly above the canvas so the light/dark rhythm survives in dark mode. */
+  --surface-band: #173a63;
+  --surface-band-raised: #1f4675;
+  --surface-callout: #0e4f60;
+
+  --tint-mobility: #0d2f3e;
+  --tint-rehabilitation: #132b4d;
+  --tint-orthopaedics: #2a2a2b;
+  --tint-home: #17302f;
+  --tint-rental: #112a47;
+
+  --ink: #f4f0e7;
+  --body: #c9d2e0;
+  --muted: #94a1b5;
+
+  --hairline: #1e3554;
+  --border-strong: #6b82a2;
+  --band-hairline: #2f5687;
+
+  --primary: #4fbfd2;
+  --primary-active: #7ad3e2;
+  --on-primary: #04202b;
+  --teal: #4fbfd2;
+  --gold: #ddaa5e;
+  --gold-text: #e3b56f;
+  --blue: #7fb2ee;
+  --error: #ff9a8f;
+  --success: #7dd3a5;
+  --focus: #7ad3e2;
+
+  --logo-ink: #f4f0e7;
+  --logo-teal: #4fbfd2;
+  --logo-gold: #ddaa5e;
+}

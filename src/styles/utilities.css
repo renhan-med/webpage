@@ -1,0 +1,120 @@
+/* Layout primitives and shared text styles used by more than one component. */
+
+.container {
+  width: 100%;
+  max-width: calc(var(--container) + 2 * var(--gutter));
+  margin-inline: auto;
+  padding-inline: var(--gutter);
+}
+
+.section {
+  padding-block: var(--space-section);
+}
+
+.section--soft {
+  background: var(--surface-soft);
+}
+
+.section--tight-top {
+  padding-top: 0;
+}
+
+/*
+ * Contrast band (navy in both themes). Re-points the text and interaction tokens,
+ * so components placed inside need no "on dark" variants.
+ */
+.band {
+  --ink: var(--on-band);
+  --body: var(--on-band-body);
+  --muted: var(--on-band-soft);
+  --hairline: var(--band-hairline);
+  --primary: var(--band-primary);
+  --primary-active: var(--band-primary-active);
+  --on-primary: #04202b;
+  --teal: var(--band-primary);
+  --gold: var(--band-gold);
+  --gold-text: var(--band-gold-text);
+  --focus: var(--band-primary-active);
+  --surface-card: var(--surface-band-raised);
+  --logo-ink: var(--on-band);
+  --logo-teal: var(--band-primary);
+  --logo-gold: var(--band-gold);
+
+  background: var(--surface-band);
+  color: var(--body);
+}
+
+.eyebrow {
+  display: block;
+  color: var(--gold-text);
+  font-family: var(--font-sans);
+  font-size: var(--text-eyebrow);
+  font-weight: 500;
+  line-height: 1.4;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+}
+
+.lead {
+  max-width: var(--measure);
+  color: var(--body);
+  font-size: var(--text-lead);
+  line-height: 1.55;
+}
+
+.measure {
+  max-width: var(--measure);
+}
+
+.statement {
+  color: var(--ink);
+  font-family: var(--font-serif);
+  font-size: var(--text-statement);
+  font-weight: 400;
+  line-height: 1.14;
+  letter-spacing: -0.02em;
+  text-wrap: balance;
+}
+
+/* Inline text link: the underline draws in from the left on hover. */
+.link {
+  color: var(--primary);
+  font-weight: 500;
+  text-decoration: none;
+  background-image: linear-gradient(currentColor, currentColor), linear-gradient(var(--hairline), var(--hairline));
+  background-repeat: no-repeat;
+  background-position:
+    0 100%,
+    0 100%;
+  background-size:
+    0 1.5px,
+    100% 1.5px;
+  padding-bottom: 0.15em;
+  transition:
+    background-size 320ms var(--ease),
+    color var(--duration) var(--ease);
+}
+
+.link:hover {
+  color: var(--primary-active);
+  background-size:
+    100% 1.5px,
+    100% 1.5px;
+}
+
+.visually-hidden {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  margin: -1px;
+  padding: 0;
+  overflow: hidden;
+  clip: rect(0 0 0 0);
+  clip-path: inset(50%);
+  white-space: nowrap;
+  border: 0;
+}
+
+.stack > * + * {
+  margin-top: var(--stack, var(--space-5));
+}

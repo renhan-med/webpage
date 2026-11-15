@@ -1,0 +1,23 @@
+---
+import raw from '../assets/brand/logo-mark.svg?raw';
+
+/**
+ * The logo mark, defined once per page as a <symbol>; LogoMark.astro draws it with <use>.
+ * Its colours are CSS custom properties (--logo-ink/teal/gold), which inherit through <use>,
+ * so every copy still follows the theme and the navy band.
+ */
+const viewBox = raw.match(/viewBox="([^"]+)"/)?.[1] ?? '0 0 319 261';
+const inner = raw.replace(/^[\s\S]*?<svg[^>]*>/, '').replace(/<\/svg>\s*$/, '');
+const symbol = `<symbol id="renhan-logo-mark" viewBox="${viewBox}" fill="none">${inner}</symbol>`;
+---
+
+<svg class="logo-symbol" width="0" height="0" aria-hidden="true" focusable="false" set:html={symbol} />
+
+<style>
+  .logo-symbol {
+    position: absolute;
+    width: 0;
+    height: 0;
+    overflow: hidden;
+  }
+</style>

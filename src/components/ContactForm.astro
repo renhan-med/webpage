@@ -1,0 +1,377 @@
+---
+import { Icon } from 'astro-icon/components';
+import { categories } from '../data/categories';
+import { company } from '../data/company';
+import { rentalItems } from '../data/rental';
+import type { Locale } from '../i18n/config';
+import type { Dictionary } from '../i18n';
+import { topics } from '../i18n/routes';
+import Button from './Button.astro';
+
+/**
+ * Contact form. Behaviour lives in src/scripts/contact-form.ts: prefill from `?topic=&item=`,
+ * validation with errors under each field, and an honest submit (endpoint POST or mailto:).
+ * Without JavaScript the browser opens an e-mail with the fields.
+ */
+interface Props {
+  locale: Locale;
+  t: Dictionary;
+}
+
+const { locale, t } = Astro.props;
+const form = t.form;
+
+// Names for `?item=` ids, per topic so an offer department and a rental item can share an id.
+// They go into the middle of a sentence ("…o wypożyczeniu: podnośnik."), so the first letter is lower-cased.
+const inSentence = (name: string) => name.charAt(0).toLocaleLowerCase(locale) + name.slice(1);
+const itemNames = {
+  equipment: Object.fromEntries(categories.map((category) => [category.id, inSentence(category.name[locale])])),
+  rental: Object.fromEntries(rentalItems.map((item) => [item.id, inSentence(item.name[locale])])),
+};
+
+const config = {
+  endpoint: import.meta.env.PUBLIC_FORM_ENDPOINT ?? '',
+  email: company.email,
+  phone: company.phone.display,
+  locale,
+  items: itemNames,
+  topics: form.topics,
+  prefill: form.prefill,
+  errors: form.errors,
+  status: form.status,
+  mail: {
+    subject: form.mail.subject,
+    consentYes: form.mail.consentYes,
+    labels: { name: form.name, phone: form.phone, email: form.email, topic: form.topic, message: form.message },
+  },
+};
+---
+
+<form
+  class="form"
+  action={`mailto:${company.email}`}
+  method="post"
+  enctype="text/plain"
+  data-contact-form
+  data-config={JSON.stringify(config)}
+  data-testid="contact-form"
+>
+  <div class="field" data-field="name">
+    <label for="cf-name">
+      {form.name}
+      <span class="field__required">({form.required})</span>
+    </label>
+    <input id="cf-name" name="name" type="text" autocomplete="given-name" required aria-describedby="cf-name-error" />
+    <p class="field__error" id="cf-name-error" data-error-for="name" hidden></p>
+  </div>
+
+  <fieldset class="field-group" data-field="contact" aria-describedby="cf-contact-hint cf-contact-error">
+    <legend>
+      {form.contactLegend}
+      <span class="field__required">({form.required})</span>
+    </legend>
+    <p class="field__hint" id="cf-contact-hint">{form.contactHint}</p>
+    <div class="field-group__row">
+      <div class="field" data-field="phone">
+        <label for="cf-phone">{form.phone}</label>
+        <input id="cf-phone" name="phone" type="tel" autocomplete="tel" inputmode="tel" aria-describedby="cf-phone-error" />
+        <p class="field__error" id="cf-phone-error" data-error-for="phone" hidden></p>
+      </div>
+      <div class="field" data-field="email">
+        <label for="cf-email">{form.email}</label>
+        <input
+          id="cf-email"
+          name="email"
+          type="email"
+          autocomplete="email"
+          inputmode="email"
+          spellcheck="false"
+          aria-describedby="cf-email-error"
+        />
+        <p class="field__error" id="cf-email-error" data-error-for="email" hidden></p>
+      </div>
+    </div>
+    <p class="field__error" id="cf-contact-error" data-error-for="contact" hidden></p>
+  </fieldset>
+
+  <div class="field" data-field="topic">
+    <label for="cf-topic">{form.topic}</label>
+    <div class="select">
+      <select id="cf-topic" name="topic">
+        {topics.map((topic) => <option value={topic}>{form.topics[topic]}</option>)}
+      </select>
+      <Icon name="ph:caret-down-bold" class="select__caret" aria-hidden="true" />
+    </div>
+  </div>
+
+  <div class="field" data-field="message">
+    <label for="cf-message">
+      {form.message}
+      <span class="field__required">({form.required})</span>
+    </label>
+    <textarea id="cf-message" name="message" rows="6" required aria-describedby="cf-message-error"></textarea>
+    <p class="field__error" id="cf-message-error" data-error-for="message" hidden></p>
+  </div>
+
+  <div class="field field--check" data-field="consent">
+    <div class="check">
+      <span class="check__control">
+        <input
+          id="cf-consent"
+          class="check__input"
+          name="consent"
+          type="checkbox"
+          value="yes"
+          required
+          aria-describedby="cf-consent-error"
+        />
+        <span class="check__box" aria-hidden="true">
+          <Icon name="ph:check-bold" class="check__mark" />
+        </span>
+      </span>
+      <label for="cf-consent">{form.consent}</label>
+    </div>
+    <p class="field__error" id="cf-consent-error" data-error-for="consent" hidden></p>
+  </div>
+
+  <div class="form__submit">
+    <Button type="submit" arrow>{form.submit}</Button>
+  </div>
+
+  <p class="form__status" role="status" data-form-status data-testid="form-status"></p>
+</form>
+
+<style>
+  .form {
+    display: grid;
+    gap: 1.5rem;
+  }
+
+  .field {
+    display: grid;
+    gap: 0.5rem;
+    min-width: 0;
+  }
+
+  label,
+  legend {
+    color: var(--ink);
+    font-weight: 500;
+  }
+
+  .field__required {
+    margin-left: 0.375rem;
+    color: var(--muted);
+    font-size: var(--text-caption);
+    font-weight: 400;
+  }
+
+  .field-group {
+    display: grid;
+    gap: 0.75rem;
+    min-width: 0;
+    margin: 0;
+    padding: 0;
+    border: 0;
+  }
+
+  legend {
+    padding: 0;
+  }
+
+  .field__hint {
+    margin-top: -0.25rem;
+    color: var(--muted);
+    font-size: var(--text-small);
+  }
+
+  .field-group__row {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 1rem;
+  }
+
+  .field-group__row label {
+    font-weight: 400;
+  }
+
+  input:not([type='checkbox']),
+  select,
+  textarea {
+    width: 100%;
+    min-height: 3.25rem;
+    padding: 0.75rem 1rem;
+    border: 1.5px solid var(--border-strong);
+    border-radius: var(--radius-sm);
+    background: var(--canvas);
+    color: var(--ink);
+    font-size: 1.125rem;
+    line-height: 1.4;
+    transition:
+      border-color var(--duration) var(--ease),
+      box-shadow var(--duration) var(--ease);
+  }
+
+  textarea {
+    min-height: 9rem;
+    resize: vertical;
+  }
+
+  input:not([type='checkbox']):hover,
+  select:hover,
+  textarea:hover {
+    border-color: var(--ink);
+  }
+
+  input:not([type='checkbox']):focus-visible,
+  select:focus-visible,
+  textarea:focus-visible {
+    border-color: var(--primary);
+    outline: 3px solid var(--focus);
+    outline-offset: 1px;
+  }
+
+  .form :is(input, select, textarea)[aria-invalid='true'] {
+    border-color: var(--error);
+  }
+
+  .select {
+    position: relative;
+  }
+
+  select {
+    appearance: none;
+    padding-right: 3rem;
+    cursor: pointer;
+  }
+
+  .select__caret {
+    position: absolute;
+    top: 50%;
+    right: 1rem;
+    width: 1rem;
+    height: 1rem;
+    color: var(--ink);
+    pointer-events: none;
+    transform: translateY(-50%);
+  }
+
+  .check {
+    display: grid;
+    grid-template-columns: auto minmax(0, 1fr);
+    gap: 0.5rem;
+    align-items: start;
+  }
+
+  .check label {
+    padding-top: 0.625rem;
+    font-weight: 400;
+    line-height: 1.45;
+    cursor: pointer;
+  }
+
+  /* A 2.75rem hit area (the real, transparent checkbox) around a 1.75rem box drawn in the palette. */
+  .check__control {
+    position: relative;
+    display: grid;
+    place-items: center;
+    width: 2.75rem;
+    height: 2.75rem;
+    border-radius: var(--radius-sm);
+  }
+
+  .check__input {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    margin: 0;
+    opacity: 0;
+    cursor: pointer;
+  }
+
+  .check__box {
+    display: grid;
+    place-items: center;
+    width: 1.75rem;
+    height: 1.75rem;
+    border: 2px solid var(--border-strong);
+    border-radius: 0.375rem;
+    background: var(--canvas);
+    color: var(--on-primary);
+    pointer-events: none;
+    transition:
+      background-color var(--duration) var(--ease),
+      border-color var(--duration) var(--ease);
+  }
+
+  .check__mark {
+    width: 1.125rem;
+    height: 1.125rem;
+    opacity: 0;
+  }
+
+  .check__control:hover .check__box {
+    border-color: var(--ink);
+  }
+
+  .check__input:checked + .check__box {
+    border-color: var(--primary);
+    background: var(--primary);
+  }
+
+  .check__input:checked + .check__box .check__mark {
+    opacity: 1;
+  }
+
+  .check__input[aria-invalid='true'] + .check__box {
+    border-color: var(--error);
+  }
+
+  .check__control:has(.check__input:focus-visible) {
+    outline: 3px solid var(--focus);
+    outline-offset: 0;
+  }
+
+  .field__error {
+    padding-left: 0.75rem;
+    border-left: 3px solid var(--error);
+    color: var(--error);
+    font-size: var(--text-small);
+    font-weight: 500;
+  }
+
+  .form__submit {
+    margin-top: 0.5rem;
+  }
+
+  .form__status:empty {
+    display: none;
+  }
+
+  .form__status {
+    padding: 1rem 1.25rem;
+    border-left: 3px solid var(--primary);
+    border-radius: 0 var(--radius-sm) var(--radius-sm) 0;
+    background: var(--canvas);
+    color: var(--ink);
+  }
+
+  .form__status[data-state='error'] {
+    border-left-color: var(--error);
+  }
+
+  .form__status[data-state='success'] {
+    border-left-color: var(--success);
+  }
+
+  @media (max-width: 30rem) {
+    .field-group__row {
+      grid-template-columns: 1fr;
+    }
+  }
+</style>
+
+<script>
+  import '../scripts/contact-form.ts';
+</script>

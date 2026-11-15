@@ -1,0 +1,36 @@
+---
+/** Eyebrow, serif heading and optional lead: the standard start of a section. */
+interface Props {
+  eyebrow?: string;
+  title: string;
+  lead?: string;
+  /** Id for the heading, so the section can use `aria-labelledby`. */
+  id?: string;
+  class?: string;
+  [attribute: string]: unknown;
+}
+
+const { eyebrow, title, lead, id, class: className, ...rest } = Astro.props;
+---
+
+<div class:list={['heading', className]} {...rest}>
+  {eyebrow && <span class="eyebrow">{eyebrow}</span>}
+  <h2 id={id}>{title}</h2>
+  {lead && <p class="lead">{lead}</p>}
+</div>
+
+<style>
+  .heading {
+    display: grid;
+    gap: 1rem;
+    justify-items: start;
+  }
+
+  h2 {
+    max-width: 20ch;
+  }
+
+  .lead {
+    margin-top: 0.25rem;
+  }
+</style>

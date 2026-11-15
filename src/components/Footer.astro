@@ -1,0 +1,289 @@
+---
+import { locales, localeNames, type Locale } from '../i18n/config';
+import type { Dictionary } from '../i18n';
+import { localizedPath, navPages, type PageId } from '../i18n/routes';
+import photoCredits from '../assets/photos/credits.json';
+import { company, displayTime, registryEntries } from '../data/company';
+import EmailText from './EmailText.astro';
+import HeartDivider from './HeartDivider.astro';
+import Logo from './Logo.astro';
+
+interface Props {
+  locale: Locale;
+  t: Dictionary;
+  page: PageId | null;
+}
+
+const { locale, t, page } = Astro.props;
+const year = new Date().getFullYear();
+const registry = registryEntries(t.contactInfo);
+const { address } = company;
+// Photo attribution (CC BY-SA): every author links to the source, each licence to its text.
+const licences = [...new Map(photoCredits.map((photo) => [photo.licence, photo.licenceUrl])).entries()];
+const sources = [
+  ...new Set(
+    photoCredits.map(({ sourceUrl }) => {
+      const host = new URL(sourceUrl).hostname;
+      return host === 'commons.wikimedia.org' ? 'Wikimedia Commons' : host;
+    }),
+  ),
+].join(', ');
+---
+
+<footer class="footer band">
+  <div class="container">
+    <div class="footer__top">
+      <div class="footer__brand">
+        <a class="footer__logo" href={localizedPath('home', locale)}>
+          <Logo locale={locale} />
+          <span class="visually-hidden">, {t.a11y.homeLink}</span>
+        </a>
+        <p class="footer__motto">{t.site.motto}</p>
+      </div>
+
+      <nav class="footer__col" aria-label={t.a11y.footerNav}>
+        <h2 class="footer__title">{t.footer.navTitle}</h2>
+        <ul role="list">
+          {
+            navPages.map((id) => (
+              <li>
+                <a class="footer__link" href={localizedPath(id, locale)} aria-current={id === page ? 'page' : undefined}>
+                  {t.nav[id]}
+                </a>
+              </li>
+            ))
+          }
+        </ul>
+      </nav>
+
+      <div class="footer__col">
+        <h2 class="footer__title">{t.footer.contactTitle}</h2>
+        <ul role="list">
+          <li>
+            <a class="footer__link" href={company.phone.href}>{company.phone.display}</a>
+          </li>
+          <li>
+            <a class="footer__link" href={`mailto:${company.email}`}><EmailText email={company.email} /></a>
+          </li>
+          {
+            address && (
+              <li class="footer__text">
+                <address>
+                  {address.street}, {address.locality}
+                  <br />
+                  {address.postalCode} {address.postTown}
+                </address>
+              </li>
+            )
+          }
+          {
+            company.hours.length > 0 && (
+              <li class="footer__text footer__hours">
+                <span class="visually-hidden">{t.contactInfo.hours}: </span>
+                {company.hours.map((entry) => (
+                  <span class="footer__hours-row">
+                    {entry.days[locale]}{' '}
+                    {entry.opens && entry.closes
+                      ? `${displayTime(entry.opens)}–${displayTime(entry.closes)}`
+                      : t.contactInfo.closed}
+                  </span>
+                ))}
+              </li>
+            )
+          }
+        </ul>
+      </div>
+
+      <div class="footer__col">
+        <h2 class="footer__title">{t.footer.languagesTitle}</h2>
+        <ul role="list">
+          {
+            locales.map((code) => (
+              <li>
+                <a
+                  class="footer__link"
+                  href={localizedPath(page ?? 'home', code)}
+                  lang={code}
+                  hreflang={code}
+                  aria-current={code === locale ? 'true' : undefined}
+                  data-keep-query={page === 'contact' ? '' : undefined}
+                >
+                  {localeNames[code]}
+                </a>
+              </li>
+            ))
+          }
+        </ul>
+      </div>
+    </div>
+
+    <HeartDivider class="footer__divider" />
+
+    <div class="footer__bottom">
+      <p>{`© ${year} ${company.legalName} ${t.footer.rights}`}</p>
+      {
+        photoCredits.length > 0 && (
+          <p class="footer__credits">
+            {`${t.footer.photoCredits}: `}
+            {photoCredits.map((photo, index) => (
+              <>
+                {index > 0 && ', '}
+                <a href={photo.sourceUrl} rel="noopener">
+                  {photo.author}
+                </a>
+              </>
+            ))}
+            {` (${sources}), `}
+            {licences.map(([licence, url], index) => (
+              <>
+                {index > 0 && ', '}
+                <a href={url} rel="license noopener">
+                  {licence}
+                </a>
+              </>
+            ))}
+          </p>
+        )
+      }
+      {registry.length > 0 && <p>{registry.map((entry) => `${entry.label}: ${entry.value}`).join(' · ')}</p>}
+    </div>
+  </div>
+</footer>
+
+<style>
+  .footer {
+    padding-block: clamp(3.5rem, 2.5rem + 4vw, 5.5rem) 2.5rem;
+    font-size: var(--text-small);
+  }
+
+  .footer__top {
+    display: grid;
+    grid-template-columns: minmax(0, 1.7fr) repeat(3, minmax(0, 1fr));
+    gap: 3rem 2rem;
+  }
+
+  .footer__logo {
+    display: inline-flex;
+    border-radius: var(--radius-sm);
+    text-decoration: none;
+  }
+
+  .footer__logo :global(.logo__descriptor) {
+    color: var(--on-band-soft);
+  }
+
+  .footer__motto {
+    max-width: 16ch;
+    margin-top: 1.75rem;
+    color: var(--ink);
+    font-family: var(--font-serif);
+    font-size: clamp(1.5rem, 1.3rem + 0.9vw, 2rem);
+    line-height: 1.15;
+    letter-spacing: -0.015em;
+    text-wrap: balance;
+  }
+
+  .footer__title {
+    margin-bottom: 0.5rem;
+    color: var(--gold-text);
+    font-family: var(--font-sans);
+    font-size: var(--text-eyebrow);
+    font-weight: 500;
+    line-height: 1.4;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+  }
+
+  .footer__link {
+    display: inline-flex;
+    align-items: center;
+    min-width: 3rem;
+    min-height: 3rem;
+    color: var(--body);
+    text-decoration: none;
+    transition: color var(--duration) var(--ease);
+  }
+
+  .footer__link:hover,
+  .footer__link[aria-current] {
+    color: var(--ink);
+    text-decoration: underline;
+    text-decoration-color: var(--gold);
+    text-decoration-thickness: 1.5px;
+    text-underline-offset: 0.35em;
+  }
+
+  .footer__text {
+    padding-block: 0.75rem;
+  }
+
+  .footer__text + .footer__text {
+    padding-top: 0;
+  }
+
+  .footer__hours-row {
+    display: block;
+  }
+
+  .footer__divider {
+    margin-block: clamp(2.5rem, 2rem + 2vw, 4rem) 2rem;
+  }
+
+  .footer__divider :global(.heart__line) {
+    max-width: none;
+  }
+
+  .footer__credits a {
+    color: inherit;
+    text-underline-offset: 0.2em;
+  }
+
+  .footer__credits a:hover {
+    color: var(--ink);
+  }
+
+  .footer__bottom {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
+    gap: 0.5rem 2rem;
+    color: var(--muted);
+    font-size: var(--text-caption);
+  }
+
+  @media (max-width: 60rem) {
+    .footer__top {
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+    }
+
+    .footer__brand {
+      grid-column: 1 / -1;
+    }
+
+    .footer__motto {
+      max-width: 22ch;
+    }
+  }
+
+  @media (max-width: 40rem) {
+    .footer__top {
+      grid-template-columns: 1fr 1fr;
+    }
+
+    .footer__col:last-child {
+      grid-column: 1 / -1;
+    }
+
+    .footer__col:last-child ul {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0 1.5rem;
+    }
+  }
+
+  @media (max-width: 24rem) {
+    .footer__top {
+      grid-template-columns: 1fr;
+    }
+  }
+</style>

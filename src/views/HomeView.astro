@@ -1,0 +1,672 @@
+---
+import { Image } from 'astro:assets';
+import { Icon } from 'astro-icon/components';
+import ArrowLink from '../components/ArrowLink.astro';
+import Button from '../components/Button.astro';
+import ContactDetails from '../components/ContactDetails.astro';
+import MarkPlate from '../components/MarkPlate.astro';
+import RingIcon from '../components/RingIcon.astro';
+import SectionHeading from '../components/SectionHeading.astro';
+import StepPath from '../components/StepPath.astro';
+import Wave from '../components/Wave.astro';
+import parkPhoto from '../assets/photos/everyday-wheelchair-park-reading.jpg';
+import { categories } from '../data/categories';
+import type { Locale } from '../i18n/config';
+import type { Dictionary } from '../i18n';
+import { contactPath, localizedPath } from '../i18n/routes';
+
+interface Props {
+  locale: Locale;
+  t: Dictionary;
+}
+
+const { locale, t } = Astro.props;
+const home = t.home;
+
+// The four tiles follow the specification: equipment, home, rental, advice. Copy is keyed, so the
+// pictogram and target always belong to the right text whatever the order in the dictionary.
+const tiles = (
+  [
+    { key: 'equipment', pictogram: 'wheelchair', href: localizedPath('offer', locale) },
+    { key: 'home', pictogram: 'home-safety', href: localizedPath('offer', locale, { hash: 'home' }) },
+    { key: 'rental', pictogram: 'rental', href: localizedPath('rental', locale) },
+    { key: 'advice', pictogram: 'advice', href: localizedPath('advice', locale) },
+  ] as const
+).map((tile) => ({ ...tile, ...home.tiles.items[tile.key] }));
+
+const departmentHref = (category: (typeof categories)[number]) =>
+  category.page ? localizedPath(category.page, locale) : localizedPath('offer', locale, { hash: category.id });
+---
+
+<section class="hero" aria-labelledby="hero-title">
+  <div class="container hero__grid">
+    <div class="hero__text">
+      <span class="eyebrow">{home.hero.eyebrow}</span>
+      <h1 id="hero-title">{t.site.motto}</h1>
+      <p class="hero__slogan">{t.site.slogan}</p>
+      <p class="lead hero__lead">{home.hero.lead}</p>
+      <div class="hero__actions">
+        <Button href={contactPath(locale, 'equipment')} arrow>{t.cta.askEquipment}</Button>
+        <Button href={contactPath(locale, 'advice')} variant="secondary">{t.cta.bookAdvice}</Button>
+      </div>
+    </div>
+
+    <MarkPlate
+      alt={t.a11y.logoAlt}
+      animate
+      strip={['sales', 'rental', 'funding', 'advice', 'home-safety']}
+      class="hero__visual"
+    />
+  </div>
+  <Wave class="hero__wave" />
+</section>
+
+<section class="section tiles" aria-labelledby="tiles-title">
+  <div class="container">
+    <h2 id="tiles-title" class="tiles__title">{home.tiles.title}</h2>
+    <ul class="tiles__grid" role="list">
+      {
+        tiles.map((tile, index) => (
+          <li class="tile is-linked">
+            <RingIcon pictogram={tile.pictogram} size="md" turn={index * 70} />
+            <h3 class="tile__title">
+              <a class="tile__link" href={tile.href}>{tile.title}</a>
+            </h3>
+            <p class="tile__text">{tile.text}</p>
+            <span class="tile__more" aria-hidden="true">
+              {tile.link}
+              <Icon name="ph:arrow-right" class="tile__arrow" />
+            </span>
+          </li>
+        ))
+      }
+    </ul>
+  </div>
+</section>
+
+<section class="section section--soft about" aria-labelledby="about-title">
+  <div class="container about__grid">
+    <Image
+      class="about__photo"
+      src={parkPhoto}
+      alt={home.about.photoAlt}
+      width={960}
+      widths={[400, 640, 960]}
+      sizes="(min-width: 55rem) 30rem, 90vw"
+    />
+    <div class="about__body">
+      <span class="eyebrow">{home.about.eyebrow}</span>
+      <h2 id="about-title" class="statement">{home.about.statement}</h2>
+      <p class="about__text">{home.about.text}</p>
+      <h3 class="about__values-title">{home.about.valuesTitle}</h3>
+      <ul class="about__values" role="list">
+        {t.about.values.items.map((value) => <li>{value.title}</li>)}
+      </ul>
+      <ArrowLink href={localizedPath('about', locale)}>{home.about.link}</ArrowLink>
+    </div>
+  </div>
+</section>
+
+<section class="section departments" aria-labelledby="departments-title">
+  <div class="container">
+    <div class="departments__head">
+      <SectionHeading eyebrow={home.offer.eyebrow} title={home.offer.title} lead={home.offer.lead} id="departments-title" />
+      <ArrowLink href={localizedPath('offer', locale)} class="departments__all">{home.offer.link}</ArrowLink>
+    </div>
+    <ol class="departments__list" role="list">
+      {
+        categories.map((category, index) => (
+          <li class="department">
+            <span class="department__number" aria-hidden="true">
+              {String(index + 1).padStart(2, '0')}
+            </span>
+            <RingIcon pictogram={category.pictogram} size="md" turn={index * 55} class="department__ring" />
+            <div class="department__text">
+              <h3 class="department__name">
+                <a href={departmentHref(category)}>{category.name[locale]}</a>
+              </h3>
+              <p class="department__items">
+                {category.items.length > 0
+                  ? category.items.map((item) => item.name[locale]).join(' · ')
+                  : category.summary[locale]}
+              </p>
+            </div>
+            <Icon name="ph:arrow-right" class="department__arrow" aria-hidden="true" />
+          </li>
+        ))
+      }
+    </ol>
+  </div>
+</section>
+
+<StepPath path={t.path}>
+  <Button href={contactPath(locale, 'advice')} arrow>{t.cta.bookAdvice}</Button>
+  <ArrowLink href={localizedPath('advice', locale)}>{home.tiles.items.advice.link}</ArrowLink>
+</StepPath>
+
+<section class="section funding" aria-labelledby="funding-title">
+  <div class="container funding__grid">
+    <div class="funding__text">
+      <SectionHeading eyebrow={home.funding.eyebrow} title={home.funding.title} id="funding-title" />
+      <p class="funding__body">{home.funding.text}</p>
+      <div class="funding__actions">
+        <Button href={contactPath(locale, 'funding')} arrow>{t.cta.askFunding}</Button>
+        <ArrowLink href={localizedPath('funding', locale)}>{home.funding.link}</ArrowLink>
+      </div>
+    </div>
+    <div class="funding__card">
+      <RingIcon pictogram="funding" size="md" turn={120} />
+      <h3 class="funding__card-title">{t.funding.factors.title}</h3>
+      <ol class="funding__factors" role="list">
+        {
+          Object.values(t.funding.factors.items).map((factor, index) => (
+            <li>
+              <span class="funding__factor-number" aria-hidden="true">
+                {index + 1}
+              </span>
+              {factor.title}
+            </li>
+          ))
+        }
+      </ol>
+    </div>
+  </div>
+</section>
+
+<section class="section section--soft home-contact" aria-labelledby="home-contact-title">
+  <div class="container home-contact__grid">
+    <div class="home-contact__intro">
+      <SectionHeading eyebrow={home.contact.eyebrow} title={home.contact.title} lead={home.contact.lead} id="home-contact-title" />
+      <Button href={localizedPath('contact', locale, { hash: 'form' })} variant="secondary" arrow>{home.contact.link}</Button>
+    </div>
+    <ContactDetails locale={locale} t={t} />
+  </div>
+</section>
+
+<style>
+  /* ---- Hero ---- */
+  .hero {
+    position: relative;
+    overflow: hidden;
+  }
+
+  .hero__grid {
+    display: grid;
+    grid-template-columns: minmax(0, 1.12fr) minmax(0, 0.88fr);
+    gap: clamp(2.5rem, 1rem + 5vw, 5.5rem);
+    align-items: center;
+    padding-block: clamp(2.75rem, 1.5rem + 5vw, 6rem) clamp(1.5rem, 1rem + 2vw, 2.5rem);
+  }
+
+  .hero__text {
+    display: grid;
+    justify-items: start;
+    animation: hero-rise 800ms var(--ease) both;
+  }
+
+  .hero h1 {
+    margin-top: 1.25rem;
+    max-width: 14ch;
+    font-size: var(--text-display);
+    line-height: 1.02;
+  }
+
+  .hero__slogan {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+    margin-top: 1.5rem;
+    color: var(--primary);
+    font-family: var(--font-serif);
+    font-size: clamp(1.375rem, 1.15rem + 0.9vw, 1.875rem);
+    line-height: 1.2;
+    letter-spacing: -0.01em;
+  }
+
+  .hero__slogan::before {
+    flex: none;
+    width: 2.5rem;
+    height: 2px;
+    border-radius: 2px;
+    background: var(--gold);
+    content: '';
+  }
+
+  .hero__lead {
+    margin-top: 1.75rem;
+    max-width: 48ch;
+  }
+
+  .hero__actions {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.875rem;
+    margin-top: 2.25rem;
+  }
+
+  .hero__grid :global(.hero__visual) {
+    width: 100%;
+    max-width: 30rem;
+    justify-self: end;
+  }
+
+  .hero__wave {
+    display: block;
+    margin-top: clamp(1rem, 3vw, 2.5rem);
+  }
+
+  @keyframes hero-rise {
+    from {
+      opacity: 0;
+      transform: translateY(12px);
+    }
+    to {
+      opacity: 1;
+      transform: none;
+    }
+  }
+
+  @media (max-width: 61.99rem) {
+    .hero__grid {
+      grid-template-columns: 1fr;
+    }
+
+    .hero__grid :global(.hero__visual) {
+      justify-self: stretch;
+      max-width: 34rem;
+    }
+  }
+
+  /* Phones: both buttons the full width, one above the other. */
+  @media (max-width: 36rem) {
+    .hero__actions {
+      display: grid;
+      width: 100%;
+    }
+  }
+
+  /* ---- Four tiles ---- */
+  .tiles {
+    padding-top: clamp(2.5rem, 1.5rem + 4vw, 5rem);
+  }
+
+  .tiles__title {
+    max-width: 28ch;
+  }
+
+  .tiles__grid {
+    display: grid;
+    grid-template-columns: repeat(4, minmax(0, 1fr));
+    gap: 1rem;
+    margin-top: clamp(2rem, 1.5rem + 2vw, 3rem);
+  }
+
+  .tile {
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 1rem;
+    padding: 1.75rem 1.5rem 1.5rem;
+    border-radius: var(--radius-lg);
+    background: var(--surface-card);
+    color: var(--body);
+    transition:
+      transform 220ms var(--ease),
+      background-color 220ms var(--ease);
+  }
+
+  .tile:hover {
+    transform: translateY(-2px);
+  }
+
+  .tile__title {
+    margin-top: 0.5rem;
+    font-size: var(--text-h3);
+  }
+
+  .tile__link {
+    color: inherit;
+    text-decoration: none;
+  }
+
+  /* The whole card is the link's hit area; the link's name stays the title alone. */
+  .tile__link::after {
+    position: absolute;
+    inset: 0;
+    border-radius: inherit;
+    content: '';
+  }
+
+  .tile__link:focus-visible {
+    outline: none;
+  }
+
+  .tile:has(.tile__link:focus-visible) {
+    outline: 3px solid var(--focus);
+    outline-offset: 3px;
+  }
+
+  .tile:hover .tile__link {
+    color: var(--primary);
+  }
+
+  .tile__text {
+    flex: 1;
+    font-size: var(--text-small);
+  }
+
+  .tile__more {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+    min-height: 2rem;
+    color: var(--primary);
+    font-weight: 500;
+  }
+
+  .tile__more :global(.tile__arrow) {
+    flex: none;
+    width: 1.125rem;
+    height: 1.125rem;
+    transition: transform 240ms var(--ease);
+  }
+
+  .tile:hover :global(.tile__arrow) {
+    transform: translateX(4px);
+  }
+
+  @media (max-width: 68rem) {
+    .tiles__grid {
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+    }
+  }
+
+  @media (max-width: 36rem) {
+    .tiles__grid {
+      grid-template-columns: 1fr;
+    }
+  }
+
+  /* ---- About in short ---- */
+  .about__grid {
+    display: grid;
+    grid-template-columns: minmax(0, 5fr) minmax(0, 7fr);
+    gap: 3rem clamp(3rem, 1rem + 6vw, 7rem);
+    align-items: center;
+  }
+
+  .about__photo {
+    width: 100%;
+    height: auto;
+    aspect-ratio: 4 / 5;
+    object-fit: cover;
+    object-position: 45% 50%;
+    border-radius: var(--radius-lg);
+  }
+
+  .about__body {
+    display: grid;
+    gap: 1.25rem;
+    justify-items: start;
+  }
+
+  .about__body .statement {
+    max-width: 20ch;
+  }
+
+  .about__text {
+    max-width: var(--measure);
+  }
+
+  .about__values-title {
+    margin-top: 0.75rem;
+    color: var(--gold-text);
+    font-family: var(--font-sans);
+    font-size: var(--text-eyebrow);
+    font-weight: 500;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+  }
+
+  .about__values {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    column-gap: 2rem;
+    width: 100%;
+    border-top: 1px solid var(--hairline);
+  }
+
+  .about__values li {
+    display: flex;
+    align-items: center;
+    gap: 0.875rem;
+    padding-block: 0.875rem;
+    border-bottom: 1px solid var(--hairline);
+    color: var(--ink);
+    font-family: var(--font-serif);
+    font-size: 1.25rem;
+    line-height: 1.3;
+  }
+
+  .about__values li::before {
+    flex: none;
+    width: 0.5rem;
+    height: 0.5rem;
+    border-radius: 50%;
+    background: var(--gold);
+    content: '';
+  }
+
+  @media (max-width: 55rem) {
+    .about__grid {
+      grid-template-columns: 1fr;
+    }
+
+    .about__photo {
+      aspect-ratio: 4 / 3;
+    }
+  }
+
+  @media (max-width: 36rem) {
+    .about__values {
+      grid-template-columns: 1fr;
+    }
+  }
+
+  /* ---- Departments ---- */
+  .departments__head {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 1.5rem 3rem;
+    align-items: end;
+    justify-content: space-between;
+  }
+
+  .departments__all {
+    flex: none;
+  }
+
+  .departments__list {
+    margin-top: clamp(2rem, 1.5rem + 2vw, 3.5rem);
+    border-top: 1px solid var(--ink);
+  }
+
+  .department {
+    position: relative;
+    display: grid;
+    grid-template-columns: 3rem auto minmax(0, 1fr) auto;
+    gap: 1.5rem;
+    align-items: center;
+    padding-block: 1.5rem;
+    border-bottom: 1px solid var(--hairline);
+  }
+
+  .department__number {
+    color: var(--gold-text);
+    font-family: var(--font-serif);
+    font-size: 1.25rem;
+    font-variant-numeric: tabular-nums;
+  }
+
+  .department__text {
+    display: grid;
+    gap: 0.375rem;
+  }
+
+  .department__name {
+    font-size: clamp(1.5rem, 1.3rem + 0.8vw, 2rem);
+    letter-spacing: -0.015em;
+  }
+
+  .department__name a {
+    color: inherit;
+    text-decoration: none;
+    transition: color var(--duration) var(--ease);
+  }
+
+  .department:hover .department__name a {
+    color: var(--primary);
+  }
+
+  /* The whole row is the link's hit area. */
+  .department__name a::after {
+    position: absolute;
+    inset: 0;
+    content: '';
+  }
+
+  .department__name a:focus-visible {
+    outline: none;
+  }
+
+  .department:has(a:focus-visible) {
+    outline: 3px solid var(--focus);
+    outline-offset: 2px;
+    border-radius: 4px;
+  }
+
+  .department__items {
+    color: var(--body);
+    font-size: var(--text-small);
+  }
+
+  .department__arrow {
+    width: 1.5rem;
+    height: 1.5rem;
+    margin-right: 0.5rem;
+    color: var(--primary);
+    transition: transform 240ms var(--ease);
+  }
+
+  .department:hover .department__arrow {
+    transform: translateX(6px);
+  }
+
+  @media (max-width: 40rem) {
+    .department {
+      grid-template-columns: auto minmax(0, 1fr);
+      gap: 0.5rem 1rem;
+      align-items: start;
+    }
+
+    .department__number {
+      display: none;
+    }
+
+    .department__arrow {
+      display: none;
+    }
+  }
+
+  /* ---- Funding ---- */
+  .funding__grid {
+    display: grid;
+    grid-template-columns: minmax(0, 1.1fr) minmax(0, 0.9fr);
+    gap: 3rem clamp(3rem, 1rem + 6vw, 7rem);
+    align-items: center;
+  }
+
+  .funding__text {
+    display: grid;
+    gap: 1.5rem;
+    justify-items: start;
+  }
+
+  .funding__body {
+    max-width: var(--measure);
+  }
+
+  .funding__actions {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 1rem 2rem;
+    align-items: center;
+    margin-top: 0.5rem;
+  }
+
+  .funding__card {
+    display: grid;
+    gap: 1.25rem;
+    justify-items: start;
+    padding: clamp(1.75rem, 1rem + 2.5vw, 2.75rem);
+    border-radius: var(--radius-lg);
+    background: var(--surface-card);
+  }
+
+  .funding__card-title {
+    font-size: var(--text-h3);
+  }
+
+  .funding__factors {
+    width: 100%;
+  }
+
+  .funding__factors li {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+    padding-block: 0.875rem;
+    border-top: 1px solid var(--hairline);
+    color: var(--ink);
+    font-weight: 500;
+  }
+
+  .funding__factor-number {
+    display: grid;
+    flex: none;
+    place-items: center;
+    width: 2.25rem;
+    height: 2.25rem;
+    border: 1.5px solid var(--gold);
+    border-radius: 50%;
+    font-family: var(--font-serif);
+    font-weight: 400;
+  }
+
+  @media (max-width: 55rem) {
+    .funding__grid {
+      grid-template-columns: 1fr;
+    }
+  }
+
+  /* ---- Contact ---- */
+  .home-contact__grid {
+    display: grid;
+    grid-template-columns: minmax(0, 5fr) minmax(0, 7fr);
+    gap: 3rem clamp(3rem, 1rem + 6vw, 7rem);
+    align-items: start;
+  }
+
+  .home-contact__intro {
+    display: grid;
+    gap: 2rem;
+    justify-items: start;
+  }
+
+  @media (max-width: 55rem) {
+    .home-contact__grid {
+      grid-template-columns: 1fr;
+    }
+  }
+</style>

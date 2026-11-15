@@ -1,0 +1,6 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 48 48" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path d="M5.5 26.5H42.5V36Q42.5 39 39.5 39H8.5Q5.5 39 5.5 36Z" stroke="var(--pg-ink, #002448)" stroke-width="3.5"/>
+  <path d="M5.5 26.5Q8.58 19.5 11.67 26.5Q14.75 19.5 17.83 26.5Q20.92 19.5 24.00 26.5Q27.08 19.5 30.17 26.5Q33.25 19.5 36.33 26.5Q39.42 19.5 42.50 26.5" stroke="var(--pg-teal, #0C849C)" stroke-width="3.4"/>
+  <path d="M5.5 32.2H42.5" stroke="var(--pg-ink, #002448)" stroke-width="3"/>
+  <rect x="8" y="13.4" width="13.5" height="7.2" rx="3.6" fill="var(--pg-ink, #002448)"/>
+</svg>

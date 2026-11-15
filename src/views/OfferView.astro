@@ -1,0 +1,337 @@
+---
+import { Image } from 'astro:assets';
+import { Icon } from 'astro-icon/components';
+import Button from '../components/Button.astro';
+import ClosingCta from '../components/ClosingCta.astro';
+import PageHeader from '../components/PageHeader.astro';
+import RingIcon from '../components/RingIcon.astro';
+import { categories } from '../data/categories';
+import { rentalItems } from '../data/rental';
+import type { Locale } from '../i18n/config';
+import type { Dictionary } from '../i18n';
+import { contactPath, localizedPath } from '../i18n/routes';
+
+interface Props {
+  locale: Locale;
+  t: Dictionary;
+}
+
+const { locale, t } = Astro.props;
+const offer = t.offer;
+
+// A department with its own page (the rental) lists that page's equipment instead of its own items.
+// An item without its own pictogram shows the department's.
+const departments = categories.map((category, index) => ({
+  ...category,
+  number: String(index + 1).padStart(2, '0'),
+  entries: (category.page === 'rental' ? rentalItems : category.items).map((item) => ({
+    name: item.name[locale],
+    pictogram: item.pictogram ?? category.pictogram,
+  })),
+}));
+---
+
+<PageHeader eyebrow={offer.eyebrow} title={offer.title} lead={offer.lead} pictogram="sales">
+  <nav class="jump" aria-label={t.a11y.offerSections}>
+    <ul role="list">
+      {
+        departments.map((department) => (
+          <li>
+            <a class="jump__link" href={`#${department.id}`}>
+              {department.name[locale]}
+              <Icon name="ph:arrow-down" class="jump__icon" aria-hidden="true" />
+            </a>
+          </li>
+        ))
+      }
+    </ul>
+  </nav>
+</PageHeader>
+
+<div class="section departments">
+  <div class="container">
+    {
+      departments.map((department, index) => (
+        <section class="dept" id={department.id} aria-labelledby={`${department.id}-title`}>
+          <div class="dept__head">
+            <div class="dept__marker">
+              <RingIcon pictogram={department.pictogram} size="lg" turn={index * 60} />
+              <span class="dept__number" aria-hidden="true">
+                {department.number}
+              </span>
+            </div>
+            <h2 id={`${department.id}-title`} class="dept__title">
+              {department.name[locale]}
+            </h2>
+            <p class="dept__summary">{department.summary[locale]}</p>
+            <div class="dept__actions">
+              {department.page ? (
+                <>
+                  <Button href={localizedPath(department.page, locale)} arrow>
+                    {offer.rentalLink}
+                  </Button>
+                  <Button href={contactPath(locale, 'rental')} variant="secondary">
+                    {t.cta.askRental}
+                  </Button>
+                </>
+              ) : (
+                <Button href={contactPath(locale, 'equipment', department.id)} variant="secondary" arrow>
+                  {offer.askAbout}
+                </Button>
+              )}
+            </div>
+          </div>
+
+          <div class:list={['dept__body', department.image && 'dept__body--photo']}>
+            <span class="eyebrow">{offer.itemsLabel}</span>
+            <ul class="dept__items" role="list">
+              {department.entries.map((entry, itemIndex) => (
+                <li class="dept__item">
+                  <RingIcon pictogram={entry.pictogram} size="sm" turn={itemIndex * 47 + index * 30} class="dept__ring" />
+                  <span class="dept__item-name">{entry.name}</span>
+                </li>
+              ))}
+            </ul>
+            {department.image && (
+              <Image
+                class="dept__photo"
+                src={department.image}
+                alt={department.imageAlt?.[locale] ?? ''}
+                widths={[320, 480, 720]}
+                sizes="(min-width: 55rem) 18rem, 90vw"
+              />
+            )}
+          </div>
+        </section>
+      ))
+    }
+  </div>
+</div>
+
+<ClosingCta
+  t={t}
+  variant="band"
+  title={offer.closing.title}
+  text={offer.closing.text}
+  action={{ label: t.cta.bookAdvice, href: contactPath(locale, 'advice') }}
+/>
+
+<style>
+  /* ---- Jump links in the header ---- */
+  .jump {
+    margin-top: 1rem;
+  }
+
+  .jump ul {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.5rem;
+  }
+
+  .jump__link {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+    min-height: 3rem;
+    padding: 0.375rem 0.875rem 0.375rem 1.125rem;
+    border: 1px solid var(--hairline);
+    border-radius: var(--radius-pill);
+    background: var(--canvas);
+    color: var(--ink);
+    font-size: var(--text-small);
+    font-weight: 500;
+    line-height: 1.25;
+    text-decoration: none;
+    transition:
+      border-color var(--duration) var(--ease),
+      transform var(--duration) var(--ease);
+  }
+
+  .jump__link:hover {
+    border-color: var(--primary);
+    transform: translateY(-2px);
+  }
+
+  .jump__icon {
+    flex: none;
+    width: 1rem;
+    height: 1rem;
+    color: var(--primary);
+    transition: transform var(--duration) var(--ease);
+  }
+
+  .jump__link:hover .jump__icon {
+    transform: translateY(2px);
+  }
+
+  /* ---- Departments ---- */
+  .departments {
+    padding-block: clamp(1rem, 0.5rem + 2vw, 2rem) 0;
+  }
+
+  .dept {
+    display: grid;
+    grid-template-columns: minmax(0, 5fr) minmax(0, 7fr);
+    gap: 2.5rem clamp(3rem, 1rem + 6vw, 7rem);
+    padding-block: clamp(3rem, 2rem + 3vw, 4.5rem);
+  }
+
+  .dept + .dept {
+    border-top: 1px solid var(--hairline);
+  }
+
+  .dept__head {
+    display: grid;
+    gap: 1.25rem;
+    align-content: start;
+    justify-items: start;
+  }
+
+  @media (min-width: 55rem) {
+    .dept__head {
+      position: sticky;
+      top: calc(var(--header-height) + 2rem);
+      align-self: start;
+    }
+  }
+
+  .dept__marker {
+    display: flex;
+    align-items: center;
+    gap: 1.25rem;
+  }
+
+  .dept__number {
+    color: var(--gold-text);
+    font-family: var(--font-serif);
+    font-size: 1.25rem;
+    font-variant-numeric: tabular-nums;
+  }
+
+  .dept__title {
+    font-size: var(--text-h2);
+    max-width: 16ch;
+  }
+
+  .dept__summary {
+    max-width: 42ch;
+  }
+
+  /* Stacked buttons share one width (the wider label's); full width on phones. */
+  .dept__actions {
+    display: grid;
+    gap: 0.75rem;
+    width: fit-content;
+    margin-top: 0.5rem;
+  }
+
+  .dept__body {
+    display: grid;
+    gap: 1.25rem;
+    align-content: start;
+    padding-top: 0.5rem;
+  }
+
+  /* Items as pictogram tiles: 3 columns on wide screens, 2 on tablets and phones, 1 on the narrowest. */
+  .dept__items {
+    display: grid;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: 0.75rem;
+  }
+
+  .dept__item {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 0.75rem;
+    min-width: 0;
+    padding: 1rem 1.125rem 1.125rem;
+    border-radius: var(--radius-md);
+    background: var(--surface-soft);
+    color: var(--ink);
+    font-size: 1.0625rem;
+    font-weight: 500;
+    line-height: 1.3;
+  }
+
+  /* A 4rem ring keeps the pictogram above 40 px. */
+  .dept__item :global(.dept__ring) {
+    --ring: 4rem;
+
+    background: var(--canvas);
+    border-radius: 50%;
+  }
+
+  .dept__item-name {
+    min-width: 0;
+    text-wrap: pretty;
+  }
+
+  /* With a photo: one column of items beside a portrait picture. */
+  .dept__body--photo {
+    grid-template-columns: minmax(0, 1fr) minmax(0, 0.8fr);
+    column-gap: 2rem;
+  }
+
+  .dept__body--photo .eyebrow {
+    grid-column: 1 / -1;
+  }
+
+  .dept__body--photo .dept__items {
+    grid-template-columns: 1fr;
+    align-self: start;
+  }
+
+  @media (max-width: 75rem) {
+    .dept__items {
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+    }
+  }
+
+  .dept__photo {
+    width: 100%;
+    height: auto;
+    aspect-ratio: 4 / 5;
+    object-fit: cover;
+    border-radius: var(--radius-lg);
+  }
+
+  @media (max-width: 54.99rem) {
+    .dept {
+      grid-template-columns: 1fr;
+    }
+  }
+
+  @media (max-width: 40rem) {
+    .dept__body--photo {
+      grid-template-columns: 1fr;
+      row-gap: 1.5rem;
+    }
+
+    .dept__photo {
+      max-width: 22rem;
+    }
+  }
+
+  @media (max-width: 36rem) {
+    .dept__actions {
+      display: grid;
+      width: 100%;
+    }
+  }
+
+  /* Phones: one column of compact rows, the ring beside the name. */
+  @media (max-width: 36rem) {
+    .dept__items {
+      grid-template-columns: 1fr;
+      gap: 0.5rem;
+    }
+
+    .dept__item {
+      flex-direction: row;
+      align-items: center;
+      gap: 1rem;
+      padding: 0.625rem 1rem 0.625rem 0.625rem;
+    }
+  }
+</style>

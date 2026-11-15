@@ -1,0 +1,119 @@
+---
+import { Icon } from 'astro-icon/components';
+import type { PictogramName } from '../assets/pictograms';
+import Pictogram from './Pictogram.astro';
+
+/**
+ * An icon inside a circle with a navy ring and two gold arcs, modelled on the row of
+ * five icons in the RenHan MED logo. Content icons are RenHan pictograms (`pictogram`);
+ * a Phosphor duotone icon (`name`) is the fallback where no pictogram fits.
+ * A parent can set `--ring` to size the ring outside the preset sizes.
+ */
+interface Props {
+  /** RenHan pictogram (preferred). */
+  pictogram?: PictogramName;
+  /** Phosphor duotone icon, e.g. `ph:chat-circle-text-duotone`, used when there is no pictogram. */
+  name?: string;
+  size?: 'sm' | 'md' | 'lg' | 'xl';
+  /** Rotates the gold arcs so neighbouring rings do not look stamped. */
+  turn?: number;
+  class?: string;
+  [attribute: string]: unknown;
+}
+
+const { pictogram, name, size = 'md', turn = 0, class: className, ...rest } = Astro.props;
+if (!pictogram && !name) throw new Error('RingIcon needs a pictogram or an icon name');
+---
+
+<span class:list={['ring', `ring--${size}`, className]} style={`--turn: ${turn}deg`} aria-hidden="true" {...rest}>
+  <svg class="ring__circle" viewBox="0 0 100 100" fill="none" focusable="false">
+    <circle class="ring__base" cx="50" cy="50" r="48"></circle>
+    <circle class="ring__arc" cx="50" cy="50" r="48" pathLength="100" stroke-dasharray="19 31 12 38"></circle>
+  </svg>
+  {
+    pictogram ? (
+      <Pictogram name={pictogram} class="ring__pictogram" />
+    ) : (
+      <Icon name={name!} class="ring__icon" is:inline />
+    )
+  }
+</span>
+
+<style>
+  .ring {
+    position: relative;
+    display: inline-grid;
+    flex: none;
+    place-items: center;
+    width: var(--ring, var(--ring-size));
+    height: var(--ring, var(--ring-size));
+    color: var(--ink);
+  }
+
+  .ring--sm {
+    --ring-size: 3.5rem;
+  }
+
+  .ring--md {
+    --ring-size: 4.5rem;
+  }
+
+  .ring--lg {
+    --ring-size: 6.5rem;
+  }
+
+  .ring--xl {
+    --ring-size: clamp(7.5rem, 5.5rem + 4vw, 9.5rem);
+  }
+
+  .ring__circle {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    overflow: visible;
+  }
+
+  .ring__base,
+  .ring__arc {
+    vector-effect: non-scaling-stroke;
+  }
+
+  .ring__base {
+    stroke: var(--ink);
+    stroke-width: 1.5px;
+  }
+
+  .ring__arc {
+    stroke: var(--gold);
+    stroke-width: 2.5px;
+    stroke-linecap: round;
+    transform: rotate(calc(150deg + var(--turn)));
+    transform-origin: 50% 50%;
+    transition: transform 700ms var(--ease);
+  }
+
+  /* The pictograms' live area is ~40/48 of their box: 64% of the ring matches the logo's icons. */
+  .ring :global(.ring__pictogram) {
+    position: relative;
+    width: 64%;
+    height: 64%;
+  }
+
+  .ring__icon {
+    width: 48%;
+    height: 48%;
+  }
+
+  /* Phosphor duotone fallback: the second layer carries `opacity`. Tint it turquoise like the logo icons. */
+  .ring__icon :global([opacity]) {
+    fill: var(--teal);
+    opacity: 0.38;
+  }
+
+  /* Linked cards turn the arcs a little on hover. */
+  :global(a:hover) .ring__arc,
+  :global(.is-linked:hover) .ring__arc {
+    transform: rotate(calc(195deg + var(--turn)));
+  }
+</style>

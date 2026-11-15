@@ -1,0 +1,103 @@
+---
+import type { Dictionary } from '../i18n';
+import { company } from '../data/company';
+import Button from './Button.astro';
+
+/**
+ * The next step at the end of a sub-page: heading, one sentence, one button and the phone number.
+ * Variants keep the sub-pages from ending identically:
+ * - `card`: a sand card on the page;
+ * - `band`: an inset navy panel (never full-bleed, so it does not merge with the navy footer);
+ * - `open`: no panel, just a gold rule (for pages whose previous section is already a navy band).
+ */
+interface Props {
+  t: Dictionary;
+  title: string;
+  text: string;
+  action: { label: string; href: string };
+  variant?: 'card' | 'band' | 'open';
+}
+
+const { t, title, text, action, variant = 'card' } = Astro.props;
+---
+
+<section class="section closing-section" aria-labelledby="closing-title">
+  <div class="container">
+    <div class:list={['closing', `closing--${variant}`, variant === 'band' && 'band']}>
+      <div class="closing__text">
+        <h2 id="closing-title">{title}</h2>
+        <p>{text}</p>
+      </div>
+      <div class="closing__actions">
+        <Button href={action.href} arrow>{action.label}</Button>
+        <p class="closing__call">
+          {`${t.contactInfo.callPrompt}: `}
+          <a class="link" href={company.phone.href}>{company.phone.display}</a>
+        </p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<style>
+  .closing {
+    display: grid;
+    grid-template-columns: minmax(0, 1.5fr) minmax(0, 1fr);
+    gap: 2rem 4rem;
+    align-items: center;
+  }
+
+  .closing--card,
+  .closing--band {
+    padding: clamp(2rem, 1.25rem + 3.5vw, 4rem);
+    border-radius: var(--radius-lg);
+  }
+
+  .closing--card {
+    background: var(--surface-card);
+  }
+
+  .closing--open {
+    padding-top: clamp(2rem, 1.5rem + 2vw, 3rem);
+    border-top: 2px solid var(--gold);
+  }
+
+  .closing__text {
+    display: grid;
+    gap: 1rem;
+  }
+
+  h2 {
+    max-width: 24ch;
+  }
+
+  .closing__text p {
+    max-width: 46ch;
+  }
+
+  .closing__actions {
+    display: grid;
+    gap: 1.25rem;
+    justify-items: start;
+  }
+
+  .closing__call {
+    color: var(--body);
+  }
+
+  .closing__call a {
+    white-space: nowrap;
+  }
+
+  @media (max-width: 55rem) {
+    .closing {
+      grid-template-columns: 1fr;
+    }
+  }
+
+  @media (max-width: 36rem) {
+    .closing__actions {
+      justify-items: stretch;
+    }
+  }
+</style>

@@ -1,0 +1,187 @@
+---
+import ClosingCta from '../components/ClosingCta.astro';
+import HeartDivider from '../components/HeartDivider.astro';
+import PageHeader from '../components/PageHeader.astro';
+import RingIcon from '../components/RingIcon.astro';
+import SectionHeading from '../components/SectionHeading.astro';
+import StepPath from '../components/StepPath.astro';
+import type { Locale } from '../i18n/config';
+import type { Dictionary } from '../i18n';
+import { contactPath } from '../i18n/routes';
+
+interface Props {
+  locale: Locale;
+  t: Dictionary;
+}
+
+const { locale, t } = Astro.props;
+const advice = t.advice;
+
+// Needs, abilities, way of use, setting. No pictogram fits these ideas, so they keep Phosphor icons;
+// the icon belongs to the key, not to a position in the copy.
+const factors = (
+  [
+    { key: 'needs', icon: 'ph:heart-duotone' },
+    { key: 'abilities', icon: 'ph:hand-duotone' },
+    { key: 'use', icon: 'ph:repeat-duotone' },
+    { key: 'setting', icon: 'ph:house-line-duotone' },
+  ] as const
+).map((factor) => ({ ...factor, ...advice.factors.items[factor.key] }));
+---
+
+<PageHeader eyebrow={advice.eyebrow} title={advice.title} lead={advice.lead} pictogram="advice" />
+
+<section class="section statement-section" aria-labelledby="statement-title">
+  <div class="container statement-section__inner">
+    <h2 id="statement-title" class="statement">{advice.statement}</h2>
+    <HeartDivider class="statement-section__divider" />
+  </div>
+</section>
+
+<section class="section section--soft factors" aria-labelledby="factors-title">
+  <div class="container">
+    <SectionHeading eyebrow={advice.factors.eyebrow} title={advice.factors.title} id="factors-title" />
+    <ul class="factors__grid" role="list">
+      {
+        factors.map((factor, index) => (
+          <li class="factor">
+            <RingIcon name={factor.icon} size="sm" turn={index * 80} />
+            <h3 class="factor__title">{factor.title}</h3>
+            <p>{factor.text}</p>
+          </li>
+        ))
+      }
+    </ul>
+  </div>
+</section>
+
+<section class="section scope" aria-labelledby="scope-title">
+  <div class="container scope__grid">
+    <SectionHeading eyebrow={advice.scope.eyebrow} title={advice.scope.title} lead={advice.scope.lead} id="scope-title" class="scope__heading" />
+    <ol class="scope__list" role="list">
+      {
+        advice.scope.items.map((item, index) => (
+          <li>
+            <span class="scope__number" aria-hidden="true">
+              {String(index + 1).padStart(2, '0')}
+            </span>
+            <span>{item}</span>
+          </li>
+        ))
+      }
+    </ol>
+  </div>
+</section>
+
+<StepPath path={t.path} />
+
+<ClosingCta
+  t={t}
+  variant="open"
+  title={advice.closing.title}
+  text={advice.closing.text}
+  action={{ label: t.cta.bookAdvice, href: contactPath(locale, 'advice') }}
+/>
+
+<style>
+  /* ---- Statement ---- */
+  .statement-section__inner {
+    display: grid;
+    gap: 2.5rem;
+    justify-items: start;
+  }
+
+  .statement-section .statement {
+    max-width: 22ch;
+    font-size: clamp(2rem, 1.3rem + 3vw, 3.5rem);
+    line-height: 1.08;
+  }
+
+  .statement-section__divider {
+    justify-content: flex-start;
+    width: min(100%, 20rem);
+  }
+
+  /* ---- Four factors ---- */
+  .factors__grid {
+    display: grid;
+    grid-template-columns: repeat(4, minmax(0, 1fr));
+    gap: 1rem;
+    margin-top: clamp(2.5rem, 2rem + 2vw, 3.5rem);
+  }
+
+  .factor {
+    display: grid;
+    gap: 1rem;
+    align-content: start;
+    justify-items: start;
+    padding: 1.75rem 1.5rem;
+    border-radius: var(--radius-lg);
+    background: var(--surface-card);
+  }
+
+  .factor__title {
+    margin-top: 0.5rem;
+    font-size: var(--text-h3);
+  }
+
+  .factor p {
+    font-size: var(--text-small);
+  }
+
+  @media (max-width: 68rem) {
+    .factors__grid {
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+    }
+  }
+
+  @media (max-width: 36rem) {
+    .factors__grid {
+      grid-template-columns: 1fr;
+    }
+  }
+
+  /* ---- Nine areas ---- */
+  .scope__grid {
+    display: grid;
+    grid-template-columns: minmax(0, 5fr) minmax(0, 7fr);
+    gap: 2.5rem clamp(3rem, 1rem + 6vw, 7rem);
+    align-items: start;
+  }
+
+  @media (min-width: 55rem) {
+    .scope__grid .scope__heading {
+      position: sticky;
+      top: calc(var(--header-height) + 2rem);
+    }
+  }
+
+  .scope__list {
+    border-top: 1px solid var(--ink);
+  }
+
+  .scope__list li {
+    display: grid;
+    grid-template-columns: 2.75rem minmax(0, 1fr);
+    gap: 1rem;
+    align-items: baseline;
+    padding-block: 1.125rem;
+    border-bottom: 1px solid var(--hairline);
+    color: var(--ink);
+    font-size: 1.1875rem;
+    line-height: 1.45;
+  }
+
+  .scope__number {
+    color: var(--gold-text);
+    font-family: var(--font-serif);
+    font-size: 1.125rem;
+    font-variant-numeric: tabular-nums;
+  }
+
+  @media (max-width: 54.99rem) {
+    .scope__grid {
+      grid-template-columns: 1fr;
+    }
+  }
+</style>

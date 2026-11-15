@@ -1,0 +1,78 @@
+---
+import LogoMark from './LogoMark.astro';
+import { defaultLocale, type Locale } from '../i18n/config';
+import { getDictionary } from '../i18n';
+
+interface Props {
+  locale: Locale;
+  /** Show "Centrum Niezależnego Życia" under the name. */
+  descriptor?: boolean;
+  class?: string;
+}
+
+const { locale, descriptor = true, class: className } = Astro.props;
+// The descriptor is part of the brand, so it stays in Polish in every language.
+const brand = getDictionary(defaultLocale).site;
+const brandLang = locale === defaultLocale ? undefined : defaultLocale;
+---
+
+<span class:list={['logo', className]}>
+  <LogoMark class="logo__mark" />
+  <span class="logo__text">
+    <span class="logo__name">RenHan <span class="logo__med">MED</span></span>
+    {
+      descriptor && (
+        <span class="logo__descriptor" lang={brandLang}>
+          {brand.descriptor}
+        </span>
+      )
+    }
+  </span>
+</span>
+
+<style>
+  .logo {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.625rem;
+    color: var(--ink);
+    line-height: 1;
+  }
+
+  .logo__mark {
+    flex: none;
+    width: auto;
+    height: var(--logo-size, 2.75rem);
+  }
+
+  .logo__text {
+    display: grid;
+    gap: 0.3125rem;
+  }
+
+  .logo__name {
+    font-family: var(--font-serif);
+    font-size: 1.5rem;
+    font-weight: 600;
+    letter-spacing: -0.015em;
+    white-space: nowrap;
+  }
+
+  .logo__med {
+    margin-left: 0.1em;
+    color: var(--gold-text);
+    font-family: var(--font-sans);
+    font-size: 0.58em;
+    font-weight: 600;
+    letter-spacing: 0.16em;
+  }
+
+  .logo__descriptor {
+    color: var(--muted);
+    font-size: 0.65625rem;
+    font-weight: 500;
+    letter-spacing: 0.11em;
+    text-transform: uppercase;
+    white-space: nowrap;
+  }
+</style>

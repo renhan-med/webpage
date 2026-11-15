@@ -1,0 +1,107 @@
+---
+import { Icon } from 'astro-icon/components';
+
+interface Props {
+  /** With `href` the button renders as a link. */
+  href?: string;
+  variant?: 'primary' | 'secondary';
+  size?: 'md' | 'sm';
+  /** Trailing arrow that steps forward on hover. */
+  arrow?: boolean;
+  type?: 'button' | 'submit';
+  class?: string;
+  [attribute: string]: unknown;
+}
+
+const { href, variant = 'primary', size = 'md', arrow = false, type = 'button', class: className, ...rest } = Astro.props;
+const Tag = href ? 'a' : 'button';
+---
+
+<Tag
+  class:list={['btn', `btn--${variant}`, size === 'sm' && 'btn--sm', className]}
+  href={href}
+  type={href ? undefined : type}
+  {...rest}
+>
+  <span><slot /></span>
+  {arrow && <Icon name="ph:arrow-right-bold" class="btn__arrow" aria-hidden="true" />}
+</Tag>
+
+<style>
+  .btn {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.625rem;
+    min-height: 3.375rem;
+    padding: 0.75rem 1.5rem;
+    border: 1.5px solid transparent;
+    border-radius: var(--radius-sm);
+    font-family: var(--font-sans);
+    font-size: 1.0625rem;
+    font-weight: 500;
+    line-height: 1.2;
+    text-align: center;
+    text-decoration: none;
+    transition:
+      transform var(--duration) var(--ease),
+      background-color var(--duration) var(--ease),
+      border-color var(--duration) var(--ease),
+      color var(--duration) var(--ease);
+  }
+
+  .btn--sm {
+    min-height: 3rem;
+    padding: 0.5rem 1.125rem;
+    font-size: 1rem;
+  }
+
+  .btn--primary {
+    background: var(--primary);
+    color: var(--on-primary);
+  }
+
+  .btn--primary:hover {
+    background: var(--primary-active);
+  }
+
+  .btn--secondary {
+    border-color: var(--ink);
+    color: var(--ink);
+  }
+
+  .btn--secondary:hover {
+    background: var(--ink);
+    color: var(--canvas);
+  }
+
+  :global(.band) .btn--secondary:hover {
+    color: var(--surface-band);
+  }
+
+  .btn:hover {
+    transform: translateY(-2px);
+  }
+
+  .btn:active {
+    transform: translateY(1px) scale(0.985);
+    transition-duration: 60ms;
+  }
+
+  .btn__arrow {
+    flex: none;
+    width: 1.125em;
+    height: 1.125em;
+    transition: transform 240ms var(--ease);
+  }
+
+  .btn:hover .btn__arrow {
+    transform: translateX(4px);
+  }
+
+  .btn[disabled] {
+    cursor: progress;
+    opacity: 0.7;
+    transform: none;
+  }
+</style>

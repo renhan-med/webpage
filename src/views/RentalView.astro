@@ -1,0 +1,291 @@
+---
+import { Image } from 'astro:assets';
+import { Icon } from 'astro-icon/components';
+import Button from '../components/Button.astro';
+import ClosingCta from '../components/ClosingCta.astro';
+import PageHeader from '../components/PageHeader.astro';
+import RingIcon from '../components/RingIcon.astro';
+import SectionHeading from '../components/SectionHeading.astro';
+import { rentalItems } from '../data/rental';
+import type { Locale } from '../i18n/config';
+import type { Dictionary } from '../i18n';
+import { contactPath } from '../i18n/routes';
+
+interface Props {
+  locale: Locale;
+  t: Dictionary;
+}
+
+const { locale, t } = Astro.props;
+const rental = t.rental;
+---
+
+<PageHeader eyebrow={rental.eyebrow} title={rental.title} lead={rental.lead} pictogram="rental" />
+
+<section class="section rules" aria-labelledby="rules-title">
+  <div class="container">
+    <SectionHeading eyebrow={rental.rules.eyebrow} title={rental.rules.title} id="rules-title" />
+    <ol class="rules__list" role="list">
+      {
+        rental.rules.items.map((rule, index) => (
+          <li class="rule">
+            <span class="rule__number" aria-hidden="true">
+              {index + 1}
+            </span>
+            <h3 class="rule__title">{rule.title}</h3>
+            <p>{rule.text}</p>
+          </li>
+        ))
+      }
+    </ol>
+  </div>
+</section>
+
+<section class="section section--soft equipment" aria-labelledby="equipment-title">
+  <div class="container">
+    <SectionHeading eyebrow={rental.list.eyebrow} title={rental.list.title} lead={rental.list.lead} id="equipment-title" />
+    <ul class="equipment__grid" role="list">
+      {
+        rentalItems.map((item, index) => (
+          <li class="item" style={`--tint: var(--tint-${item.category}, var(--surface-card))`}>
+            <div class:list={['item__visual', item.image && 'item__visual--photo']}>
+              {item.image ? (
+                <Image
+                  class="item__photo"
+                  src={item.image}
+                  alt={item.imageAlt?.[locale] ?? ''}
+                  widths={[360, 560, 800]}
+                  sizes="(min-width: 68rem) 24rem, (min-width: 40rem) 45vw, 90vw"
+                />
+              ) : (
+                <RingIcon pictogram={item.pictogram} size="lg" turn={index * 50} class="item__ring" />
+              )}
+            </div>
+            <h3 class="item__name">{item.name[locale]}</h3>
+            <dl class="item__facts">
+              <div class="item__fact">
+                <dt>{rental.list.useLabel}</dt>
+                <dd>{item.use[locale]}</dd>
+              </div>
+              <div class="item__fact">
+                <dt>{rental.list.availabilityLabel}</dt>
+                <dd class="item__availability">
+                  <Icon name="ph:clock" class="item__clock" aria-hidden="true" />
+                  {item.availability?.[locale] ?? rental.list.availabilityDefault}
+                </dd>
+              </div>
+            </dl>
+            <Button href={contactPath(locale, 'rental', item.id)} variant="secondary" size="sm" class="item__cta">
+              {t.cta.askRental}
+              <span class="visually-hidden">: {item.name[locale]}</span>
+            </Button>
+          </li>
+        ))
+      }
+    </ul>
+  </div>
+</section>
+
+<ClosingCta
+  t={t}
+  variant="card"
+  title={rental.closing.title}
+  text={rental.closing.text}
+  action={{ label: t.cta.bookAdvice, href: contactPath(locale, 'advice') }}
+/>
+
+<style>
+  /* ---- Three steps ---- */
+  .rules__list {
+    display: grid;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: 2.5rem clamp(2rem, 1rem + 3vw, 4rem);
+    margin-top: clamp(2.5rem, 2rem + 2vw, 3.5rem);
+  }
+
+  .rule {
+    display: grid;
+    gap: 0.875rem;
+    align-content: start;
+    padding-top: 1.75rem;
+    border-top: 1px solid var(--ink);
+  }
+
+  .rule__number {
+    color: var(--gold-text);
+    font-family: var(--font-serif);
+    font-size: clamp(3rem, 2.4rem + 2vw, 4.25rem);
+    line-height: 0.9;
+    letter-spacing: -0.03em;
+  }
+
+  .rule__title {
+    font-size: var(--text-h3);
+  }
+
+  @media (max-width: 55rem) {
+    .rules__list {
+      grid-template-columns: 1fr;
+    }
+
+    .rule {
+      grid-template-columns: 4rem minmax(0, 1fr);
+      column-gap: 1.25rem;
+    }
+
+    .rule__number {
+      grid-row: span 2;
+    }
+
+    .rule p {
+      grid-column: 2;
+    }
+  }
+
+  /* ---- Equipment cards ----
+   * Icon-led: a tinted plate (at most 16:9) with a large ring, then name, use, availability and
+   * the button. The cards share row tracks (subgrid), so the facts line up across a row.
+   * Phones: a horizontal card, the ring on the left.
+   */
+  .equipment__grid {
+    display: grid;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: 1.25rem;
+    margin-top: clamp(2.5rem, 2rem + 2vw, 3.5rem);
+  }
+
+  .item {
+    display: grid;
+    grid-row: span 5;
+    grid-template-rows: subgrid;
+    row-gap: 0;
+    overflow: hidden;
+    border-radius: var(--radius-lg);
+    background: var(--canvas);
+  }
+
+  .item__visual {
+    position: relative;
+    display: grid;
+    place-items: center;
+    aspect-ratio: 16 / 9;
+    background: var(--tint);
+  }
+
+  .item__visual :global(.item__ring) {
+    --ring: clamp(7.5rem, 5rem + 4vw, 9.5rem);
+
+    border-radius: 50%;
+    background: var(--canvas);
+  }
+
+  .item__photo {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+  }
+
+  .item__name {
+    padding: 1.5rem 1.5rem 0;
+    font-size: var(--text-h3);
+  }
+
+  /* The two facts are rows of the shared grid too, so "Availability" lines up across a row of cards. */
+  .item__facts {
+    display: grid;
+    grid-row: span 2;
+    grid-template-rows: subgrid;
+    row-gap: 1rem;
+    padding: 1rem 1.5rem 1.5rem;
+  }
+
+  .item__facts dt {
+    color: var(--muted);
+    font-size: var(--text-caption);
+    font-weight: 500;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+  }
+
+  .item__facts dd {
+    margin-top: 0.25rem;
+    font-size: var(--text-small);
+  }
+
+  .item__availability {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    color: var(--ink);
+    font-weight: 500;
+  }
+
+  .item__clock {
+    flex: none;
+    width: 1.125rem;
+    height: 1.125rem;
+    color: var(--primary);
+  }
+
+  .item :global(.item__cta) {
+    align-self: end;
+    margin: 0 1.5rem 1.5rem;
+  }
+
+  @media (max-width: 68rem) {
+    .equipment__grid {
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+    }
+  }
+
+  /* Phones: one horizontal card per item, the tinted ring on the left. */
+  @media (max-width: 40rem) {
+    .equipment__grid {
+      grid-template-columns: 1fr;
+      gap: 0.875rem;
+    }
+
+    .item {
+      grid-row: auto;
+      grid-template-columns: 5.5rem minmax(0, 1fr);
+      grid-template-rows: auto;
+      gap: 0.5rem 1rem;
+      padding: 1.25rem 1.25rem 1.25rem 1rem;
+    }
+
+    .item__visual {
+      grid-row: 1 / span 3;
+      align-self: start;
+      aspect-ratio: 1;
+      border-radius: 50%;
+    }
+
+    .item__visual--photo {
+      border-radius: var(--radius-md);
+    }
+
+    .item__visual :global(.item__ring) {
+      --ring: 5.5rem;
+
+      background: transparent;
+    }
+
+    .item__name,
+    .item__facts {
+      padding: 0;
+    }
+
+    .item__facts {
+      grid-row: auto;
+      grid-template-rows: auto;
+      gap: 0.625rem;
+    }
+
+    .item :global(.item__cta) {
+      grid-column: 1 / -1;
+      margin: 0.5rem 0 0;
+    }
+  }
+</style>

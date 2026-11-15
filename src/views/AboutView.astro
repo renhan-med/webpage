@@ -1,0 +1,247 @@
+---
+import ClosingCta from '../components/ClosingCta.astro';
+import HeartDivider from '../components/HeartDivider.astro';
+import MarkPlate from '../components/MarkPlate.astro';
+import PageHeader from '../components/PageHeader.astro';
+import RingIcon from '../components/RingIcon.astro';
+import SectionHeading from '../components/SectionHeading.astro';
+import type { Locale } from '../i18n/config';
+import type { Dictionary } from '../i18n';
+import { contactPath } from '../i18n/routes';
+
+interface Props {
+  locale: Locale;
+  t: Dictionary;
+}
+
+const { locale, t } = Astro.props;
+const about = t.about;
+
+// The five icons from the logo strip: sales, rental, refunds, choosing equipment, barrier-free home.
+const pillars = (
+  [
+    { key: 'sales', pictogram: 'sales' },
+    { key: 'rental', pictogram: 'rental' },
+    { key: 'funding', pictogram: 'funding' },
+    { key: 'choosing', pictogram: 'advice' },
+    { key: 'home', pictogram: 'home-safety' },
+  ] as const
+).map((pillar) => ({ ...pillar, ...about.pillars.items[pillar.key] }));
+---
+
+<PageHeader eyebrow={about.eyebrow} title={about.title} lead={about.lead} pictogram="mobility" />
+
+<section class="section mission" aria-labelledby="mission-title">
+  <div class="container mission__grid">
+    <div class="mission__text">
+      <h2 id="mission-title" class="eyebrow">{about.mission.eyebrow}</h2>
+      <p class="statement">{about.mission.text}</p>
+      <HeartDivider class="mission__divider" />
+      <p class="mission__motto">{t.site.motto}</p>
+    </div>
+    <MarkPlate alt={t.a11y.logoAlt} class="mission__house" />
+  </div>
+</section>
+
+<section class="section section--soft values" aria-labelledby="values-title">
+  <div class="container">
+    <SectionHeading eyebrow={about.values.eyebrow} title={about.values.title} id="values-title" />
+    <ol class="values__grid" role="list">
+      {
+        about.values.items.map((value, index) => (
+          <li class="value">
+            <span class="value__number" aria-hidden="true">
+              {String(index + 1).padStart(2, '0')}
+            </span>
+            <h3 class="value__title">{value.title}</h3>
+            <p>{value.text}</p>
+          </li>
+        ))
+      }
+    </ol>
+  </div>
+</section>
+
+<section class="section band pillars" aria-labelledby="pillars-title">
+  <div class="container">
+    <SectionHeading eyebrow={about.pillars.eyebrow} title={about.pillars.title} id="pillars-title" />
+    <ul class="pillars__list" role="list">
+      {
+        pillars.map((pillar, index) => (
+          <li class="pillar">
+            <RingIcon pictogram={pillar.pictogram} size="lg" turn={index * 45} />
+            <h3 class="pillar__title">{pillar.title}</h3>
+            <p>{pillar.text}</p>
+          </li>
+        ))
+      }
+    </ul>
+  </div>
+</section>
+
+<ClosingCta
+  t={t}
+  variant="card"
+  title={about.closing.title}
+  text={about.closing.text}
+  action={{ label: t.cta.bookAdvice, href: contactPath(locale, 'advice') }}
+/>
+
+<style>
+  /* ---- Mission ---- */
+  .mission__grid {
+    display: grid;
+    grid-template-columns: minmax(0, 7fr) minmax(0, 4fr);
+    gap: 3rem clamp(3rem, 1rem + 6vw, 7rem);
+    align-items: center;
+  }
+
+  .mission__text {
+    display: grid;
+    gap: 1.75rem;
+    justify-items: start;
+  }
+
+  .mission__text .statement {
+    max-width: 24ch;
+  }
+
+  .mission__divider {
+    justify-content: flex-start;
+    width: min(100%, 18rem);
+  }
+
+  .mission__motto {
+    color: var(--primary);
+    font-family: var(--font-serif);
+    font-size: var(--text-lead);
+  }
+
+  .mission__grid :global(.mission__house) {
+    width: 100%;
+    max-width: 24rem;
+    justify-self: end;
+  }
+
+  @media (max-width: 55rem) {
+    .mission__grid {
+      grid-template-columns: 1fr;
+    }
+
+    .mission__grid :global(.mission__house) {
+      justify-self: start;
+      max-width: 20rem;
+    }
+  }
+
+  /* ---- Values ---- */
+  .values__grid {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 0 clamp(2rem, 1rem + 4vw, 5rem);
+    margin-top: clamp(2.5rem, 2rem + 2vw, 3.5rem);
+  }
+
+  .value {
+    display: grid;
+    grid-template-columns: 3.5rem minmax(0, 1fr);
+    gap: 0.5rem 1rem;
+    padding-block: 1.75rem;
+    border-top: 1px solid var(--hairline);
+  }
+
+  .value__number {
+    grid-row: span 2;
+    color: var(--gold-text);
+    font-family: var(--font-serif);
+    font-size: 1.5rem;
+    line-height: 1.2;
+  }
+
+  .value__title {
+    font-size: clamp(1.5rem, 1.3rem + 0.8vw, 2rem);
+  }
+
+  @media (max-width: 48rem) {
+    .values__grid {
+      grid-template-columns: 1fr;
+    }
+  }
+
+  /* ---- Five pillars, like the icon strip in the logo ---- */
+  .pillars__list {
+    display: grid;
+    grid-template-columns: repeat(5, minmax(0, 1fr));
+    margin-top: clamp(2.5rem, 2rem + 3vw, 4rem);
+  }
+
+  .pillar {
+    display: grid;
+    gap: 0.75rem;
+    align-content: start;
+    justify-items: center;
+    padding: 0.5rem 1.25rem;
+    text-align: center;
+  }
+
+  .pillar + .pillar {
+    border-left: 1px solid var(--gold);
+  }
+
+  .pillar__title {
+    margin-top: 0.75rem;
+    font-family: var(--font-sans);
+    font-size: 0.9375rem;
+    font-weight: 500;
+    line-height: 1.35;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    text-wrap: balance;
+  }
+
+  .pillar p {
+    font-size: var(--text-small);
+  }
+
+  @media (max-width: 68rem) {
+    .pillars__list {
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 2.5rem 0;
+    }
+
+    .pillar + .pillar {
+      border-left: 0;
+    }
+
+    .pillar:nth-child(even) {
+      border-left: 1px solid var(--gold);
+    }
+  }
+
+  @media (max-width: 36rem) {
+    .pillars__list {
+      grid-template-columns: 1fr;
+      gap: 0;
+    }
+
+    .pillar,
+    .pillar:nth-child(even) {
+      grid-template-columns: auto minmax(0, 1fr);
+      column-gap: 1.25rem;
+      justify-items: start;
+      padding: 1.5rem 0;
+      border-left: 0;
+      border-top: 1px solid var(--hairline);
+      text-align: left;
+    }
+
+    .pillar :global(.ring) {
+      grid-row: span 2;
+      --ring-size: 4.5rem;
+    }
+
+    .pillar__title {
+      margin-top: 0.25rem;
+    }
+  }
+</style>

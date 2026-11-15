@@ -1,0 +1,87 @@
+name: CD Pipeline for RenHan MED Web Page
+
+# master -> tests -> build -> GitHub Pages. Strict `needs` chain: when the tests
+# fail, nothing is built or published.
+on:
+  workflow_dispatch:
+  push:
+    branches:
+      - master
+    # Docs-only changes don't change the site: no test/deploy run.
+    paths-ignore:
+      - 'docs/**'
+      - '**/*.md'
+
+# One deploy at a time; never cancel a deploy that is already running.
+concurrency:
+  group: pages
+  cancel-in-progress: false
+
+permissions:
+  contents: read
+
+jobs:
+  test:
+    name: Tests
+    uses: ./.github/workflows/checks.yml
+
+  build:
+    name: Build site
+    needs: test
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@v7
+
+      - uses: actions/setup-node@v7
+        with:
+          node-version-file: .nvmrc
+          cache: npm
+
+      # No actions/configure-pages: its outputs are not used (SITE_URL is fixed, see below) and it
+      # needs `pages` API access this job doesn't have. deploy-pages reports a missing Pages setup.
+      - run: npm ci --prefer-offline --no-audit
+
+      # The site is served from the custom domain root (see docs/README.md), so
+      # SITE_URL is the production domain. Override with repo variable SITE_URL.
+      - name: Build
+        run: npm run build
+        env:
+          SITE_URL: ${{ vars.SITE_URL || 'https://renhan.pl' }}
+
+      - uses: actions/upload-pages-artifact@v5
+        with:
+          path: dist
+
+  deploy:
+    name: Deploy to GitHub Pages
+    needs: build
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    permissions:
+      pages: write
+      id-token: write
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+    steps:
+      - name: Deploy
+        id: deployment
+        uses: actions/deploy-pages@v5
+
+  smoke:
+    name: Smoke check (non-blocking)
+    needs: deploy
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    continue-on-error: true
+    steps:
+      - name: Home page and a sub-page respond with 200
+        env:
+          BASE: ${{ vars.SITE_URL || 'https://renhan.pl' }}
+        run: |
+          for path in / /oferta/; do
+            curl --fail --silent --show-error --location --retry 5 --retry-delay 10 \
+              --retry-all-errors --output /dev/null "${BASE}${path}"
+            echo "OK ${BASE}${path}"
+          done

@@ -1,0 +1,7 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 48 48" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path d="M17 5.5H30V28Q30 31.6 33.2 33L38.6 35.2Q42.6 37 41.4 40.4Q40.3 43.6 36.3 43.2L22.5 42Q16.4 41.4 16.7 35Z" stroke="var(--pg-ink, #002448)" stroke-width="3.5"/>
+  <path d="M17 11H30" stroke="var(--pg-ink, #002448)" stroke-width="3.6"/>
+  <path d="M18.8 17H28.2" stroke="var(--pg-teal, #0C849C)" stroke-width="3"/>
+  <path d="M18.8 22.5H28.2" stroke="var(--pg-teal, #0C849C)" stroke-width="3"/>
+  <path d="M18.8 28H28.2" stroke="var(--pg-teal, #0C849C)" stroke-width="3"/>
+</svg>

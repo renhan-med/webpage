@@ -1,0 +1,212 @@
+---
+import { Icon } from 'astro-icon/components';
+import { locales, localeLabels, localeNames, type Locale } from '../i18n/config';
+import { localizedPath, type PageId } from '../i18n/routes';
+
+interface Props {
+  locale: Locale;
+  /** Current page; the links lead to the same page in the other languages. */
+  page: PageId;
+  label: string;
+  /** Hidden text after the visible code, e.g. "polski, zmień język" (the name starts with the visible "PL"). */
+  buttonLabel: string;
+}
+
+const { locale, page, label, buttonLabel } = Astro.props;
+// On the contact page the links keep `?topic=&item=` (added by src/scripts/site.ts).
+const keepQuery = page === 'contact' ? '' : undefined;
+---
+
+<div class="lang" data-lang>
+  <span class="lang__label" id="lang-label">{label}</span>
+  <button
+    type="button"
+    class="lang__button"
+    aria-expanded="false"
+    aria-controls="lang-list"
+    data-lang-button
+    data-testid="lang-switcher"
+  >
+    <Icon name="ph:globe" class="lang__globe" aria-hidden="true" />
+    <span>{localeLabels[locale]}</span><span class="visually-hidden">: {buttonLabel}</span>
+    <Icon name="ph:caret-down-bold" class="lang__caret" aria-hidden="true" />
+  </button>
+  <ul class="lang__list" id="lang-list" role="list" aria-labelledby="lang-label">
+    {
+      locales.map((code) => (
+        <li>
+          <a
+            class="lang__link"
+            href={localizedPath(page, code)}
+            lang={code}
+            hreflang={code}
+            aria-current={code === locale ? 'true' : undefined}
+            data-keep-query={keepQuery}
+            data-testid={`lang-link-${code}`}
+          >
+            <span>{localeNames[code]}</span>
+            {code === locale && <Icon name="ph:check-bold" class="lang__check" aria-hidden="true" />}
+          </a>
+        </li>
+      ))
+    }
+  </ul>
+</div>
+
+<style>
+  .lang {
+    position: relative;
+  }
+
+  .lang__label {
+    display: none;
+  }
+
+  .lang__button {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.3125rem;
+    height: 3rem;
+    padding: 0 0.625rem;
+    border: 1px solid var(--hairline);
+    border-radius: var(--radius-pill);
+    background: transparent;
+    color: var(--ink);
+    font-size: 0.9375rem;
+    font-weight: 500;
+    letter-spacing: 0.04em;
+    transition:
+      background-color var(--duration) var(--ease),
+      border-color var(--duration) var(--ease);
+  }
+
+  .lang__button:hover,
+  .lang__button[aria-expanded='true'] {
+    border-color: var(--border-strong);
+    background: var(--surface-soft);
+  }
+
+  .lang__globe {
+    flex: none;
+    width: 1.25rem;
+    height: 1.25rem;
+  }
+
+  /* On the desktop bar the button is the globe and the code; the caret only joins it on wide screens. */
+  .lang__caret {
+    display: none;
+    flex: none;
+    width: 0.75rem;
+    height: 0.75rem;
+    transition: transform var(--duration) var(--ease);
+  }
+
+  .lang__button[aria-expanded='true'] .lang__caret {
+    transform: rotate(180deg);
+  }
+
+  @media (min-width: 85rem) {
+    .lang__caret {
+      display: block;
+    }
+  }
+
+  .lang__list {
+    position: absolute;
+    top: calc(100% + 0.5rem);
+    right: 0;
+    z-index: 10;
+    min-width: 12rem;
+    padding: 0.375rem;
+    border: 1px solid var(--hairline);
+    border-radius: var(--radius-md);
+    background: var(--canvas);
+    box-shadow: 0 12px 32px -12px rgb(10 35 66 / 0.28);
+    visibility: hidden;
+    opacity: 0;
+    transform: translateY(-4px);
+    transition:
+      opacity var(--duration) var(--ease),
+      transform var(--duration) var(--ease),
+      visibility 0s linear var(--duration);
+  }
+
+  .lang__button[aria-expanded='true'] + .lang__list,
+  :global(html:not(.js)) .lang:focus-within .lang__list {
+    visibility: visible;
+    opacity: 1;
+    transform: none;
+    transition-delay: 0s;
+  }
+
+  .lang__link {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 1rem;
+    min-height: 3rem;
+    padding: 0 0.875rem;
+    border-radius: var(--radius-sm);
+    color: var(--ink);
+    font-size: 1rem;
+    text-decoration: none;
+  }
+
+  .lang__link:hover {
+    background: var(--surface-soft);
+  }
+
+  .lang__link[aria-current] {
+    font-weight: 500;
+  }
+
+  .lang__check {
+    width: 1rem;
+    height: 1rem;
+    color: var(--primary);
+  }
+
+  /* Inside the mobile menu the list is always open and the button is not needed. */
+  @media (max-width: 74.99rem) {
+    /* Mirrors the header's menu breakpoint (Header.astro). */
+    .lang__label {
+      display: block;
+      margin-bottom: 0.75rem;
+      color: var(--gold-text);
+      font-size: var(--text-eyebrow);
+      font-weight: 500;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+    }
+
+    .lang__button {
+      display: none;
+    }
+
+    .lang__list {
+      position: static;
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.5rem;
+      min-width: 0;
+      padding: 0;
+      border: 0;
+      background: none;
+      box-shadow: none;
+      visibility: inherit;
+      opacity: 1;
+      transform: none;
+      transition: none;
+    }
+
+    .lang__link {
+      padding: 0 1.125rem;
+      border: 1px solid var(--hairline);
+      border-radius: var(--radius-pill);
+    }
+
+    .lang__link[aria-current] {
+      border-color: var(--ink);
+    }
+  }
+</style>

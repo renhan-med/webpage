@@ -1,0 +1,8 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 48 48" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <circle cx="12.5" cy="24.5" r="4.1" fill="var(--pg-ink, #002448)"/>
+  <path d="M4.5 43V39.5Q4.5 31.5 12.5 31.5Q20.5 31.5 20.5 39.5V43Z" fill="var(--pg-ink, #002448)"/>
+  <circle cx="35.5" cy="24.5" r="4.1" fill="var(--pg-teal, #0C849C)"/>
+  <path d="M27.5 43V39.5Q27.5 31.5 35.5 31.5Q43.5 31.5 43.5 39.5V43Z" fill="var(--pg-teal, #0C849C)"/>
+  <path d="M18 4.5H30Q33.5 4.5 33.5 8V13.5Q33.5 17 30 17H25L22 20.5V17H18Q14.5 17 14.5 13.5V8Q14.5 4.5 18 4.5Z" stroke="var(--pg-ink, #002448)" stroke-width="3"/>
+  <path d="M24 13.47C20.05 10.93 20.31 7.87 22.28 7.87C23.36 7.87 24 8.64 24 9.27C24 8.64 24.64 7.87 25.72 7.87C27.69 7.87 27.95 10.93 24 13.47Z" fill="var(--pg-gold, #C08430)"/>
+</svg>

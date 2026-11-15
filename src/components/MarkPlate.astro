@@ -1,0 +1,95 @@
+---
+import type { PictogramName } from '../assets/pictograms';
+import LogoMark from './LogoMark.astro';
+import RingIcon from './RingIcon.astro';
+
+/**
+ * The logo mark set large on a calm, soft plate (the mark carries its own roof and wave),
+ * optionally with the row of ring pictograms under it, like the icon strip of the full logo.
+ */
+interface Props {
+  /** Label for the mark (it is the only meaningful image on the plate). */
+  alt: string;
+  /** Pictograms for the strip under the mark; leave out for the mark alone. */
+  strip?: PictogramName[];
+  /** Fade the mark in once on load (the hero's entrance). */
+  animate?: boolean;
+  class?: string;
+}
+
+const { alt, strip = [], animate = false, class: className } = Astro.props;
+---
+
+<div class:list={['plate', animate && 'plate--animate', strip.length > 0 && 'plate--strip', className]}>
+  <LogoMark class="plate__mark" label={alt} />
+  {
+    strip.length > 0 && (
+      <div class="plate__strip" aria-hidden="true">
+        {strip.map((pictogram, index) => (
+          <RingIcon pictogram={pictogram} size="sm" turn={index * 72} class="plate__ring" />
+        ))}
+      </div>
+    )
+  }
+</div>
+
+<style>
+  .plate {
+    display: grid;
+    gap: clamp(1.5rem, 1rem + 2vw, 2.5rem);
+    place-items: center;
+    padding: clamp(2rem, 1.25rem + 3vw, 3.5rem) clamp(0.75rem, 0.25rem + 2.5vw, 3rem);
+    border-radius: 1.5rem;
+    background: var(--surface-soft);
+    box-shadow: inset 0 0 0 1px var(--hairline);
+  }
+
+  .plate__mark {
+    width: min(82%, 23rem);
+    height: auto;
+  }
+
+  .plate__strip {
+    display: flex;
+    justify-content: space-between;
+    gap: 0.25rem;
+    max-width: 24rem;
+    width: 100%;
+    padding-top: clamp(1.25rem, 1rem + 1vw, 2rem);
+    border-top: 1.5px solid var(--gold);
+  }
+
+  /* Pictograms are never drawn below ~40 px: a 4rem ring holds a 41 px glyph. */
+  .plate__strip :global(.plate__ring) {
+    --ring: 3.9rem;
+
+    background: var(--canvas);
+    border-radius: 50%;
+  }
+
+  /* The narrowest phones: five rings no longer fit at a legible size, so the mark stands alone. */
+  @media (max-width: 22.99rem) {
+    .plate__strip {
+      display: none;
+    }
+  }
+
+  .plate--animate .plate__mark {
+    animation: plate-in 900ms var(--ease) 150ms both;
+  }
+
+  .plate--animate .plate__strip {
+    animation: plate-in 800ms var(--ease) 450ms both;
+  }
+
+  @keyframes plate-in {
+    from {
+      opacity: 0;
+      transform: translateY(8px);
+    }
+    to {
+      opacity: 1;
+      transform: none;
+    }
+  }
+</style>

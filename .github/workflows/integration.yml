@@ -1,0 +1,54 @@
+name: CI
+
+# Pull requests and feature branches. Master is tested by the CD workflow
+# (deployment.yml), so it is excluded here to avoid running everything twice.
+# Docs-only pushes are skipped. Pull requests always run, because the checks are
+# required by branch protection and a skipped required check would block the merge.
+on:
+  pull_request:
+    branches: [master]
+  push:
+    branches-ignore: [master]
+    paths-ignore:
+      - 'docs/**'
+      - '**/*.md'
+  workflow_dispatch:
+
+concurrency:
+  group: ci-${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
+
+permissions:
+  contents: read
+
+jobs:
+  checks:
+    name: Checks
+    uses: ./.github/workflows/checks.yml
+
+  build:
+    name: Frontend Build
+    needs: checks
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@v7
+
+      - uses: actions/setup-node@v7
+        with:
+          node-version-file: .nvmrc
+          cache: npm
+
+      - run: npm ci --prefer-offline --no-audit
+
+      - name: Build
+        run: npm run build
+        env:
+          SITE_URL: ${{ vars.SITE_URL || 'https://renhan.pl' }}
+
+      - name: Upload dist for inspection
+        uses: actions/upload-artifact@v7
+        with:
+          name: dist
+          path: dist/
+          retention-days: 1
