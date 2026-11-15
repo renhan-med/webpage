@@ -9,6 +9,8 @@ Read this file instead of the whole repo; open source files only for the part yo
   no prices, brands, models, statistics, reviews, certificates, named funding programmes, promises of funding.
 - `resources/renhan-logo.png` — logo + 5 ring icons. Palette: navy `#002448`, teal `#0C849C`, gold `#C08430`.
 - `DESIGN.md` — structural design model only (editorial rhythm, serif display 400, colour-block cards). Not the brand.
+- `README.md` (root) is deliberately minimal, for people outside the company (public repo): what it is, the URL,
+  4 commands, rights. Team/maintainer docs belong in `docs/README.md`, never in the root README.
 - `docs/PLAN.md` — original plan (historical); `docs/README.md` — run/build/deploy docs for humans.
 
 ## Stack and commands
