@@ -318,8 +318,8 @@ export const pl = {
   },
 
   about: {
-    eyebrow: 'O nas',
-    title: 'RenHan-med to Centrum Niezależnego Życia',
+    eyebrow: 'O RenHan-med',
+    title: 'Centrum Niezależnego Życia',
     lead: 'Pomagamy ludziom wybierać rozwiązania, które zwiększają bezpieczeństwo, komfort i samodzielność.',
     mission: {
       eyebrow: 'Nasz cel',
@@ -349,7 +349,7 @@ export const pl = {
     },
     pillars: {
       eyebrow: 'Zakres działania',
-      title: 'Pięć obszarów RenHan-med',
+      title: 'Pięć obszarów naszej pracy',
       items: {
         sales: { title: 'Sprzedaż sprzętu', text: 'Sprzęt rehabilitacyjny, pomocniczy i ortopedyczny.' },
         rental: { title: 'Wypożyczalnia', text: 'Sprzęt do czasowego użytkowania.' },
@@ -366,7 +366,7 @@ export const pl = {
 
   contact: {
     eyebrow: 'Kontakt',
-    title: 'Kontakt z RenHan-med',
+    title: 'Skontaktuj się z nami',
     lead: 'Zadzwoń, napisz lub wypełnij formularz. Odpowiadamy na pytania o sprzęt, wypożyczenie, doradztwo i dofinansowania.',
     detailsTitle: 'Dane kontaktowe',
     formTitle: 'Formularz kontaktowy',

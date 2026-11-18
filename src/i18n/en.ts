@@ -314,8 +314,8 @@ export const en = {
   },
 
   about: {
-    eyebrow: 'About us',
-    title: 'RenHan-med is an Independent Living Centre',
+    eyebrow: 'About RenHan-med',
+    title: 'An Independent Living Centre',
     lead: 'We help people choose solutions that add safety, comfort and independence.',
     mission: {
       eyebrow: 'Our purpose',
@@ -345,7 +345,7 @@ export const en = {
     },
     pillars: {
       eyebrow: 'What we do',
-      title: 'Five areas of RenHan-med',
+      title: 'Five areas of our work',
       items: {
         sales: { title: 'Equipment sales', text: 'Rehabilitation, care and orthopaedic equipment.' },
         rental: { title: 'Rental', text: 'Equipment for temporary use.' },
@@ -362,7 +362,7 @@ export const en = {
 
   contact: {
     eyebrow: 'Contact',
-    title: 'Contact RenHan-med',
+    title: 'Get in touch',
     lead: 'Call, write or fill in the form. We answer questions about equipment, rental, advice and funding.',
     detailsTitle: 'Contact details',
     formTitle: 'Contact form',

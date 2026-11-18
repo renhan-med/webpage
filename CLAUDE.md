@@ -77,6 +77,8 @@ Repo: github.com/renhan-med/webpage (public). Stay on TypeScript 6: `@astrojs/ch
 ## Design rules (agreed with the user)
 - Equipment is shown with pictograms, NOT product photos (user decision). The only photo is the home hero
   (Pexels 4063507, Pexels License, `<Picture>` avif/webp; entry in `src/assets/photos/credits.json`, no footer credit needed).
+- Never put the brand name „RenHan-med” in a Cormorant heading (H1–H3): set in a display serif it reads as a fake logo
+  (the client forbids retyping the logo). Brand goes in eyebrows/body text only.
 - Cormorant headings weight 500 (sizes bumped ~12% for its small x-height), no all-caps anywhere, `text-wrap: balance`; 18px body; gold only for ornaments (3:1 on light),
   `--gold-text` for small text. Light sections alternate with navy bands (dark-mode band `#173a63`).
 - House outline motif only in page headers; home hero = text left + lifestyle photo right (photo first on mobile),
