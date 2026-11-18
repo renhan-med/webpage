@@ -30,8 +30,12 @@ const { address } = company;
           <span class="map__name">{company.name}</span>
           {address.street}
           <br />
-          {address.locality}
-          <br />
+          {address.locality !== address.postTown && (
+            <>
+              {address.locality}
+              <br />
+            </>
+          )}
           {address.postalCode} {address.postTown}
           {locale !== 'pl' && (
             <>
@@ -82,6 +86,7 @@ const { address } = company;
   .map__address {
     color: var(--ink);
     font-family: var(--font-serif);
+    font-weight: 500;
     font-size: clamp(1.625rem, 1.3rem + 1.4vw, 2.375rem);
     line-height: 1.2;
     letter-spacing: -0.015em;
@@ -93,10 +98,9 @@ const { address } = company;
     color: var(--gold-text);
     font-family: var(--font-sans);
     font-size: var(--text-eyebrow);
-    font-weight: 500;
+    font-weight: 700;
     line-height: 1.4;
-    letter-spacing: 0.12em;
-    text-transform: uppercase;
+    letter-spacing: 0.02em;
   }
 
   .map__info :global(.map__external) {

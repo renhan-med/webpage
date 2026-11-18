@@ -78,7 +78,7 @@ jobs:
         uses: actions/deploy-pages@v5
 
   smoke:
-    name: Smoke check (non-blocking)
+    name: Smoke check
     needs: deploy
     runs-on: ubuntu-latest
     timeout-minutes: 5

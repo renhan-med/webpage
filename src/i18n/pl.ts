@@ -5,7 +5,7 @@
  */
 export const pl = {
   site: {
-    name: 'RenHan MED',
+    name: 'RenHan-med',
     descriptor: 'Centrum Niezależnego Życia',
     motto: 'Od dobrego wyboru zaczyna się niezależność.',
     slogan: 'Przestrzeń bez barier.',
@@ -23,14 +23,14 @@ export const pl = {
     languageCurrent: 'polski, zmień język',
     newTab: 'otwiera się w nowej karcie',
     offerSections: 'Działy oferty',
-    logoAlt: 'Znak RenHan MED: postać na wózku w zarysie domu',
+    logoAlt: 'Znak RenHan-med: postać na wózku w zarysie domu',
   },
 
   nav: {
     home: 'Strona główna',
     offer: 'Oferta',
     rental: 'Wypożyczalnia',
-    advice: 'Doradztwo',
+    advice: 'Doradztwo i dobór sprzętu',
     funding: 'Dofinansowania',
     about: 'O nas',
     contact: 'Kontakt',
@@ -45,43 +45,43 @@ export const pl = {
 
   meta: {
     home: {
-      title: 'Sprzęt rehabilitacyjny, wypożyczenie, doradztwo | RenHan MED',
+      title: 'Sprzęt rehabilitacyjny, wypożyczenie, doradztwo | RenHan-med',
       description:
-        'RenHan MED, Centrum Niezależnego Życia: sprzęt rehabilitacyjny, wyposażenie domu bez barier, wypożyczalnia i indywidualne doradztwo w doborze sprzętu.',
+        'RenHan-med, Centrum Niezależnego Życia: sprzęt rehabilitacyjny, wyposażenie domu bez barier, wypożyczalnia i indywidualne doradztwo w doborze sprzętu.',
     },
     offer: {
-      title: 'Oferta: sprzęt rehabilitacyjny i dom bez barier | RenHan MED',
+      title: 'Oferta: sprzęt rehabilitacyjny i dom bez barier | RenHan-med',
       description:
-        'Pięć działów oferty RenHan MED: wózki, balkoniki, chodziki, łóżka rehabilitacyjne, podnośniki, ortezy, wyposażenie łazienki i wypożyczalnia sprzętu.',
+        'Pięć działów oferty RenHan-med: wózki, balkoniki, chodziki, łóżka rehabilitacyjne, podnośniki, ortezy, wyposażenie łazienki i wypożyczalnia sprzętu.',
     },
     rental: {
-      title: 'Wypożyczalnia sprzętu rehabilitacyjnego | RenHan MED',
+      title: 'Wypożyczalnia sprzętu rehabilitacyjnego | RenHan-med',
       description:
-        'Wypożyczalnia RenHan MED: sprzęt rehabilitacyjny do czasowego użytkowania. Zapytaj o dostępność, warunki wypożyczenia i pomoc w doborze sprzętu.',
+        'Wypożyczalnia RenHan-med: sprzęt rehabilitacyjny do czasowego użytkowania. Zapytaj o dostępność, warunki wypożyczenia i pomoc w doborze sprzętu.',
     },
     advice: {
-      title: 'Doradztwo i dobór sprzętu rehabilitacyjnego | RenHan MED',
+      title: 'Doradztwo i dobór sprzętu rehabilitacyjnego | RenHan-med',
       description:
-        'Pomagamy wybrać sprzęt rehabilitacyjny dopasowany do potrzeb, możliwości użytkownika i warunków w domu. Porównamy rozwiązania. Umów doradztwo w RenHan MED.',
+        'Pomagamy wybrać sprzęt rehabilitacyjny dopasowany do potrzeb, możliwości użytkownika i warunków w domu. Porównamy rozwiązania. Umów doradztwo w RenHan-med.',
     },
     funding: {
-      title: 'Dofinansowanie sprzętu rehabilitacyjnego | RenHan MED',
+      title: 'Dofinansowanie sprzętu rehabilitacyjnego | RenHan-med',
       description:
-        'Możliwość dofinansowania sprzętu zależy od rodzaju produktu, sytuacji klienta i aktualnych zasad programu. Wyjaśnimy szczegóły. Zapytaj w RenHan MED.',
+        'Możliwość dofinansowania sprzętu zależy od rodzaju produktu, sytuacji klienta i aktualnych zasad programu. Wyjaśnimy szczegóły. Zapytaj w RenHan-med.',
     },
     about: {
-      title: 'O nas: Centrum Niezależnego Życia | RenHan MED',
+      title: 'O nas: Centrum Niezależnego Życia | RenHan-med',
       description:
-        'RenHan MED to Centrum Niezależnego Życia. Pomagamy wybierać rozwiązania, które zwiększają bezpieczeństwo, komfort i samodzielność. Poznaj nasze wartości.',
+        'RenHan-med to Centrum Niezależnego Życia. Pomagamy wybierać rozwiązania, które zwiększają bezpieczeństwo, komfort i samodzielność. Poznaj nasze wartości.',
     },
     contact: {
-      title: 'Kontakt | RenHan MED, Centrum Niezależnego Życia',
+      title: 'Kontakt | RenHan-med, Centrum Niezależnego Życia',
       description:
-        'Telefon, e-mail, adres, godziny otwarcia i formularz kontaktowy RenHan MED. Zapytaj o sprzęt rehabilitacyjny, wypożyczenie, doradztwo lub dofinansowanie.',
+        'Telefon, e-mail, adres, godziny otwarcia i formularz kontaktowy RenHan-med. Zapytaj o sprzęt rehabilitacyjny, wypożyczenie, doradztwo lub dofinansowanie.',
     },
     notFound: {
-      title: 'Nie znaleziono strony | RenHan MED',
-      description: 'Pod tym adresem nie ma strony. Przejdź na stronę główną RenHan MED lub do oferty.',
+      title: 'Nie znaleziono strony | RenHan-med',
+      description: 'Pod tym adresem nie ma strony. Przejdź na stronę główną RenHan-med lub do oferty.',
     },
   },
 
@@ -130,8 +130,9 @@ export const pl = {
 
   home: {
     hero: {
+      photoAlt: 'Kobieta na wózku w jasnym, nowoczesnym mieszkaniu, widziana z boku.',
       eyebrow: 'Sprzęt rehabilitacyjny i pomocniczy',
-      lead: 'W RenHan MED kupisz lub wypożyczysz sprzęt rehabilitacyjny i wyposażenie domu. Zaczynamy od rozmowy o potrzebach, a potem pomagamy wybrać rozwiązanie.',
+      lead: 'W RenHan-med kupisz lub wypożyczysz sprzęt rehabilitacyjny i wyposażenie domu. Zaczynamy od rozmowy o potrzebach, a potem pomagamy wybrać rozwiązanie.',
     },
     tiles: {
       title: 'Jak możemy pomóc',
@@ -159,12 +160,11 @@ export const pl = {
       },
     },
     about: {
-      eyebrow: 'O RenHan MED',
+      eyebrow: 'O RenHan-med',
       statement: 'Nie sprzedajemy przypadkowego sprzętu. Pomagamy wybrać rozwiązanie.',
-      text: 'RenHan MED to Centrum Niezależnego Życia. Zanim polecimy sprzęt, pytamy o potrzeby, możliwości i warunki w domu. Chodzi nam o rozwiązania, które zwiększają bezpieczeństwo, komfort i samodzielność.',
+      text: 'RenHan-med to Centrum Niezależnego Życia. Zanim polecimy sprzęt, pytamy o potrzeby, możliwości i warunki w domu. Chodzi nam o rozwiązania, które zwiększają bezpieczeństwo, komfort i samodzielność.',
       valuesTitle: 'Nasze wartości',
-      photoAlt: 'Starszy mężczyzna na wózku czyta książkę na słonecznym trawniku, widziany od tyłu.',
-      link: 'Poznaj RenHan MED',
+      link: 'Poznaj RenHan-med',
     },
     offer: {
       eyebrow: 'Oferta',
@@ -309,7 +309,7 @@ export const pl = {
 
   about: {
     eyebrow: 'O nas',
-    title: 'RenHan MED to Centrum Niezależnego Życia',
+    title: 'RenHan-med to Centrum Niezależnego Życia',
     lead: 'Pomagamy ludziom wybierać rozwiązania, które zwiększają bezpieczeństwo, komfort i samodzielność.',
     mission: {
       eyebrow: 'Nasz cel',
@@ -339,7 +339,7 @@ export const pl = {
     },
     pillars: {
       eyebrow: 'Zakres działania',
-      title: 'Pięć obszarów RenHan MED',
+      title: 'Pięć obszarów RenHan-med',
       items: {
         sales: { title: 'Sprzedaż sprzętu', text: 'Sprzęt rehabilitacyjny, pomocniczy i ortopedyczny.' },
         rental: { title: 'Wypożyczalnia', text: 'Sprzęt do czasowego użytkowania.' },
@@ -356,7 +356,7 @@ export const pl = {
 
   contact: {
     eyebrow: 'Kontakt',
-    title: 'Kontakt z RenHan MED',
+    title: 'Kontakt z RenHan-med',
     lead: 'Zadzwoń, napisz lub wypełnij formularz. Odpowiadamy na pytania o sprzęt, wypożyczenie, doradztwo i dofinansowania.',
     detailsTitle: 'Dane kontaktowe',
     formTitle: 'Formularz kontaktowy',
@@ -366,7 +366,7 @@ export const pl = {
       load: 'Pokaż mapę',
       loadNote: 'Mapa Google ładuje się dopiero po kliknięciu, bo pochodzi z zewnętrznego serwisu.',
       directions: 'Wyznacz trasę',
-      frameTitle: 'Mapa dojazdu do RenHan MED',
+      frameTitle: 'Mapa dojazdu do RenHan-med',
     },
   },
 
@@ -385,7 +385,7 @@ export const pl = {
       other: 'Inna sprawa',
     },
     message: 'Wiadomość',
-    consent: 'Zgadzam się na kontakt ze strony RenHan MED w sprawie mojego zapytania.',
+    consent: 'Zgadzam się na kontakt ze strony RenHan-med w sprawie mojego zapytania.',
     required: 'pole wymagane',
     submit: 'Wyślij wiadomość',
     errors: {
@@ -399,7 +399,7 @@ export const pl = {
     },
     status: {
       sending: 'Wysyłamy wiadomość…',
-      success: 'Dziękujemy. Wiadomość dotarła do RenHan MED. Odpowiemy telefonicznie lub mailowo.',
+      success: 'Dziękujemy. Wiadomość dotarła do RenHan-med. Odpowiemy telefonicznie lub mailowo.',
       error: 'Nie udało się wysłać wiadomości. Spróbuj ponownie albo zadzwoń: {phone}.',
       mailto:
         'Powinien otworzyć się program pocztowy z gotową wiadomością. Wyślij ją stamtąd, żeby do nas dotarła. Jeśli program się nie otworzył, napisz na {email} lub zadzwoń: {phone}.',

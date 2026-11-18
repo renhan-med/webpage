@@ -1,5 +1,5 @@
 /*
- * Design tokens. Colours come from the RenHan MED logo (navy, turquoise, gold) on a warm canvas.
+ * Design tokens. Colours come from the RenHan-med logo (navy, turquoise, gold) on a warm canvas.
  * Light is the default; dark is set by `data-theme="dark"` on <html> (see the inline script in BaseLayout).
  * Every text/background pair below is checked for WCAG AA.
  */
@@ -11,9 +11,11 @@
   --canvas: #faf8f3;
   --surface-soft: #f3efe6;
   --surface-card: #ece6d9;
-  --surface-band: #0a1f3c;
-  --surface-band-raised: #12305a;
+  --surface-band: #0b2a55;
+  --surface-band-raised: #163a6c;
   --surface-callout: #0a6e82;
+  /* Header bar: navy in both themes (the client's business-card look). */
+  --navy: #0b2a55;
 
   /* Soft tints per offer department (equipment cards) */
   --tint-mobility: #e1eef0;
@@ -23,7 +25,7 @@
   --tint-rental: #ece6d9;
 
   /* Text */
-  --ink: #0a2342;
+  --ink: #0b2a55;
   --body: #33415a;
   --muted: #5b667a;
 
@@ -32,11 +34,14 @@
   --border-strong: #7f7968;
 
   /* Interaction and accents */
-  --primary: #0a6e82;
+  --primary: var(--teal-strong);
   --primary-active: #085668;
   --on-primary: #ffffff;
-  --teal: #0c849c;
-  --gold: #c08430;
+  /* Client teal #079CB2 is only 3.3:1 on white: for non-text accents and large text. */
+  --teal: #079cb2;
+  /* Text-safe teal: 5.9:1 on white, 5.0:1 on the card colour. Buttons, links, teal text. */
+  --teal-strong: #0a6e82;
+  --gold: #c98a2e;
   --gold-text: #8a5a14;
   --blue: #1f5fa8;
   --error: #b3261e;
@@ -47,31 +52,32 @@
   --on-band: #f6f2e9;
   --on-band-body: #cdd5e2;
   --on-band-soft: #a9b4c6;
-  --band-hairline: #24406a;
+  --band-hairline: #2a4a7a;
   --band-primary: #5cc4d6;
   --band-primary-active: #8ad7e4;
   --band-gold: #ddaa5e;
   --band-gold-text: #e3b56f;
 
   /* Logo mark (src/assets/brand/logo-mark.svg reads these) */
-  --logo-ink: #002448;
-  --logo-teal: #0c849c;
-  --logo-gold: #c08430;
+  --logo-ink: #0b2a55;
+  --logo-teal: #079cb2;
+  --logo-gold: #c98a2e;
 
   /* Type */
-  --font-serif: 'Source Serif 4 Variable', 'Source Serif 4', Georgia, 'Times New Roman', serif;
-  --font-sans: 'Onest Variable', Onest, system-ui, -apple-system, 'Segoe UI', Roboto, sans-serif;
+  --font-serif: 'Cormorant Garamond Variable', 'Cormorant Garamond', Georgia, 'Times New Roman', serif;
+  /* Lato has no Cyrillic: Ukrainian text falls back per character to Onest. */
+  --font-sans: Lato, 'Onest Variable', system-ui, -apple-system, 'Segoe UI', Roboto, sans-serif;
 
-  --text-display: clamp(2.4rem, 1.55rem + 3.6vw, 4.25rem);
-  --text-h1: clamp(2.125rem, 1.5rem + 2.7vw, 3.5rem);
-  --text-h2: clamp(1.9rem, 1.45rem + 1.9vw, 3rem);
-  --text-h3: clamp(1.375rem, 1.25rem + 0.5vw, 1.625rem);
-  --text-statement: clamp(1.75rem, 1.2rem + 2.3vw, 2.75rem);
+  --text-display: clamp(2.75rem, 1.75rem + 4vw, 4.9rem);
+  --text-h1: clamp(2.4rem, 1.7rem + 3vw, 4rem);
+  --text-h2: clamp(2.125rem, 1.6rem + 2.1vw, 3.45rem);
+  --text-h3: clamp(1.625rem, 1.5rem + 0.5vw, 1.875rem);
+  --text-statement: clamp(2rem, 1.35rem + 2.5vw, 3.1rem);
   --text-lead: clamp(1.1875rem, 1.1rem + 0.4vw, 1.375rem);
   --text-body: 1.125rem;
   --text-small: 1rem;
-  --text-caption: 0.875rem;
-  --text-eyebrow: 0.8125rem;
+  --text-caption: 0.9375rem;
+  --text-eyebrow: 1rem;
 
   /* Space (4px base) */
   --space-1: 0.25rem;
@@ -127,11 +133,11 @@
   --border-strong: #6b82a2;
   --band-hairline: #2f5687;
 
-  --primary: #4fbfd2;
+  --teal-strong: #4fbfd2;
   --primary-active: #7ad3e2;
   --on-primary: #04202b;
   --teal: #4fbfd2;
-  --gold: #ddaa5e;
+  --gold: #d9a24a;
   --gold-text: #e3b56f;
   --blue: #7fb2ee;
   --error: #ff9a8f;
@@ -140,5 +146,5 @@
 
   --logo-ink: #f4f0e7;
   --logo-teal: #4fbfd2;
-  --logo-gold: #ddaa5e;
+  --logo-gold: #d9a24a;
 }

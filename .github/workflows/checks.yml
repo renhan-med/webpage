@@ -1,5 +1,4 @@
-name: Checks (reusable)
-
+name: Check Frontend
 # Shared quality gate. Called by CI (integration.yml) and by CD (deployment.yml),
 # so the very same checks guard pull requests and the deploy.
 on:
@@ -11,7 +10,7 @@ permissions:
 # The three jobs run in parallel; callers make build/deploy wait for all of them.
 jobs:
   quality:
-    name: Quality (astro check)
+    name: Quality Gate
     runs-on: ubuntu-latest
     timeout-minutes: 10
     steps:

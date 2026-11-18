@@ -49,10 +49,9 @@
   color: var(--gold-text);
   font-family: var(--font-sans);
   font-size: var(--text-eyebrow);
-  font-weight: 500;
+  font-weight: 700;
   line-height: 1.4;
-  letter-spacing: 0.12em;
-  text-transform: uppercase;
+  letter-spacing: 0.02em;
 }
 
 .lead {
@@ -70,7 +69,7 @@
   color: var(--ink);
   font-family: var(--font-serif);
   font-size: var(--text-statement);
-  font-weight: 400;
+  font-weight: 500;
   line-height: 1.14;
   letter-spacing: -0.02em;
   text-wrap: balance;
@@ -79,7 +78,7 @@
 /* Inline text link: the underline draws in from the left on hover. */
 .link {
   color: var(--primary);
-  font-weight: 500;
+  font-weight: 700;
   text-decoration: none;
   background-image: linear-gradient(currentColor, currentColor), linear-gradient(var(--hairline), var(--hairline));
   background-repeat: no-repeat;

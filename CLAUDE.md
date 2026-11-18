@@ -1,13 +1,13 @@
-# CLAUDE.md — RenHan MED website
+# CLAUDE.md — RenHan-med website
 
-Static company website for **RenHan MED spółka z o.o. — Centrum Niezależnego Życia** (sale and rental of rehabilitation
+Static company website for **RenHan-med — Centrum Niezależnego Życia** (legal name in `company.legalName` stays „RenHan MED spółka z o.o.”) (sale and rental of rehabilitation
 equipment, home accessibility products, advice on choosing equipment). Frontend only, no backend.
 Read this file instead of the whole repo; open source files only for the part you change.
 
 ## Sources of truth
 - `resources/renhan-oferta.pdf` — client spec (Polish). The ONLY source of facts for copy. Invent nothing:
   no prices, brands, models, statistics, reviews, certificates, named funding programmes, promises of funding.
-- `resources/renhan-logo.png` — logo + 5 ring icons. Palette: navy `#002448`, teal `#0C849C`, gold `#C08430`.
+- `resources/renhan-logo.png` — logo + 5 ring icons. Palette (client's): navy `#0B2A55`, teal `#079CB2` (non-text/large only, 3.3:1), text-safe `--teal-strong` `#0a6e82`, gold `#C98A2E`. Brand is spelled „RenHan-med” everywhere (wordmark PNGs `src/assets/brand/wordmark*.png` are used as images, never retyped in a font).
 - `DESIGN.md` — structural design model only (editorial rhythm, serif display 400, colour-block cards). Not the brand.
 - `README.md` (root) is deliberately minimal, for people outside the company (public repo): what it is, the URL,
   4 commands, rights. Team/maintainer docs belong in `docs/README.md`, never in the root README.
@@ -16,7 +16,7 @@ Read this file instead of the whole repo; open source files only for the part yo
 ## Stack and commands
 Astro 7 (static, `trailingSlash: 'always'`, `build.format: 'directory'`), TypeScript strict, plain CSS with tokens,
 vanilla TS for interactivity (no UI framework). `astro-icon` + Phosphor (`ph:`) only for small UI icons.
-Fonts self-hosted via Fontsource: Source Serif 4 (headings, `wght` files) and Onest (body). Both have Cyrillic.
+Fonts self-hosted via Fontsource: Cormorant Garamond (headings, variable, weight 500; slogan in italic) and Lato (400/700; no Cyrillic, so Onest cyrillic file is the UK fallback).
 `npm run dev` (:4321) · `npm run build` · `npm run check` (must stay 0 errors) · `npm test` (Playwright + axe on
 system Chrome, `channel: 'chrome'`, builds and serves on :4373, ≈2 min). Never download Playwright browsers.
 The user often runs their own `astro dev` on :4321 — don't kill it; use other ports.
@@ -52,9 +52,11 @@ Repo: github.com/renhan-med/webpage (public). Stay on TypeScript 6: `@astrojs/ch
 - `src/assets/pictograms/*.svg` — 27 custom pictograms in the logo's style (48 grid, colours via
   `--pg-ink/teal/gold`); `index.ts` exports `PictogramName`. Inlined by `Pictogram.astro`, shown in `RingIcon`
   at ~64% of the ring. Weak glyphs (crutches, cushion, mattress, bath-board, ortho-comfort) always need a label.
-- `src/assets/brand/` — `logo-mark.svg` (faithful vector, colours via `--logo-ink/teal/gold`), PNG lockups
-  (+ `-on-dark`). The mark is defined once per page (`LogoSymbol`) and drawn with `<use>` (`LogoMark`).
+- `src/assets/brand/` — `wordmark.png` / `wordmark-on-dark.png` (the logo text), `logo-mark.svg` (faithful vector, colours via `--logo-ink/teal/gold`), PNG marks
+  (+ `-on-dark`); old lockups with the „MED” spelling were removed. `public/og-default.png` is generated from the mark + wordmark. The mark is defined once per page (`LogoSymbol`) and drawn with `<use>` (`LogoMark`).
 - `src/styles/tokens.css` — all colour/type/spacing tokens, light + dark (`html[data-theme]`); `--menu-breakpoint`.
+- Header is a NAVY bar in both themes (gold bottom line, `.band` token scope, white nav); no CTA button in the desktop bar (the
+  longer UK nav label would not fit); the CTA lives in the mobile menu. Footer credits only photos whose licence requires it.
 - `src/scripts/site.ts` (theme toggle, mobile menu, language dropdown), `src/scripts/contact-form.ts` (form).
 - `tests/*.spec.ts` — routes/meta, console, language switcher, theme, mobile menu, contact form, a11y, responsive,
   visual (screenshots only). `tests/helpers.ts` derives routes from `slugs.mjs`; tests never hard-code copy.
@@ -72,19 +74,20 @@ Repo: github.com/renhan-med/webpage (public). Stay on TypeScript 6: `@astrojs/ch
 - Copy voice: PL „Ty”, UK „ви”, EN British spelling. Plain, calm, no marketing filler.
 
 ## Design rules (agreed with the user)
-- Equipment is shown with pictograms, NOT product photos (user decision). One stand-in lifestyle photo (home,
-  "O RenHan MED"; CC BY-SA, credited in the footer from `src/assets/photos/credits.json`) awaits a client photo.
-- Serif headings weight 400, tight tracking, `text-wrap: balance`; 18px body; gold only for ornaments (3:1 on light),
+- Equipment is shown with pictograms, NOT product photos (user decision). The only photo is the home hero
+  (Pexels 4063507, Pexels License, `<Picture>` avif/webp; entry in `src/assets/photos/credits.json`, no footer credit needed).
+- Cormorant headings weight 500 (sizes bumped ~12% for its small x-height), no all-caps anywhere, `text-wrap: balance`; 18px body; gold only for ornaments (3:1 on light),
   `--gold-text` for small text. Light sections alternate with navy bands (dark-mode band `#173a63`).
-- House outline motif only in page headers; hero = logo mark on a plate + 5-pictogram strip (from the logo).
+- House outline motif only in page headers; home hero = text left + lifestyle photo right (photo first on mobile),
+  5-pictogram strip (from the logo) right below the hero.
 - Accessibility is a client requirement: AA contrast both themes, ≥44–48px targets, visible focus, skip link,
   label-in-name (no aria-label that hides visible text), reduced motion = no transitions/animations.
 - No scroll fade-ins, parallax, carousels, gradients-as-decoration, glassmorphism, emoji, purple.
 
 ## Status and open items
 Release-ready (final review 2026-11-15: design 7.5/10, `npm test` 315 passed / 0 failed / 58 intentional skips).
-- Client input: photo for the home "O RenHan MED" section (current one is a CC BY-SA stand-in that doesn't fit
-  the pictogram system); exact map pin/coordinates for `mapQuery`; optional REGON; form endpoint if wanted.
+- Client input: exact map pin/coordinates for `mapQuery`; final e-mail (kept `biuro@renhan.pl`; the card shows
+  salon@renhan.pl); form endpoint if wanted. Phone is the salon number 736 215 287, REGON 545847467 (from the card).
 - Logo label „Refundacje i formalności” vs the spec's „dofinansowania” wording — confirm with the client.
 - Polish backlog (nits): home "Kontakt i dane firmy" left column leaves empty space at 1440 (sticky it);
   orphan last tile in 3-col offer grids (4 and 5 items); department ring repeats an item pictogram;

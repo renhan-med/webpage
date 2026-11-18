@@ -17,5 +17,3 @@ npx -y skills add leonxlnx/taste-skill --agent claude-code
 
 # Install playwright-cli skill
 npx skills add microsoft/playwright-cli --skill playwright-cli --agent claude-code
-
-

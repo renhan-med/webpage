@@ -1,13 +1,14 @@
 [
   {
-    "file": "everyday-wheelchair-park-reading.jpg",
-    "subject": "Older man in a manual wheelchair reading a book on a sunny lawn, seen from behind (face not shown)",
-    "suggestedUse": "Everyday independence: hero or \"about / why we do this\" section; wheelchair sales and rental",
-    "author": "Ermell",
-    "licence": "CC BY-SA 4.0",
-    "licenceUrl": "https://creativecommons.org/licenses/by-sa/4.0",
-    "sourceUrl": "https://commons.wikimedia.org/wiki/File:Bamberg_Hain_Rollstuhl-20190401-RM-141430.jpg",
-    "width": 2000,
-    "height": 1500
+    "file": "hero-wheelchair-home.jpg",
+    "subject": "Woman in a wheelchair in a bright modern home, seen from the side",
+    "suggestedUse": "Home page hero",
+    "author": "",
+    "licence": "Pexels License",
+    "licenceUrl": "https://www.pexels.com/license/",
+    "sourceUrl": "https://www.pexels.com/photo/woman-sitting-in-wheelchair-4063507/",
+    "attributionRequired": false,
+    "width": 2400,
+    "height": 1600
   }
 ]

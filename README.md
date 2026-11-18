@@ -1,5 +1,8 @@
 # RenHan MED
 
+![Logo](public/og-default.png)
+
+
 Strona internetowa RenHan MED — Centrum Niezależnego Życia: **https://renhan.pl**
 
 Statyczna strona w [Astro](https://astro.build), dostępna po polsku, angielsku i ukraińsku.

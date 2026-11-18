@@ -1,5 +1,8 @@
 ---
+import { Image } from 'astro:assets';
 import LogoMark from './LogoMark.astro';
+import wordmarkOnDark from '../assets/brand/wordmark-on-dark.png';
+import wordmarkOnLight from '../assets/brand/wordmark.png';
 import { defaultLocale, type Locale } from '../i18n/config';
 import { getDictionary } from '../i18n';
 
@@ -7,19 +10,22 @@ interface Props {
   locale: Locale;
   /** Show "Centrum Niezależnego Życia" under the name. */
   descriptor?: boolean;
+  /** Which wordmark file: white (for navy surfaces, the default) or navy (for light ones). */
+  surface?: 'dark' | 'light';
   class?: string;
 }
 
-const { locale, descriptor = true, class: className } = Astro.props;
+const { locale, descriptor = true, surface = 'dark', class: className } = Astro.props;
 // The descriptor is part of the brand, so it stays in Polish in every language.
 const brand = getDictionary(defaultLocale).site;
+const wordmark = surface === 'dark' ? wordmarkOnDark : wordmarkOnLight;
 const brandLang = locale === defaultLocale ? undefined : defaultLocale;
 ---
 
 <span class:list={['logo', className]}>
   <LogoMark class="logo__mark" />
   <span class="logo__text">
-    <span class="logo__name">RenHan <span class="logo__med">MED</span></span>
+    <Image class="logo__name" src={wordmark} alt={brand.name} width={348} height={48} loading="eager" />
     {
       descriptor && (
         <span class="logo__descriptor" lang={brandLang}>
@@ -34,7 +40,7 @@ const brandLang = locale === defaultLocale ? undefined : defaultLocale;
   .logo {
     display: inline-flex;
     align-items: center;
-    gap: 0.625rem;
+    gap: 0.75rem;
     color: var(--ink);
     line-height: 1;
   }
@@ -48,31 +54,20 @@ const brandLang = locale === defaultLocale ? undefined : defaultLocale;
   .logo__text {
     display: grid;
     gap: 0.3125rem;
+    justify-items: start;
   }
 
   .logo__name {
-    font-family: var(--font-serif);
-    font-size: 1.5rem;
-    font-weight: 600;
-    letter-spacing: -0.015em;
-    white-space: nowrap;
-  }
-
-  .logo__med {
-    margin-left: 0.1em;
-    color: var(--gold-text);
-    font-family: var(--font-sans);
-    font-size: 0.58em;
-    font-weight: 600;
-    letter-spacing: 0.16em;
+    display: block;
+    width: var(--wordmark-width, 10.5rem);
+    height: auto;
   }
 
   .logo__descriptor {
     color: var(--muted);
-    font-size: 0.65625rem;
-    font-weight: 500;
-    letter-spacing: 0.11em;
-    text-transform: uppercase;
+    font-size: 0.8125rem;
+    font-weight: 400;
+    letter-spacing: 0.01em;
     white-space: nowrap;
   }
 </style>

@@ -2,7 +2,7 @@ import type { Dictionary } from './pl';
 
 export const en = {
   site: {
-    name: 'RenHan MED',
+    name: 'RenHan-med',
     descriptor: 'Independent Living Centre',
     motto: 'Independence starts with a good choice.',
     slogan: 'Space without barriers.',
@@ -20,14 +20,14 @@ export const en = {
     languageCurrent: 'English, change language',
     newTab: 'opens in a new tab',
     offerSections: 'Equipment departments',
-    logoAlt: 'RenHan MED mark: a wheelchair user inside the outline of a house',
+    logoAlt: 'RenHan-med mark: a wheelchair user inside the outline of a house',
   },
 
   nav: {
     home: 'Home',
     offer: 'Equipment',
     rental: 'Rental',
-    advice: 'Advice',
+    advice: 'Advice & choosing equipment',
     funding: 'Funding',
     about: 'About us',
     contact: 'Contact',
@@ -42,43 +42,43 @@ export const en = {
 
   meta: {
     home: {
-      title: 'Rehabilitation equipment, rental and advice | RenHan MED',
+      title: 'Rehabilitation equipment, rental and advice | RenHan-med',
       description:
-        'RenHan MED, an Independent Living Centre in Poland: rehabilitation equipment, barrier-free home fittings, equipment rental and one-to-one advice on choosing.',
+        'RenHan-med, an Independent Living Centre in Poland: rehabilitation equipment, barrier-free home fittings, equipment rental and one-to-one advice on choosing.',
     },
     offer: {
-      title: 'Rehabilitation equipment and barrier-free home | RenHan MED',
+      title: 'Rehabilitation equipment and barrier-free home | RenHan-med',
       description:
-        'Five departments at RenHan MED: wheelchairs, walking frames, rollators, care beds, patient hoists, orthoses, bathroom aids and equipment rental.',
+        'Five departments at RenHan-med: wheelchairs, walking frames, rollators, care beds, patient hoists, orthoses, bathroom aids and equipment rental.',
     },
     rental: {
-      title: 'Rehabilitation equipment rental | RenHan MED',
+      title: 'Rehabilitation equipment rental | RenHan-med',
       description:
-        'Rent rehabilitation equipment for temporary use from RenHan MED. Ask about availability, rental terms and help with choosing the right item.',
+        'Rent rehabilitation equipment for temporary use from RenHan-med. Ask about availability, rental terms and help with choosing the right item.',
     },
     advice: {
-      title: 'Advice on choosing rehabilitation equipment | RenHan MED',
+      title: 'Advice on choosing rehabilitation equipment | RenHan-med',
       description:
         'We help you choose rehabilitation equipment that suits the person, their abilities and their home, and we explain the differences. Book a consultation.',
     },
     funding: {
-      title: 'Funding for rehabilitation equipment | RenHan MED',
+      title: 'Funding for rehabilitation equipment | RenHan-med',
       description:
-        'Whether funding for equipment is possible depends on the type of product, the customer’s situation and the current programme rules. Ask RenHan MED.',
+        'Whether funding for equipment is possible depends on the type of product, the customer’s situation and the current programme rules. Ask RenHan-med.',
     },
     about: {
-      title: 'About us: Independent Living Centre | RenHan MED',
+      title: 'About us: Independent Living Centre | RenHan-med',
       description:
-        'RenHan MED is an Independent Living Centre. We help people choose solutions that add safety, comfort and independence. Read about our values.',
+        'RenHan-med is an Independent Living Centre. We help people choose solutions that add safety, comfort and independence. Read about our values.',
     },
     contact: {
-      title: 'Contact | RenHan MED, Independent Living Centre',
+      title: 'Contact | RenHan-med, Independent Living Centre',
       description:
-        'Phone, e-mail, address, opening hours and a contact form for RenHan MED. Ask us about rehabilitation equipment, rental, advice or funding options.',
+        'Phone, e-mail, address, opening hours and a contact form for RenHan-med. Ask us about rehabilitation equipment, rental, advice or funding options.',
     },
     notFound: {
-      title: 'Page not found | RenHan MED',
-      description: 'There is no page at this address. Go to the RenHan MED home page or see the equipment.',
+      title: 'Page not found | RenHan-med',
+      description: 'There is no page at this address. Go to the RenHan-med home page or see the equipment.',
     },
   },
 
@@ -126,8 +126,9 @@ export const en = {
 
   home: {
     hero: {
+      photoAlt: 'A woman in a wheelchair in a bright, modern home, seen from the side.',
       eyebrow: 'Rehabilitation and care equipment',
-      lead: 'At RenHan MED you can buy or rent rehabilitation equipment and fittings for the home. We start by talking about what you need, then help you choose.',
+      lead: 'At RenHan-med you can buy or rent rehabilitation equipment and fittings for the home. We start by talking about what you need, then help you choose.',
     },
     tiles: {
       title: 'How we can help',
@@ -155,12 +156,11 @@ export const en = {
       },
     },
     about: {
-      eyebrow: 'About RenHan MED',
+      eyebrow: 'About RenHan-med',
       statement: 'We don’t sell just any equipment. We help you choose the right solution.',
-      text: 'RenHan MED is an Independent Living Centre. Before we suggest any equipment, we ask about needs, abilities and conditions at home. What matters to us are solutions that add safety, comfort and independence.',
+      text: 'RenHan-med is an Independent Living Centre. Before we suggest any equipment, we ask about needs, abilities and conditions at home. What matters to us are solutions that add safety, comfort and independence.',
       valuesTitle: 'Our values',
-      photoAlt: 'An older man in a wheelchair reading a book on a sunny lawn, seen from behind.',
-      link: 'Read about RenHan MED',
+      link: 'Read about RenHan-med',
     },
     offer: {
       eyebrow: 'Equipment',
@@ -305,7 +305,7 @@ export const en = {
 
   about: {
     eyebrow: 'About us',
-    title: 'RenHan MED is an Independent Living Centre',
+    title: 'RenHan-med is an Independent Living Centre',
     lead: 'We help people choose solutions that add safety, comfort and independence.',
     mission: {
       eyebrow: 'Our purpose',
@@ -335,7 +335,7 @@ export const en = {
     },
     pillars: {
       eyebrow: 'What we do',
-      title: 'Five areas of RenHan MED',
+      title: 'Five areas of RenHan-med',
       items: {
         sales: { title: 'Equipment sales', text: 'Rehabilitation, care and orthopaedic equipment.' },
         rental: { title: 'Rental', text: 'Equipment for temporary use.' },
@@ -352,7 +352,7 @@ export const en = {
 
   contact: {
     eyebrow: 'Contact',
-    title: 'Contact RenHan MED',
+    title: 'Contact RenHan-med',
     lead: 'Call, write or fill in the form. We answer questions about equipment, rental, advice and funding.',
     detailsTitle: 'Contact details',
     formTitle: 'Contact form',
@@ -362,7 +362,7 @@ export const en = {
       load: 'Show the map',
       loadNote: 'The Google map loads only after you click, because it comes from an external service.',
       directions: 'Get directions',
-      frameTitle: 'Map showing the way to RenHan MED',
+      frameTitle: 'Map showing the way to RenHan-med',
     },
   },
 
@@ -381,7 +381,7 @@ export const en = {
       other: 'Something else',
     },
     message: 'Message',
-    consent: 'I agree to be contacted by RenHan MED about my enquiry.',
+    consent: 'I agree to be contacted by RenHan-med about my enquiry.',
     required: 'required',
     submit: 'Send message',
     errors: {
@@ -395,7 +395,7 @@ export const en = {
     },
     status: {
       sending: 'Sending your message…',
-      success: 'Thank you. Your message has reached RenHan MED. We will reply by phone or e-mail.',
+      success: 'Thank you. Your message has reached RenHan-med. We will reply by phone or e-mail.',
       error: 'The message could not be sent. Try again or call us: {phone}.',
       mailto:
         'Your e-mail program should open with the message ready. Send it from there so that it reaches us. If it did not open, write to {email} or call {phone}.',

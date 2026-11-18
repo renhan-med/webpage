@@ -18,11 +18,12 @@ const { locale, t, page } = Astro.props;
 const year = new Date().getFullYear();
 const registry = registryEntries(t.contactInfo);
 const { address } = company;
-// Photo attribution (CC BY-SA): every author links to the source, each licence to its text.
-const licences = [...new Map(photoCredits.map((photo) => [photo.licence, photo.licenceUrl])).entries()];
+// Photo attribution: only photos whose licence asks for it (the Pexels hero does not) are credited.
+const credited = photoCredits.filter((photo) => photo.attributionRequired !== false);
+const licences = [...new Map(credited.map((photo) => [photo.licence, photo.licenceUrl])).entries()];
 const sources = [
   ...new Set(
-    photoCredits.map(({ sourceUrl }) => {
+    credited.map(({ sourceUrl }) => {
       const host = new URL(sourceUrl).hostname;
       return host === 'commons.wikimedia.org' ? 'Wikimedia Commons' : host;
     }),
@@ -69,7 +70,8 @@ const sources = [
             address && (
               <li class="footer__text">
                 <address>
-                  {address.street}, {address.locality}
+                  {address.street}
+                  {address.locality !== address.postTown && `, ${address.locality}`}
                   <br />
                   {address.postalCode} {address.postTown}
                 </address>
@@ -122,10 +124,10 @@ const sources = [
     <div class="footer__bottom">
       <p>{`© ${year} ${company.legalName} ${t.footer.rights}`}</p>
       {
-        photoCredits.length > 0 && (
+        credited.length > 0 && (
           <p class="footer__credits">
             {`${t.footer.photoCredits}: `}
-            {photoCredits.map((photo, index) => (
+            {credited.map((photo, index) => (
               <>
                 {index > 0 && ', '}
                 <a href={photo.sourceUrl} rel="noopener">
@@ -177,6 +179,7 @@ const sources = [
     margin-top: 1.75rem;
     color: var(--ink);
     font-family: var(--font-serif);
+    font-weight: 500;
     font-size: clamp(1.5rem, 1.3rem + 0.9vw, 2rem);
     line-height: 1.15;
     letter-spacing: -0.015em;
@@ -188,10 +191,9 @@ const sources = [
     color: var(--gold-text);
     font-family: var(--font-sans);
     font-size: var(--text-eyebrow);
-    font-weight: 500;
+    font-weight: 700;
     line-height: 1.4;
-    letter-spacing: 0.12em;
-    text-transform: uppercase;
+    letter-spacing: 0.02em;
   }
 
   .footer__link {

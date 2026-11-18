@@ -1,7 +1,5 @@
 version: 2
 updates:
-  # commit-message prefixes keep Dependabot PR titles semantic ("chore(deps): …", "ci(deps): …"),
-  # otherwise pr-title.yml rejects them.
   - package-ecosystem: npm
     directory: /
     schedule:
@@ -10,8 +8,6 @@ updates:
       prefix: chore
       include: scope
     ignore:
-      # astro check (@astrojs/check) supports TypeScript 5–6 only; TS 7 breaks `npm ci`.
-      # Remove once @astrojs/check supports TS 7 (or the project moves to @astrojs/ts-content-mapper).
       - dependency-name: typescript
         update-types: ['version-update:semver-major']
     groups:

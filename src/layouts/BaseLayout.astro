@@ -4,15 +4,15 @@ import '../styles/tokens.css';
 import '../styles/base.css';
 import '../styles/utilities.css';
 
-import serifLatin from '@fontsource-variable/source-serif-4/files/source-serif-4-latin-wght-normal.woff2?url';
-import serifLatinExt from '@fontsource-variable/source-serif-4/files/source-serif-4-latin-ext-wght-normal.woff2?url';
-import serifCyrillic from '@fontsource-variable/source-serif-4/files/source-serif-4-cyrillic-wght-normal.woff2?url';
-import sansLatin from '@fontsource-variable/onest/files/onest-latin-wght-normal.woff2?url';
-import sansLatinExt from '@fontsource-variable/onest/files/onest-latin-ext-wght-normal.woff2?url';
+import serifLatin from '@fontsource-variable/cormorant-garamond/files/cormorant-garamond-latin-wght-normal.woff2?url';
+import serifLatinExt from '@fontsource-variable/cormorant-garamond/files/cormorant-garamond-latin-ext-wght-normal.woff2?url';
+import serifCyrillic from '@fontsource-variable/cormorant-garamond/files/cormorant-garamond-cyrillic-wght-normal.woff2?url';
+import sansLatin from '@fontsource/lato/files/lato-latin-400-normal.woff2?url';
+import sansLatinExt from '@fontsource/lato/files/lato-latin-ext-400-normal.woff2?url';
 import sansCyrillic from '@fontsource-variable/onest/files/onest-cyrillic-wght-normal.woff2?url';
 
 import { getImage } from 'astro:assets';
-import logoLockup from '../assets/brand/logo-lockup.png';
+import logoMark from '../assets/brand/logo-mark.png';
 import Footer from '../components/Footer.astro';
 import Header from '../components/Header.astro';
 import LogoSymbol from '../components/LogoSymbol.astro';
@@ -38,13 +38,13 @@ const absolute = (path: string) => new URL(path, site).href;
 const canonical = page ? absolute(localizedPath(page, locale)) : undefined;
 const hreflangs = page ? alternates(page) : [];
 const ogImage = absolute(withBase('/og-default.png'));
-const logo = await getImage({ src: logoLockup, format: 'png' });
+const logo = await getImage({ src: logoMark, format: 'png' });
 
 // Fonts needed for the first screen in this language.
 const preloads = {
   pl: [serifLatin, serifLatinExt, sansLatin, sansLatinExt],
   en: [serifLatin, sansLatin],
-  uk: [serifCyrillic, sansCyrillic, serifLatin],
+  uk: [serifCyrillic, sansCyrillic, serifLatin, sansLatin],
 }[locale];
 
 /** Drops null, empty strings and empty arrays so JSON-LD only carries real data. */
@@ -190,7 +190,7 @@ const jsonLd = (data: object) => JSON.stringify(data).replace(/</g, '\\u003c');
     border-radius: var(--radius-sm);
     background: var(--ink);
     color: var(--canvas);
-    font-weight: 500;
+    font-weight: 700;
     text-decoration: none;
     transform: translateY(-200%);
   }

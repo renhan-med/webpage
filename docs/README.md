@@ -1,4 +1,4 @@
-# RenHan MED — dokumentacja dla zespołu
+# RenHan-med — dokumentacja dla zespołu
 
 Statyczna strona firmowa w Astro 7: 7 podstron × 3 języki (PL, EN, UK), tryb jasny i ciemny.
 Publikowana na GitHub Pages pod **https://renhan.pl** po przejściu testów w CI.

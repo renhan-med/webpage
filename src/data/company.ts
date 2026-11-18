@@ -44,19 +44,19 @@ interface Company {
   address: Address | null;
   hours: OpeningHours[];
   /** Tax and court register numbers. `nipDisplay` is the grouped form shown on the site. */
-  registry: { nip: string; nipDisplay: string; regon: string; krs: string };
+  registry: { nip: string; nipDisplay: string; regon: string; regonDisplay: string; krs: string };
 }
 
 export const company: Company = {
-  name: 'RenHan MED',
+  name: 'RenHan-med',
   legalName: 'RenHan MED spółka z o.o.',
-  phone: { display: '+48 736 215 288', href: 'tel:+48736215288' },
+  phone: { display: '+48 736 215 287', href: 'tel:+48736215287' },
   email: 'biuro@renhan.pl',
   address: {
     street: 'ul. Nakielska 1A',
     locality: 'Łochowice',
     postalCode: '86-065',
-    postTown: 'Łochowo',
+    postTown: 'Łochowice',
     country: 'PL',
     countryName: { pl: 'Polska', en: 'Poland', uk: 'Польща' },
     mapQuery: 'Nakielska, Łochowice',
@@ -73,7 +73,7 @@ export const company: Company = {
       schemaDays: ['Saturday', 'Sunday'],
     },
   ],
-  registry: { nip: '5543051139', nipDisplay: '554-305-11-39', regon: '', krs: '0001269935' },
+  registry: { nip: '5543051139', nipDisplay: '554-305-11-39', regon: '545847467', regonDisplay: '545 847 467', krs: '0001269935' },
 };
 
 /** The address on one line, as a maps service expects it. */
@@ -100,6 +100,6 @@ export const displayTime = (time: string) => time.replace(/^0(\d)/, '$1');
 export const registryEntries = (labels: { nip: string; regon: string; krs: string }) =>
   [
     { label: labels.nip, value: company.registry.nipDisplay || company.registry.nip },
-    { label: labels.regon, value: company.registry.regon },
+    { label: labels.regon, value: company.registry.regonDisplay || company.registry.regon },
     { label: labels.krs, value: company.registry.krs },
   ].filter((entry) => entry.value);

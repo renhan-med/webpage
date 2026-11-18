@@ -50,8 +50,12 @@ const { address } = company;
           <address>
             {address.street}
             <br />
-            {address.locality}
-            <br />
+            {address.locality !== address.postTown && (
+              <>
+                {address.locality}
+                <br />
+              </>
+            )}
             {address.postalCode} {address.postTown}
             {locale !== 'pl' && (
               <>
@@ -144,15 +148,17 @@ const { address } = company;
   }
 
   .details__primary {
-    font-family: var(--font-serif);
-    font-size: clamp(1.375rem, 1.2rem + 0.8vw, 1.75rem);
-    font-weight: 400;
+    display: inline-flex;
+    align-items: center;
+    min-height: 2.75rem;
+    font-family: var(--font-sans);
+    font-size: clamp(1.125rem, 1rem + 0.5vw, 1.375rem);
+    font-weight: 700;
     line-height: 1.25;
-    letter-spacing: -0.01em;
   }
 
   .details__primary--email {
-    font-size: clamp(1.25rem, 1.1rem + 0.6vw, 1.5rem);
+    font-size: inherit;
   }
 
   .details__registry {
