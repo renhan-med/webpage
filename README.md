@@ -1,9 +1,9 @@
-# RenHan MED
+# RenHan-med
 
-![Logo](public/og-default.png)
+![RenHan-med — Centrum Niezależnego Życia](public/og-default.png)
 
 
-Strona internetowa RenHan MED — Centrum Niezależnego Życia: **https://renhan.pl**
+Strona internetowa RenHan-med — Centrum Niezależnego Życia: **https://renhan.pl**
 
 Statyczna strona w [Astro](https://astro.build), dostępna po polsku, angielsku i ukraińsku.
 
@@ -22,5 +22,5 @@ Dokumentacja dla zespołu: [`docs/README.md`](docs/README.md).
 
 ## Prawa
 
-© RenHan MED spółka z o.o. Treści, logo i znaki firmowe są własnością RenHan MED.
-Zdjęcie w sekcji „O RenHan MED”: autor podany w stopce strony, licencja CC BY-SA 4.0.
+© RenHan MED spółka z o.o. Treści, logo i znaki firmowe są własnością spółki.
+Zdjęcie na stronie głównej: [Pexels](https://www.pexels.com/photo/woman-sitting-in-wheelchair-4063507/), licencja Pexels.
