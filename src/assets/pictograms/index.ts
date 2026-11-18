@@ -29,6 +29,9 @@ export const pictogramNames = [
   'funding',
   'home-safety',
   'sales',
+  // The logo's own icons
+  'seated-figure',
+  'selection',
 ] as const;
 
 export type PictogramName = (typeof pictogramNames)[number];

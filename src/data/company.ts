@@ -18,10 +18,9 @@ interface Address {
   /** Country name shown on the site. */
   countryName: Localized;
   /**
-   * What the map embed and "directions" link search for. Google does not know the house number in
-   * Łochowice: the full address resolves to Nakielska street in Bydgoszcz, while 'Nakielska, Łochowice'
-   * finds the right street. Replace with 'lat,lng' coordinates (e.g. '53.1234,17.8765') or the
-   * Google Business name once the client has a pin, for an exact location.
+   * What the map embed and "directions" link search for. It can differ from the address shown on the
+   * site: the shown address stays 'ul. Nakielska 1A', while the map searches 'Szosa Nakielska 1a, …',
+   * the point the owner gave (2026-11-18). 'lat,lng' coordinates also work here.
    */
   mapQuery?: string;
 }
@@ -51,7 +50,7 @@ export const company: Company = {
   name: 'RenHan-med',
   legalName: 'RenHan MED spółka z o.o.',
   phone: { display: '+48 736 215 287', href: 'tel:+48736215287' },
-  email: 'biuro@renhan.pl',
+  email: 'centrumnet@renhan.pl',
   address: {
     street: 'ul. Nakielska 1A',
     locality: 'Łochowice',
@@ -59,7 +58,7 @@ export const company: Company = {
     postTown: 'Łochowice',
     country: 'PL',
     countryName: { pl: 'Polska', en: 'Poland', uk: 'Польща' },
-    mapQuery: 'Nakielska, Łochowice',
+    mapQuery: 'Szosa Nakielska 1a, 86-065 Łochowice',
   },
   hours: [
     {

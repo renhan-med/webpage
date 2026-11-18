@@ -45,15 +45,16 @@ Repo: github.com/renhan-med/webpage (public). Stay on TypeScript 6: `@astrojs/ch
 - `src/layouts/BaseLayout.astro` — head (SEO, canonical, hreflang + x-default, OG, JSON-LD `MedicalBusiness` from
   `company.ts`), inline no-flash theme script, header, footer.
 - `src/data/company.ts` — the ONLY place with company data (phone, e-mail, address, hours, NIP/KRS, map URLs).
-  The map uses `address.mapQuery` ('Nakielska, Łochowice'), not the full address: Google doesn't know
+  The map uses `address.mapQuery` ('Szosa Nakielska 1a, 86-065 Łochowice', the pin the user gave), not the shown address
+  ('ul. Nakielska 1A', which stays as is on the site). Older note: Google doesn't know
   "1A" there and the full address jumps to Nakielska in Bydgoszcz. Swap in 'lat,lng' once the client gives a pin.
 - `src/data/categories.ts` (offer departments + items) and `src/data/rental.ts` (rental equipment): adding an
   item/department is data-only. Every item has a `pictogram`; optional `image` field for future real photos.
 - `src/assets/pictograms/*.svg` — 27 custom pictograms in the logo's style (48 grid, colours via
   `--pg-ink/teal/gold`); `index.ts` exports `PictogramName`. Inlined by `Pictogram.astro`, shown in `RingIcon`
   at ~64% of the ring. Weak glyphs (crutches, cushion, mattress, bath-board, ortho-comfort) always need a label.
-- `src/assets/brand/` — `wordmark.png` / `wordmark-on-dark.png` (the logo text), `logo-mark.svg` (faithful vector, colours via `--logo-ink/teal/gold`), PNG marks
-  (+ `-on-dark`); old lockups with the „MED” spelling were removed. `public/og-default.png` is generated from the mark + wordmark. The mark is defined once per page (`LogoSymbol`) and drawn with `<use>` (`LogoMark`).
+- `src/assets/brand/` — `wordmark.png` / `wordmark-on-dark.png` (the logo text), `mark-on-dark.png` (the card's gold/white mark, used by `Logo.astro` on navy: header, footer; light surfaces use the SVG mark), `logo-mark.svg` (faithful vector, colours via `--logo-ink/teal/gold`), PNG marks
+  (+ `-on-dark`); old lockups with the „MED” spelling were removed. `public/og-default.png`, favicon-32 and apple-touch-icon are rendered from `mark-on-dark.png`/wordmark with the current palette. The mark is defined once per page (`LogoSymbol`) and drawn with `<use>` (`LogoMark`).
 - `src/styles/tokens.css` — all colour/type/spacing tokens, light + dark (`html[data-theme]`); `--menu-breakpoint`.
 - Header is a NAVY bar in both themes (gold bottom line, `.band` token scope, white nav); no CTA button in the desktop bar (the
   longer UK nav label would not fit); the CTA lives in the mobile menu. Footer credits only photos whose licence requires it.
@@ -79,15 +80,14 @@ Repo: github.com/renhan-med/webpage (public). Stay on TypeScript 6: `@astrojs/ch
 - Cormorant headings weight 500 (sizes bumped ~12% for its small x-height), no all-caps anywhere, `text-wrap: balance`; 18px body; gold only for ornaments (3:1 on light),
   `--gold-text` for small text. Light sections alternate with navy bands (dark-mode band `#173a63`).
 - House outline motif only in page headers; home hero = text left + lifestyle photo right (photo first on mobile),
-  5-pictogram strip (from the logo) right below the hero.
+  the logo's 5 icons with its own labels (`home.strip`, gold separators) right below the hero; `seated-figure` and `selection` pictograms are drawn from the logo.
 - Accessibility is a client requirement: AA contrast both themes, ≥44–48px targets, visible focus, skip link,
   label-in-name (no aria-label that hides visible text), reduced motion = no transitions/animations.
 - No scroll fade-ins, parallax, carousels, gradients-as-decoration, glassmorphism, emoji, purple.
 
 ## Status and open items
 Release-ready (final review 2026-11-15: design 7.5/10, `npm test` 315 passed / 0 failed / 58 intentional skips).
-- Client input: exact map pin/coordinates for `mapQuery`; final e-mail (kept `biuro@renhan.pl`; the card shows
-  salon@renhan.pl); form endpoint if wanted. Phone is the salon number 736 215 287, REGON 545847467 (from the card).
+- E-mail is `centrumnet@renhan.pl` (user, 2026-11-18). Form stays as is (mailto fallback, no endpoint) — user decision. Phone is the salon number 736 215 287, REGON 545847467 (from the card).
 - Logo label „Refundacje i formalności” vs the spec's „dofinansowania” wording — confirm with the client.
 - Polish backlog (nits): home "Kontakt i dane firmy" left column leaves empty space at 1440 (sticky it);
   orphan last tile in 3-col offer grids (4 and 5 items); department ring repeats an item pictogram;

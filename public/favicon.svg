@@ -1,10 +1,10 @@
 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 32 32" fill="none">
   <style>
-    .g { stroke: #C08430; }
-    .t { stroke: #0C849C; }
-    .n { fill: #002448; stroke: #002448; }
+    .g { stroke: #C98A2E; }
+    .t { stroke: #079CB2; }
+    .n { fill: #0B2A55; stroke: #0B2A55; }
     @media (prefers-color-scheme: dark) {
-      .g { stroke: #DDAA5E; }
+      .g { stroke: #D9A24A; }
       .t { stroke: #4FBFD2; }
       .n { fill: #F4F0E7; stroke: #F4F0E7; }
     }

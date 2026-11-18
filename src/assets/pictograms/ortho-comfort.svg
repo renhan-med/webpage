@@ -1,8 +1,8 @@
 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 48 48" fill="none" stroke-linecap="round" stroke-linejoin="round">
-  <path d="M14.8 8.5L17 23.5L14.2 37.5L23.8 40.2" stroke="var(--pg-ink, #002448)" stroke-width="8.4"/>
-  <rect x="9.2" y="13.3" width="15" height="20.5" rx="4.5" fill="var(--pg-teal, #0C849C)"/>
-  <path d="M7.8 17H25.6" stroke="var(--pg-ink, #002448)" stroke-width="3.4"/>
-  <path d="M7.8 30H25.6" stroke="var(--pg-ink, #002448)" stroke-width="3.4"/>
-  <circle cx="16.7" cy="23.5" r="3.2" fill="var(--pg-ink, #002448)"/>
-  <path d="M35 20.46C27.67 15.74 28.15 10.06 31.81 10.06C33.82 10.06 35 11.48 35 12.66C35 11.48 36.18 10.06 38.19 10.06C41.85 10.06 42.33 15.74 35 20.46Z" fill="var(--pg-gold, #C08430)"/>
+  <path d="M14.8 8.5L17 23.5L14.2 37.5L23.8 40.2" stroke="var(--pg-ink, #0B2A55)" stroke-width="8.4"/>
+  <rect x="9.2" y="13.3" width="15" height="20.5" rx="4.5" fill="var(--pg-teal, #079CB2)"/>
+  <path d="M7.8 17H25.6" stroke="var(--pg-ink, #0B2A55)" stroke-width="3.4"/>
+  <path d="M7.8 30H25.6" stroke="var(--pg-ink, #0B2A55)" stroke-width="3.4"/>
+  <circle cx="16.7" cy="23.5" r="3.2" fill="var(--pg-ink, #0B2A55)"/>
+  <path d="M35 20.46C27.67 15.74 28.15 10.06 31.81 10.06C33.82 10.06 35 11.48 35 12.66C35 11.48 36.18 10.06 38.19 10.06C41.85 10.06 42.33 15.74 35 20.46Z" fill="var(--pg-gold, #C98A2E)"/>
 </svg>

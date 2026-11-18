@@ -1,9 +1,9 @@
 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 48 48" fill="none" stroke-linecap="round" stroke-linejoin="round">
-  <path d="M6.5 8.5H13.5" stroke="var(--pg-ink, #002448)" stroke-width="4.2"/>
-  <path d="M13.5 8.5L11.6 33.5" stroke="var(--pg-ink, #002448)" stroke-width="3.5"/>
-  <path d="M13.5 8.5L33.4 33.5" stroke="var(--pg-ink, #002448)" stroke-width="3.5"/>
-  <path d="M12.4 20.5H22.8" stroke="var(--pg-gold, #C08430)" stroke-width="4.2"/>
-  <path d="M15.2 25.5H25.4L23.4 30.5H15.2Z" stroke="var(--pg-ink, #002448)" stroke-width="2.8"/>
-  <circle cx="11.4" cy="37.5" r="5" stroke="var(--pg-teal, #0C849C)" stroke-width="3.6"/>
-  <circle cx="33.6" cy="37.5" r="5" stroke="var(--pg-teal, #0C849C)" stroke-width="3.6"/>
+  <path d="M6.5 8.5H13.5" stroke="var(--pg-ink, #0B2A55)" stroke-width="4.2"/>
+  <path d="M13.5 8.5L11.6 33.5" stroke="var(--pg-ink, #0B2A55)" stroke-width="3.5"/>
+  <path d="M13.5 8.5L33.4 33.5" stroke="var(--pg-ink, #0B2A55)" stroke-width="3.5"/>
+  <path d="M12.4 20.5H22.8" stroke="var(--pg-gold, #C98A2E)" stroke-width="4.2"/>
+  <path d="M15.2 25.5H25.4L23.4 30.5H15.2Z" stroke="var(--pg-ink, #0B2A55)" stroke-width="2.8"/>
+  <circle cx="11.4" cy="37.5" r="5" stroke="var(--pg-teal, #079CB2)" stroke-width="3.6"/>
+  <circle cx="33.6" cy="37.5" r="5" stroke="var(--pg-teal, #079CB2)" stroke-width="3.6"/>
 </svg>

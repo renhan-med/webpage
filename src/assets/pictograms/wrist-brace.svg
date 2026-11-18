@@ -1,10 +1,10 @@
 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 48 48" fill="none" stroke-linecap="round" stroke-linejoin="round">
-  <path d="M18.6 18V10" stroke="var(--pg-ink, #002448)" stroke-width="3.8"/>
-  <path d="M22.8 18V7" stroke="var(--pg-ink, #002448)" stroke-width="3.8"/>
-  <path d="M27 18V8.2" stroke="var(--pg-ink, #002448)" stroke-width="3.8"/>
-  <path d="M31.2 18V11.5" stroke="var(--pg-ink, #002448)" stroke-width="3.8"/>
-  <path d="M16.5 26L10.5 18.5" stroke="var(--pg-ink, #002448)" stroke-width="4.3"/>
-  <path d="M16 17H33.6Q34.6 17 34.5 18.2L33 42Q32.9 44 31 44H19Q17.1 44 17 42L15 18.2Q14.9 17 16 17Z" fill="var(--pg-teal, #0C849C)"/>
-  <path d="M14.2 24.5H35.4" stroke="var(--pg-ink, #002448)" stroke-width="3.4"/>
-  <path d="M15.2 35H34.6" stroke="var(--pg-ink, #002448)" stroke-width="3.4"/>
+  <path d="M18.6 18V10" stroke="var(--pg-ink, #0B2A55)" stroke-width="3.8"/>
+  <path d="M22.8 18V7" stroke="var(--pg-ink, #0B2A55)" stroke-width="3.8"/>
+  <path d="M27 18V8.2" stroke="var(--pg-ink, #0B2A55)" stroke-width="3.8"/>
+  <path d="M31.2 18V11.5" stroke="var(--pg-ink, #0B2A55)" stroke-width="3.8"/>
+  <path d="M16.5 26L10.5 18.5" stroke="var(--pg-ink, #0B2A55)" stroke-width="4.3"/>
+  <path d="M16 17H33.6Q34.6 17 34.5 18.2L33 42Q32.9 44 31 44H19Q17.1 44 17 42L15 18.2Q14.9 17 16 17Z" fill="var(--pg-teal, #079CB2)"/>
+  <path d="M14.2 24.5H35.4" stroke="var(--pg-ink, #0B2A55)" stroke-width="3.4"/>
+  <path d="M15.2 35H34.6" stroke="var(--pg-ink, #0B2A55)" stroke-width="3.4"/>
 </svg>

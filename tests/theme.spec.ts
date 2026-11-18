@@ -13,7 +13,7 @@ for (const scheme of ['light', 'dark'] as const) {
     await expect(page.getByTestId('theme-toggle')).toHaveAttribute('aria-pressed', String(scheme === 'dark'));
     expect(await html(page).evaluate((el) => getComputedStyle(el).colorScheme)).toContain(scheme);
     const themeColor = await page.locator('meta[name="theme-color"]').getAttribute('content');
-    expect(themeColor?.toLowerCase()).toBe(scheme === 'dark' ? '#08182d' : '#faf8f3');
+    expect(themeColor?.toLowerCase()).toBe(scheme === 'dark' ? '#08182d' : '#ffffff');
   });
 }
 

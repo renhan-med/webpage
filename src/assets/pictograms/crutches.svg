@@ -1,8 +1,8 @@
 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 48 48" fill="none" stroke-linecap="round" stroke-linejoin="round">
-  <path d="M16 42.4V21.5L13.4 13.4" stroke="var(--pg-ink, #002448)" stroke-width="3.8"/>
-  <path d="M16 21.5H22.4" stroke="var(--pg-ink, #002448)" stroke-width="4.6"/>
-  <path d="M17.43 9.6A4.6 4.6 0 0 1 8.37 9.6" stroke="var(--pg-teal, #0C849C)" stroke-width="3.8"/>
-  <path d="M30.5 42.4V21.5L27.9 13.4" stroke="var(--pg-ink, #002448)" stroke-width="3.8"/>
-  <path d="M30.5 21.5H36.9" stroke="var(--pg-ink, #002448)" stroke-width="4.6"/>
-  <path d="M31.93 9.6A4.6 4.6 0 0 1 22.87 9.6" stroke="var(--pg-teal, #0C849C)" stroke-width="3.8"/>
+  <path d="M16 42.4V21.5L13.4 13.4" stroke="var(--pg-ink, #0B2A55)" stroke-width="3.8"/>
+  <path d="M16 21.5H22.4" stroke="var(--pg-ink, #0B2A55)" stroke-width="4.6"/>
+  <path d="M17.43 9.6A4.6 4.6 0 0 1 8.37 9.6" stroke="var(--pg-teal, #079CB2)" stroke-width="3.8"/>
+  <path d="M30.5 42.4V21.5L27.9 13.4" stroke="var(--pg-ink, #0B2A55)" stroke-width="3.8"/>
+  <path d="M30.5 21.5H36.9" stroke="var(--pg-ink, #0B2A55)" stroke-width="4.6"/>
+  <path d="M31.93 9.6A4.6 4.6 0 0 1 22.87 9.6" stroke="var(--pg-teal, #079CB2)" stroke-width="3.8"/>
 </svg>

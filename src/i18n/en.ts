@@ -130,6 +130,16 @@ export const en = {
       eyebrow: 'Rehabilitation and care equipment',
       lead: 'At RenHan-med you can buy or rent rehabilitation equipment and fittings for the home. We start by talking about what you need, then help you choose.',
     },
+    strip: {
+      label: 'What we do',
+      items: {
+        sales: 'Equipment sales',
+        rental: 'Rental',
+        funding: 'Reimbursement and paperwork',
+        selection: 'Choosing equipment',
+        home: 'Barrier-free home',
+      },
+    },
     tiles: {
       title: 'How we can help',
       items: {

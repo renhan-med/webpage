@@ -32,6 +32,15 @@ const tiles = (
   ] as const
 ).map((tile) => ({ ...tile, ...home.tiles.items[tile.key] }));
 
+// The five icons of the logo, with its own labels.
+const stripItems = [
+  { key: 'sales', pictogram: 'sales' },
+  { key: 'rental', pictogram: 'seated-figure' },
+  { key: 'funding', pictogram: 'funding' },
+  { key: 'selection', pictogram: 'selection' },
+  { key: 'home', pictogram: 'home-safety' },
+] as const;
+
 const departmentHref = (category: (typeof categories)[number]) =>
   category.page ? localizedPath(category.page, locale) : localizedPath('offer', locale, { hash: category.id });
 ---
@@ -64,13 +73,14 @@ const departmentHref = (category: (typeof categories)[number]) =>
   </div>
 </section>
 
-<section class="strip" aria-hidden="true">
+<section class="strip" aria-label={home.strip.label}>
   <div class="container">
     <ul class="strip__list" role="list">
       {
-        (['sales', 'rental', 'funding', 'advice', 'home-safety'] as const).map((pictogram, index) => (
-          <li>
-            <RingIcon pictogram={pictogram} size="sm" turn={index * 72} />
+        stripItems.map((item, index) => (
+          <li class="strip__item">
+            <RingIcon pictogram={item.pictogram} size="sm" turn={index * 72} />
+            <span class="strip__label">{home.strip.items[item.key]}</span>
           </li>
         ))
       }
@@ -296,24 +306,68 @@ const departmentHref = (category: (typeof categories)[number]) =>
   }
 
   .strip__list {
-    display: flex;
-    flex-wrap: wrap;
-    gap: 1rem clamp(1.25rem, 0.5rem + 3vw, 3rem);
-    align-items: center;
-    justify-content: center;
+    display: grid;
+    grid-template-columns: repeat(6, minmax(0, 1fr));
+    gap: 1.5rem 0.25rem;
     padding-block: 1.5rem;
     border-block: 1px solid var(--hairline);
   }
 
-  @media (max-width: 30rem) {
-    .strip__list {
-      flex-wrap: nowrap;
-      gap: 0.75rem;
-      justify-content: space-between;
+  .strip__item {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 0.75rem;
+    grid-column: span 2;
+    padding-inline: 0;
+    text-align: center;
+  }
+
+  /* Phones: a centred 3 + 2 grid. */
+  .strip__item:nth-child(4) {
+    grid-column: 2 / span 2;
+  }
+
+  .strip__item:nth-child(5) {
+    grid-column: 4 / span 2;
+  }
+
+  .strip__label {
+    color: var(--ink);
+    font-size: 0.9375rem;
+    font-weight: 700;
+    line-height: 1.25;
+    text-wrap: balance;
+  }
+
+  /* Narrow phones: 2 + 2 + 1, so long words (e.g. UK „Відшкодування”) never break mid-word. */
+  @media (max-width: 29.99rem) {
+    .strip__item,
+    .strip__item:nth-child(4) {
+      grid-column: span 3;
     }
 
-    .strip__list :global(.ring) {
-      --ring-size: 2.75rem;
+    .strip__item:nth-child(5) {
+      grid-column: 2 / span 4;
+    }
+  }
+
+  @media (min-width: 48rem) {
+    .strip__list {
+      grid-template-columns: repeat(5, minmax(0, 1fr));
+      gap: 0;
+    }
+
+    .strip__item,
+    .strip__item:nth-child(4),
+    .strip__item:nth-child(5) {
+      grid-column: auto;
+      padding-inline: 1rem;
+    }
+
+    /* Thin gold separators between the items, like the logo. */
+    .strip__item + .strip__item {
+      border-left: 1.5px solid var(--gold);
     }
   }
 

@@ -134,6 +134,16 @@ export const pl = {
       eyebrow: 'Sprzęt rehabilitacyjny i pomocniczy',
       lead: 'W RenHan-med kupisz lub wypożyczysz sprzęt rehabilitacyjny i wyposażenie domu. Zaczynamy od rozmowy o potrzebach, a potem pomagamy wybrać rozwiązanie.',
     },
+    strip: {
+      label: 'Czym się zajmujemy',
+      items: {
+        sales: 'Sprzedaż sprzętu',
+        rental: 'Wypożyczalnia',
+        funding: 'Refundacje i formalności',
+        selection: 'Dobór sprzętu',
+        home: 'Dom bez barier',
+      },
+    },
     tiles: {
       title: 'Jak możemy pomóc',
       items: {

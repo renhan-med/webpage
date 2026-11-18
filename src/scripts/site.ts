@@ -5,7 +5,7 @@ const root = document.documentElement;
 // --- Theme ------------------------------------------------------------------
 
 const THEME_KEY = 'theme';
-const THEME_COLORS = { light: '#faf8f3', dark: '#08182d' } as const;
+const THEME_COLORS = { light: '#ffffff', dark: '#08182d' } as const;
 type Theme = keyof typeof THEME_COLORS;
 
 const themeToggle = document.querySelector<HTMLButtonElement>('[data-theme-toggle]');

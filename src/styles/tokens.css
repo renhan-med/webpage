@@ -1,5 +1,5 @@
 /*
- * Design tokens. Colours come from the RenHan-med logo (navy, turquoise, gold) on a warm canvas.
+ * Design tokens. Colours come from the RenHan-med logo (navy, turquoise, gold) on a white canvas with navy-tinted surfaces.
  * Light is the default; dark is set by `data-theme="dark"` on <html> (see the inline script in BaseLayout).
  * Every text/background pair below is checked for WCAG AA.
  */
@@ -8,9 +8,9 @@
   color-scheme: light;
 
   /* Surfaces */
-  --canvas: #faf8f3;
-  --surface-soft: #f3efe6;
-  --surface-card: #ece6d9;
+  --canvas: #ffffff;
+  --surface-soft: #f3f6fa;
+  --surface-card: #e9eef5;
   --surface-band: #0b2a55;
   --surface-band-raised: #163a6c;
   --surface-callout: #0a6e82;
@@ -18,20 +18,20 @@
   --navy: #0b2a55;
 
   /* Soft tints per offer department (equipment cards) */
-  --tint-mobility: #e1eef0;
+  --tint-mobility: #e3f1f4;
   --tint-rehabilitation: #e5ebf4;
-  --tint-orthopaedics: #f3e9d9;
-  --tint-home: #e8ebe3;
-  --tint-rental: #ece6d9;
+  --tint-orthopaedics: #f7f0e3;
+  --tint-home: #e8f0ee;
+  --tint-rental: #eaeff6;
 
   /* Text */
   --ink: #0b2a55;
-  --body: #33415a;
-  --muted: #5b667a;
+  --body: #0b2a55;
+  --muted: #3d4f6b;
 
   /* Lines */
-  --hairline: #e4ddcf;
-  --border-strong: #7f7968;
+  --hairline: #d5deea;
+  --border-strong: #6b7d99;
 
   /* Interaction and accents */
   --primary: var(--teal-strong);
@@ -42,7 +42,7 @@
   /* Text-safe teal: 5.9:1 on white, 5.0:1 on the card colour. Buttons, links, teal text. */
   --teal-strong: #0a6e82;
   --gold: #c98a2e;
-  --gold-text: #8a5a14;
+  --gold-text: #7a4f10;
   --blue: #1f5fa8;
   --error: #b3261e;
   --success: #1e6b45;

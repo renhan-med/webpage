@@ -1,6 +1,7 @@
 ---
 import { Image } from 'astro:assets';
 import LogoMark from './LogoMark.astro';
+import markOnDark from '../assets/brand/mark-on-dark.png';
 import wordmarkOnDark from '../assets/brand/wordmark-on-dark.png';
 import wordmarkOnLight from '../assets/brand/wordmark.png';
 import { defaultLocale, type Locale } from '../i18n/config';
@@ -23,7 +24,13 @@ const brandLang = locale === defaultLocale ? undefined : defaultLocale;
 ---
 
 <span class:list={['logo', className]}>
-  <LogoMark class="logo__mark" />
+  {
+    surface === 'dark' ? (
+      <Image class="logo__mark logo__mark--photo" src={markOnDark} alt="" width={240} height={145} loading="eager" />
+    ) : (
+      <LogoMark class="logo__mark" />
+    )
+  }
   <span class="logo__text">
     <Image class="logo__name" src={wordmark} alt={brand.name} width={348} height={48} loading="eager" />
     {
@@ -49,6 +56,12 @@ const brandLang = locale === defaultLocale ? undefined : defaultLocale;
     flex: none;
     width: auto;
     height: var(--logo-size, 2.75rem);
+  }
+
+  /* The card's own mark (gold house, white figure) is wider than the SVG mark. */
+  .logo__mark--photo {
+    width: calc(var(--logo-size, 2.75rem) * 1.66);
+    height: auto;
   }
 
   .logo__text {
