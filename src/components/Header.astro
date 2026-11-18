@@ -196,7 +196,8 @@ const adviceHref = contactPath(locale, 'advice');
     }
   }
 
-  /* Until the container reaches full width, the logo drops its descriptor so the row fits (the footer keeps it). */
+  /* Until the container reaches full width, the logo is smaller and its descriptor wraps under the
+     wordmark (the client wants „Centrum Niezależnego Życia” under the logo), so the row fits. */
   @media (min-width: 75rem) and (max-width: 84.99rem) {
     .header__bar {
       gap: 0.5rem;
@@ -208,7 +209,9 @@ const adviceHref = contactPath(locale, 'advice');
     }
 
     .header__logo :global(.logo__descriptor) {
-      display: none;
+      max-width: var(--wordmark-width);
+      white-space: normal;
+      line-height: 1.2;
     }
   }
 
