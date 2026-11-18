@@ -45,7 +45,7 @@ Przed pushem warto uruchomić lokalnie `npm run check` i `npm test`.
 **Gdy testy w CI nie przejdą:** w przebiegu (zakładka Actions) pobierz artefakt `playwright-report` (raport HTML)
 lub `test-results` (zrzuty ekranu i ślady), dostępne 3 dni.
 
-**Ponowna publikacja bez zmian w kodzie:** Actions → „CD Pipeline for RenHan MED Web Page” → Run workflow → `master`.
+**Ponowna publikacja bez zmian w kodzie:** Actions → „CD Pipeline for RenHan-med Web Page” → Run workflow → `master`.
 
 ## Konfiguracja
 

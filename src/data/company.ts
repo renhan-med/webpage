@@ -48,7 +48,7 @@ interface Company {
 
 export const company: Company = {
   name: 'RenHan-med',
-  legalName: 'RenHan MED spółka z o.o.',
+  legalName: 'RenHan-med sp. z o.o.',
   phone: { display: '+48 736 215 287', href: 'tel:+48736215287' },
   email: 'centrumnet@renhan.pl',
   address: {

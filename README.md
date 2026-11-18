@@ -22,5 +22,5 @@ Dokumentacja dla zespołu: [`docs/README.md`](docs/README.md).
 
 ## Prawa
 
-© RenHan MED spółka z o.o. Treści, logo i znaki firmowe są własnością spółki.
+© RenHan-med sp. z o.o. Treści, logo i znaki firmowe są własnością spółki.
 Zdjęcie na stronie głównej: [Pexels](https://www.pexels.com/photo/woman-sitting-in-wheelchair-4063507/), licencja Pexels.

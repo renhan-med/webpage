@@ -1,6 +1,6 @@
 # CLAUDE.md — RenHan-med website
 
-Static company website for **RenHan-med — Centrum Niezależnego Życia** (legal name in `company.legalName` stays „RenHan MED spółka z o.o.”) (sale and rental of rehabilitation
+Static company website for **RenHan-med — Centrum Niezależnego Życia** (legal name in `company.legalName`: „RenHan-med sp. z o.o.”, the CEO wants the new spelling used consistently, footer included) (sale and rental of rehabilitation
 equipment, home accessibility products, advice on choosing equipment). Frontend only, no backend.
 Read this file instead of the whole repo; open source files only for the part you change.
 

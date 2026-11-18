@@ -1,4 +1,4 @@
-name: CD Pipeline for RenHan MED Web Page
+name: CD Pipeline for RenHan-med Web Page
 
 # master -> tests -> build -> GitHub Pages. Strict `needs` chain: when the tests
 # fail, nothing is built or published.
